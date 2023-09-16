@@ -59,8 +59,7 @@ table {
 }
 body {
   font-family: 'Source Sans 3', sans-serif;
-  background-color: ${(props) => props.theme.bgColor};
-  color: ${(props) => props.theme.textColor};
+  background-color: midnightblue;
 }
 a {
   text-decoration: none;
