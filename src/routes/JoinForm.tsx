@@ -21,10 +21,10 @@ const BtnList = styled.div`
 function JoinForm() {
   return (
     <Container>
-      <JoinInput />
-      <JoinInput />
-      <JoinInput />
-      <JoinInput />
+      <JoinInput placeholder="신분구분" />
+      <JoinInput placeholder="이름" />
+      <JoinInput placeholder="군구분" />
+      <JoinInput placeholder="군번" />
       <BtnList>
         <Button opacity={true} text="이전" />
         <Button opacity={false} text="본인인증" />
