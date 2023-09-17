@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import JoinInput from "./JoinInput";
 import Button from "./Button";
+import JoinDropdown from "./JoinDropdown";
 
 const Container = styled.div`
   display: flex;
@@ -21,9 +22,9 @@ const BtnList = styled.div`
 function JoinForm() {
   return (
     <Container>
-      <JoinInput placeholder="신분구분" />
+      <JoinDropdown placeholder="신분구분" />
       <JoinInput placeholder="이름" />
-      <JoinInput placeholder="군구분" />
+      <JoinDropdown placeholder="군구분" />
       <JoinInput placeholder="군번" />
       <BtnList>
         <Button opacity={true} text="이전" />

@@ -5,6 +5,7 @@ const Input = styled.input.attrs({ required: true })`
   padding: 10px;
   border: none;
   border-bottom: 1.5px solid black;
+  font-size: 16px;
 
   transition: all 0.2s ease-in-out;
 
