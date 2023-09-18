@@ -26,16 +26,23 @@ const Input = styled.input.attrs({ required: true })`
     color: #ff8200;
     border-color: #ff8200;
   }
+
+  &:disabled {
+    color: #a0a0a0;
+    border-color: #a0a0a0;
+    background-color: rgba(255, 255, 255, 0);
+  }
 `;
 
 interface InputProps {
   placeholder: string;
+  disabled: boolean;
 }
 
-function JoinInput({ placeholder }: InputProps) {
+function JoinInput({ placeholder, disabled }: InputProps) {
   return (
     <>
-      <Input placeholder={placeholder} />
+      <Input placeholder={placeholder} disabled={disabled} />
     </>
   );
 }

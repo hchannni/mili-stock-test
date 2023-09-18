@@ -23,9 +23,9 @@ function JoinForm() {
   return (
     <Container>
       <JoinDropdown placeholder="신분구분" />
-      <JoinInput placeholder="이름" />
+      <JoinInput placeholder="이름" disabled={true} />
       <JoinDropdown placeholder="군구분" />
-      <JoinInput placeholder="군번" />
+      <JoinInput placeholder="군번" disabled={false} />
       <BtnList>
         <Button opacity={true} text="이전" />
         <Button opacity={false} text="본인인증" />
