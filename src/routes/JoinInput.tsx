@@ -36,10 +36,10 @@ const Input = styled.input.attrs({ required: true })`
 
 interface InputProps {
   placeholder: string;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
-function JoinInput({ placeholder, disabled }: InputProps) {
+function JoinInput({ placeholder, disabled = false }: InputProps) {
   return (
     <>
       <Input placeholder={placeholder} disabled={disabled} />
