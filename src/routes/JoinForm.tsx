@@ -1,7 +1,5 @@
 import { styled } from "styled-components";
-import JoinInput from "./JoinInput";
-import Button from "./Button";
-import JoinDropdown from "./JoinDropdown";
+import { ReactNode } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -14,24 +12,12 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const BtnList = styled.div`
-  display: flex;
-  gap: 8px;
-`;
+interface JoinFormProps {
+  children: ReactNode;
+}
 
-function JoinForm() {
-  return (
-    <Container>
-      <JoinDropdown placeholder="신분구분" />
-      <JoinInput placeholder="이름" disabled={true} />
-      <JoinDropdown placeholder="군구분" />
-      <JoinInput placeholder="군번" disabled={false} />
-      <BtnList>
-        <Button opacity={true} text="이전" />
-        <Button opacity={false} text="본인인증" />
-      </BtnList>
-    </Container>
-  );
+function JoinForm(props: JoinFormProps) {
+  return <Container>{props.children}</Container>;
 }
 
 export default JoinForm;
