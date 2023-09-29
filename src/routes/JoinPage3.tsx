@@ -4,6 +4,8 @@ import JoinForm from "./JoinForm";
 import JoinInput from "./JoinInput";
 import Button from "./Button";
 import BtnList from "./BtnList";
+import DatePicker from "./DatePicker";
+import JoinDropdown from "./JoinDropdown";
 
 const Container = styled.div`
   max-width: 390px;
@@ -24,24 +26,26 @@ const Title = styled.h1`
   letter-spacing: -0.408px;
 `;
 
-function JoinPage2() {
+function JoinPage3() {
   return (
     <Container>
       <Logo />
       <Title>회원가입</Title>
       <JoinForm>
-        <JoinInput placeholder="이름" disabled={true} />
-        <JoinInput placeholder="군번" disabled={true} />
-        <JoinInput placeholder="아이디" />
-        <JoinInput placeholder="비밀번호" />
-        <JoinInput placeholder="비밀번호 확인" />
+        <JoinInput placeholder="신분구분" disabled={true} />
+        <DatePicker placeholder="생년월일" />
+        <JoinInput placeholder="이메일" />
+        <JoinInput placeholder="군구분" disabled={true} />
+        <JoinDropdown placeholder="계급" />
+        <DatePicker placeholder="임관일자" />
+        <DatePicker placeholder="전역일자" />
         <BtnList>
           <Button opacity={true} text="이전" />
-          <Button opacity={false} text="다음" />
+          <Button opacity={false} text="가입완료" />
         </BtnList>
       </JoinForm>
     </Container>
   );
 }
 
-export default JoinPage2;
+export default JoinPage3;
