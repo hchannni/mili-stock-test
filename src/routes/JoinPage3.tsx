@@ -32,10 +32,10 @@ function JoinPage3() {
       <Logo />
       <Title>회원가입</Title>
       <JoinForm>
-        <JoinInput placeholder="신분구분" disabled={true} />
+        <JoinDropdown placeholder="신분구분" disabled={true} />
         <DatePicker placeholder="생년월일" />
         <JoinInput placeholder="이메일" />
-        <JoinInput placeholder="군구분" disabled={true} />
+        <JoinDropdown placeholder="군구분" disabled={true} />
         <JoinDropdown placeholder="계급" />
         <DatePicker placeholder="임관일자" />
         <DatePicker placeholder="전역일자" />

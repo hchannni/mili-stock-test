@@ -3,11 +3,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-const Containter = styled.div`
+interface ContainerProps {
+  disabled: boolean;
+}
+
+const Containter = styled.div<ContainerProps>`
   width: 100%;
   border-bottom: 1.5px solid black;
   padding-right: 10px;
   font-size: 16px;
+  color: ${(props) => (props.disabled ? "#a0a0a0" : "black")};
+  border-color: ${(props) => (props.disabled ? "#a0a0a0" : "black")};
 
   display: flex;
   justify-content: space-around;
@@ -37,6 +43,12 @@ const Select = styled.select`
     color: #ff8200;
     border-color: #ff8200;
   }
+
+  &:disabled {
+    color: #a0a0a0;
+    border-color: #a0a0a0;
+    background-color: rgba(255, 255, 255, 0);
+  }
 `;
 
 const Option = styled.option`
@@ -45,14 +57,15 @@ const Option = styled.option`
 
 const FAIcon = styled(FontAwesomeIcon)``;
 
-interface IDropdown {
+interface DropdownProps {
   placeholder: string;
+  disabled?: boolean;
 }
 
-function JoinDropdown({ placeholder }: IDropdown) {
+function JoinDropdown({ placeholder, disabled = false }: DropdownProps) {
   return (
-    <Containter>
-      <Select>
+    <Containter disabled={disabled}>
+      <Select disabled={disabled}>
         <Option value="">{placeholder}</Option>
         <Option>육군</Option>
         <Option>해군</Option>
