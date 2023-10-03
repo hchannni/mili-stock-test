@@ -5,6 +5,10 @@ import JoinPage2 from "./routes/joinpage/JoinPage2";
 import JoinPage3 from "./routes/joinpage/JoinPage3";
 import FindIdPage from "./routes/findidpw/FindIdPage";
 import FindIdPage2 from "./routes/findidpw/FindIdPage2";
+import FindPWPage from "./routes/findidpw/FindPWPage";
+import FindPWPage2 from "./routes/findidpw/FindPWPage2";
+import FindPWPage3 from "./routes/findidpw/FindPWPage3";
+import FindPWPage4 from "./routes/findidpw/FindPWPage4";
 
 // Switch : 한 번에 하나의 Route를 렌더링할 수 있는 방법.
 function Router() {
@@ -12,7 +16,7 @@ function Router() {
     <BrowserRouter>
       <Switch>
         <Route path="/">
-          <FindIdPage />
+          <FindPWPage4 />
         </Route>
       </Switch>
     </BrowserRouter>
