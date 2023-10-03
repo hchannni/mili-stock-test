@@ -62,7 +62,7 @@ interface DropdownProps {
   disabled?: boolean;
 }
 
-function JoinDropdown({ placeholder, disabled = false }: DropdownProps) {
+function Dropdown({ placeholder, disabled = false }: DropdownProps) {
   return (
     <Containter disabled={disabled}>
       <Select disabled={disabled}>
@@ -76,4 +76,4 @@ function JoinDropdown({ placeholder, disabled = false }: DropdownProps) {
   );
 }
 
-export default JoinDropdown;
+export default Dropdown;

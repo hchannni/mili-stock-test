@@ -1,10 +1,10 @@
 import { styled } from "styled-components";
-import Logo from "./Logo";
-import JoinForm from "./JoinForm";
-import JoinDropdown from "./JoinDropdown";
-import JoinInput from "./JoinInput";
-import Button from "./Button";
-import BtnList from "./BtnList";
+import Logo from "../../components/Logo";
+import Form from "../../components/Form";
+import Dropdown from "../../components/Dropdown";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
+import BtnList from "../../components/BtnList";
 
 const Container = styled.div`
   max-width: 390px;
@@ -30,16 +30,16 @@ function JoinPage() {
     <Container>
       <Logo />
       <Title>본인인증</Title>
-      <JoinForm>
-        <JoinDropdown placeholder="신분구분" />
-        <JoinInput placeholder="이름" disabled={true} />
-        <JoinDropdown placeholder="군구분" />
-        <JoinInput placeholder="군번" disabled={false} />
+      <Form>
+        <Dropdown placeholder="신분구분" />
+        <Input placeholder="이름" disabled={true} />
+        <Dropdown placeholder="군구분" />
+        <Input placeholder="군번" disabled={false} />
         <BtnList>
           <Button opacity={true} text="이전" />
           <Button opacity={false} text="본인인증" />
         </BtnList>
-      </JoinForm>
+      </Form>
     </Container>
   );
 }

@@ -12,12 +12,12 @@ const Container = styled.div`
   width: 100%;
 `;
 
-interface JoinFormProps {
+interface FormProps {
   children: ReactNode;
 }
 
-function JoinForm(props: JoinFormProps) {
+function Form(props: FormProps) {
   return <Container>{props.children}</Container>;
 }
 
-export default JoinForm;
+export default Form;

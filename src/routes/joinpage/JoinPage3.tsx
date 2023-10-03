@@ -1,11 +1,11 @@
 import { styled } from "styled-components";
-import Logo from "./Logo";
-import JoinForm from "./JoinForm";
-import JoinInput from "./JoinInput";
-import Button from "./Button";
-import BtnList from "./BtnList";
-import DatePicker from "./DatePicker";
-import JoinDropdown from "./JoinDropdown";
+import Logo from "../../components/Logo";
+import Form from "../../components/Form";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
+import BtnList from "../../components/BtnList";
+import DatePicker from "../../components/DatePicker";
+import Dropdown from "../../components/Dropdown";
 
 const Container = styled.div`
   max-width: 390px;
@@ -31,20 +31,20 @@ function JoinPage3() {
     <Container>
       <Logo />
       <Title>회원가입</Title>
-      <JoinForm>
-        <JoinDropdown placeholder="신분구분" disabled={true} />
+      <Form>
+        <Dropdown placeholder="신분구분" disabled={true} />
         <DatePicker placeholder="생년월일" />
-        <JoinInput placeholder="휴대전화" />
-        <JoinInput placeholder="이메일" />
-        <JoinDropdown placeholder="군구분" disabled={true} />
-        <JoinDropdown placeholder="계급" />
+        <Input placeholder="휴대전화" />
+        <Input placeholder="이메일" />
+        <Dropdown placeholder="군구분" disabled={true} />
+        <Dropdown placeholder="계급" />
         <DatePicker placeholder="임관일자" />
         <DatePicker placeholder="전역일자" />
         <BtnList>
           <Button opacity={true} text="이전" />
           <Button opacity={false} text="가입완료" />
         </BtnList>
-      </JoinForm>
+      </Form>
     </Container>
   );
 }

@@ -1,9 +1,9 @@
 import { styled } from "styled-components";
-import Logo from "./Logo";
-import JoinForm from "./JoinForm";
-import JoinInput from "./JoinInput";
-import Button from "./Button";
-import BtnList from "./BtnList";
+import Logo from "../../components/Logo";
+import Form from "../../components/Form";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
+import BtnList from "../../components/BtnList";
 
 const Container = styled.div`
   max-width: 390px;
@@ -29,17 +29,17 @@ function JoinPage2() {
     <Container>
       <Logo />
       <Title>회원가입</Title>
-      <JoinForm>
-        <JoinInput placeholder="이름" disabled={true} />
-        <JoinInput placeholder="군번" disabled={true} />
-        <JoinInput placeholder="아이디" />
-        <JoinInput placeholder="비밀번호" />
-        <JoinInput placeholder="비밀번호 확인" />
+      <Form>
+        <Input placeholder="이름" disabled={true} />
+        <Input placeholder="군번" disabled={true} />
+        <Input placeholder="아이디" />
+        <Input placeholder="비밀번호" />
+        <Input placeholder="비밀번호 확인" />
         <BtnList>
           <Button opacity={true} text="이전" />
           <Button opacity={false} text="다음" />
         </BtnList>
-      </JoinForm>
+      </Form>
     </Container>
   );
 }

@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 
-const Input = styled.input.attrs({ required: true })`
+const InputTag = styled.input.attrs({ required: true })`
   width: 100%;
   padding: 10px;
   border: none;
@@ -39,12 +39,12 @@ interface InputProps {
   disabled?: boolean;
 }
 
-function JoinInput({ placeholder, disabled = false }: InputProps) {
+function Input({ placeholder, disabled = false }: InputProps) {
   return (
     <>
-      <Input placeholder={placeholder} disabled={disabled} />
+      <InputTag placeholder={placeholder} disabled={disabled} />
     </>
   );
 }
 
-export default JoinInput;
+export default Input;
