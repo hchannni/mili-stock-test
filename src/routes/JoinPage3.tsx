@@ -34,6 +34,7 @@ function JoinPage3() {
       <JoinForm>
         <JoinDropdown placeholder="신분구분" disabled={true} />
         <DatePicker placeholder="생년월일" />
+        <JoinInput placeholder="휴대전화" />
         <JoinInput placeholder="이메일" />
         <JoinDropdown placeholder="군구분" disabled={true} />
         <JoinDropdown placeholder="계급" />
