@@ -6,6 +6,7 @@ import Button from "../../components/Button";
 import BtnList from "../../components/BtnList";
 import ScreenContainer from "../../components/ScreenContainer";
 import TitleBox from "../../components/Title";
+import GoBackButton from "../../components/GoBackButton";
 
 function JoinPage() {
   return (
@@ -21,7 +22,7 @@ function JoinPage() {
         <Dropdown placeholder="군구분" />
         <Input placeholder="군번" disabled={false} />
         <BtnList>
-          <Button opacity={true} text="이전" />
+          <GoBackButton />
           <Button opacity={false} text="본인인증" />
         </BtnList>
       </Form>

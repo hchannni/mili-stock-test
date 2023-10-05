@@ -22,7 +22,7 @@ function Router() {
         <Route path="/join/detail" element={<JoinPage3 />} />
         {/* <Route path="/join/success" element={<JoinPage4 />} /> */}
         <Route path="/findid/auth" element={<FindIdPage />} />
-        {/* <Route path="/findid/군번" element={<FindIdPage2 />} /> */}
+        <Route path="/findid/milnum" element={<FindIdPage2 />} />
         <Route path="/findpw/idcheck" element={<FindPWPage />} />
         <Route path="/findpw/auth" element={<FindPWPage2 />} />
         <Route path="/findpw/renewal" element={<FindPWPage3 />} />

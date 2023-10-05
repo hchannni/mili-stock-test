@@ -6,6 +6,7 @@ import Button from "../../components/Button";
 import BtnList from "../../components/BtnList";
 import ScreenContainer from "../../components/ScreenContainer";
 import TitleBox from "../../components/Title";
+import GoBackButton from "../../components/GoBackButton";
 import { Link } from "react-router-dom";
 
 const FindIdLink = styled(Link)`
@@ -32,7 +33,7 @@ function FindPWPage() {
       <Form>
         <Input placeholder="ID" disabled={false} />
         <BtnList>
-          <Button opacity={true} text="이전" />
+          <GoBackButton />
           <Button opacity={false} text="다음" />
         </BtnList>
         <FindIdLink to="/findid/auth">

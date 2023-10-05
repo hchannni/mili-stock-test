@@ -7,6 +7,7 @@ import DatePicker from "../../components/DatePicker";
 import Dropdown from "../../components/Dropdown";
 import ScreenContainer from "../../components/ScreenContainer";
 import TitleBox from "../../components/Title";
+import GoBackButton from "../../components/GoBackButton";
 
 function JoinPage3() {
   return (
@@ -23,7 +24,7 @@ function JoinPage3() {
         <DatePicker placeholder="임관일자" />
         <DatePicker placeholder="전역일자" />
         <BtnList>
-          <Button opacity={true} text="이전" />
+          <GoBackButton />
           <Button opacity={false} text="가입완료" />
         </BtnList>
       </Form>
