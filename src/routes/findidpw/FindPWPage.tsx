@@ -35,7 +35,9 @@ function FindPWPage() {
           <Button opacity={true} text="이전" />
           <Button opacity={false} text="다음" />
         </BtnList>
-        <FindIdLink to="/">ID를 찾고 싶으신가요? (아이디 찾기)</FindIdLink>
+        <FindIdLink to="/findid/auth">
+          ID를 찾고 싶으신가요? (아이디 찾기)
+        </FindIdLink>
       </Form>
     </ScreenContainer>
   );
