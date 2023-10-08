@@ -5,6 +5,7 @@ import Button from "../../components/Button";
 import BtnList from "../../components/BtnList";
 import ScreenContainer from "../../components/ScreenContainer";
 import TitleBox from "../../components/Title";
+import GoBackButton from "../../components/GoBackButton";
 
 function JoinPage2() {
   return (
@@ -18,7 +19,7 @@ function JoinPage2() {
         <Input placeholder="비밀번호" />
         <Input placeholder="비밀번호 확인" />
         <BtnList>
-          <Button opacity={true} text="이전" />
+          <GoBackButton />
           <Button opacity={false} text="다음" />
         </BtnList>
       </Form>
