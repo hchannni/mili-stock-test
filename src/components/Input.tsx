@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 
-const Input = styled.input.attrs({ required: true })`
+const InputTag = styled.input.attrs({ required: true })`
   width: 100%;
   padding: 10px;
   border: none;
@@ -26,18 +26,25 @@ const Input = styled.input.attrs({ required: true })`
     color: #ff8200;
     border-color: #ff8200;
   }
+
+  &:disabled {
+    color: #a0a0a0;
+    border-color: #a0a0a0;
+    background-color: rgba(255, 255, 255, 0);
+  }
 `;
 
 interface InputProps {
   placeholder: string;
+  disabled?: boolean;
 }
 
-function JoinInput({ placeholder }: InputProps) {
+function Input({ placeholder, disabled = false }: InputProps) {
   return (
     <>
-      <Input placeholder={placeholder} />
+      <InputTag placeholder={placeholder} disabled={disabled} />
     </>
   );
 }
 
-export default JoinInput;
+export default Input;
