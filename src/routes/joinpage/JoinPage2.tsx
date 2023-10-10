@@ -6,7 +6,7 @@ import ScreenContainer from "../../components/ScreenContainer";
 import TitleBox from "../../components/Title";
 import GoBackButton from "../../components/GoBackButton";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Form = styled.form`
@@ -26,11 +26,13 @@ function JoinPage2() {
     formState: { errors },
     control,
   } = useForm();
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+  const { state } = useLocation();
 
   const onSubmit = (data: any) => {
-    console.log(data);
-    navigate("/join/idpw");
+    const stateData = { ...state, ...data };
+    console.log(stateData);
+    navigate("/join/detail", { state: { ...stateData } });
   };
 
   return (
@@ -43,14 +45,18 @@ function JoinPage2() {
           name="name"
           disabled={true}
           rules={{ required: true }}
-          placeholder="이름"
+          defaultValue={state.name}
+          placeholder={`${state.name} (이름)`}
+          shouldUnregister={true}
         />
         <Input
           control={control}
           name="serviceNumber"
           disabled={true}
           rules={{ required: true }}
-          placeholder="군번"
+          defaultValue={state.serviceNumber}
+          placeholder={`${state.serviceNumber} (군번)`}
+          shouldUnregister={true}
         />
         <Input
           control={control}

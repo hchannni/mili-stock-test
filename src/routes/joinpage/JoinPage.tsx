@@ -27,11 +27,10 @@ function JoinPage() {
     formState: { errors },
     control,
   } = useForm();
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const onSubmit = (data: any) => {
-    console.log(data);
-    navigate("/join/idpw");
+    navigate("/join/idpw", { state: { ...data } });
   };
 
   return (
