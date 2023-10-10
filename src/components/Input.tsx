@@ -48,10 +48,18 @@ const InputTag = styled.input`
 //   );
 // }
 
-function Input(props: UseControllerProps) {
+interface InputProps extends UseControllerProps {
+  placeholder: string;
+}
+
+function Input(props: InputProps) {
   const { field } = useController(props);
   return (
-    <InputTag {...field} placeholder={props.name} disabled={props.disabled} />
+    <InputTag
+      {...field}
+      placeholder={props.placeholder}
+      disabled={props.disabled}
+    />
   );
 }
 

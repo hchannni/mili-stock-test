@@ -2,6 +2,7 @@ import { styled } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { useController, UseControllerProps } from "react-hook-form";
 
 interface ContainerProps {
   disabled: boolean;
@@ -57,19 +58,35 @@ const Option = styled.option`
 
 const FAIcon = styled(FontAwesomeIcon)``;
 
-interface DropdownProps {
+interface DropdownProps extends UseControllerProps {
   placeholder: string;
+  options: string[];
   disabled?: boolean;
 }
 
-function Dropdown({ placeholder, disabled = false }: DropdownProps) {
+// function Dropdown({ placeholder, disabled = false }: DropdownProps) {
+//   return (
+//     <Containter disabled={disabled}>
+//       <Select disabled={disabled}>
+//         <Option value="">{placeholder}</Option>
+//         <Option>육군</Option>
+//         <Option>해군</Option>
+//         <Option>공군</Option>
+//       </Select>
+//       <FAIcon icon={faChevronDown as IconProp} />
+//     </Containter>
+//   );
+// }
+
+function Dropdown(props: DropdownProps) {
+  const { field } = useController(props);
   return (
-    <Containter disabled={disabled}>
-      <Select disabled={disabled}>
-        <Option value="">{placeholder}</Option>
-        <Option>육군</Option>
-        <Option>해군</Option>
-        <Option>공군</Option>
+    <Containter disabled={props.disabled ?? false}>
+      <Select {...field}>
+        <Option value="">{props.placeholder}</Option>
+        {props.options.map((value) => (
+          <Option value={value}>{value}</Option>
+        ))}
       </Select>
       <FAIcon icon={faChevronDown as IconProp} />
     </Containter>

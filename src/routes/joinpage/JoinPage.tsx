@@ -8,6 +8,7 @@ import TitleBox from "../../components/Title";
 import GoBackButton from "../../components/GoBackButton";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const Form = styled.form`
   display: flex;
@@ -26,9 +27,11 @@ function JoinPage() {
     formState: { errors },
     control,
   } = useForm();
+  let navigate = useNavigate();
 
   const onSubmit = (data: any) => {
     console.log(data);
+    navigate("/join/idpw");
   };
 
   return (
@@ -39,19 +42,35 @@ function JoinPage() {
         CaptionText="회원가입에 앞서 본인인증을 진행합니다."
       />
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Dropdown placeholder="신분구분" />
-        <Input
+        <Dropdown
           control={control}
-          name="이름"
+          name="job"
           disabled={false}
           rules={{ required: true }}
+          placeholder="신분구분"
+          options={["장교", "부사관", "병사", "군무원"]}
         />
-        <Dropdown placeholder="군구분" />
         <Input
           control={control}
-          name="군번"
+          name="name"
           disabled={false}
           rules={{ required: true }}
+          placeholder="이름"
+        />
+        <Dropdown
+          control={control}
+          name="affiliation"
+          disabled={false}
+          rules={{ required: true }}
+          placeholder="군구분"
+          options={["육군", "해군", "공군", "해병대"]}
+        />
+        <Input
+          control={control}
+          name="serviceNumber"
+          disabled={false}
+          rules={{ required: true }}
+          placeholder="군번"
         />
         <BtnList>
           <GoBackButton />
