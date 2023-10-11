@@ -32,8 +32,9 @@ function JoinPage3() {
   const { state } = useLocation();
 
   const onSubmit = (data: any) => {
-    console.log(data);
-    navigate("/join/success");
+    const submitData = { ...state, ...data };
+    console.log(submitData);
+    // navigate("/join/success");
   };
 
   return (
@@ -49,6 +50,7 @@ function JoinPage3() {
           defaultValue={state.job}
           placeholder={state.job}
           options={["장교", "부사관", "병사", "군무원"]}
+          shouldUnregister={true}
         />
         <DatePicker
           control={control}
@@ -76,6 +78,7 @@ function JoinPage3() {
           defaultValue={state.affiliation}
           placeholder={state.affiliation}
           options={["육군", "해군", "공군", "해병대"]}
+          shouldUnregister={true}
         />
         <Dropdown
           control={control}
