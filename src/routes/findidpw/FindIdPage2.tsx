@@ -3,7 +3,7 @@ import ScreenContainer from "../../components/ScreenContainer";
 import Logo from "../../components/Logo";
 import TitleBox from "../../components/Title";
 import BtnList from "../../components/BtnList";
-import Button from "../../components/Button";
+import { Link } from "react-router-dom";
 
 const ContentBox = styled.div`
   display: flex;
@@ -25,6 +25,17 @@ const Content = styled.h2`
   letter-spacing: -0.408px;
 `;
 
+const StyledLink = styled(Link)`
+  display: flex;
+  padding: 10px 20px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+
+  background-color: #ff8200;
+  color: white;
+`;
+
 function FindIdPage2() {
   return (
     <ScreenContainer>
@@ -35,7 +46,7 @@ function FindIdPage2() {
         <Content>OOOOOOOO</Content>
         <Content>입니다.</Content>
         <BtnList>
-          <Button text="로그인하러 가기" opacity={false} />
+          <StyledLink to={"/"}>로그인하러 가기</StyledLink>
         </BtnList>
       </ContentBox>
     </ScreenContainer>

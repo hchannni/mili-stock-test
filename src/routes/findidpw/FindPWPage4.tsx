@@ -3,12 +3,23 @@ import ScreenContainer from "../../components/ScreenContainer";
 import Logo from "../../components/Logo";
 import TitleBox from "../../components/Title";
 import BtnList from "../../components/BtnList";
-import Button from "../../components/Button";
+import { Link } from "react-router-dom";
 
 const MarginBox = styled.div`
   color: inherit;
   width: 100%;
   height: 32px;
+`;
+
+const StyledLink = styled(Link)`
+  display: flex;
+  padding: 10px 20px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+
+  background-color: #ff8200;
+  color: white;
 `;
 
 function FindPWPage4() {
@@ -21,7 +32,7 @@ function FindPWPage4() {
       />
       <MarginBox></MarginBox>
       <BtnList>
-        <Button text="로그인하러 가기" opacity={false} />
+        <StyledLink to={"/"}>로그인하러 가기</StyledLink>
       </BtnList>
     </ScreenContainer>
   );
