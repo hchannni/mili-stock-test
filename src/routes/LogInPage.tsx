@@ -1,3 +1,4 @@
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -96,12 +97,30 @@ const FindLink = styled(Link)`
 `;
 
 function LogInPage() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+    // navigate to 'main' page
+  };
+
   return (
     <LogInScreenContainer>
       <Logo></Logo>
-      <LogInForm>
-        <LogInInput placeholder="ID" />
-        <LogInInput placeholder="Password" type="password" />
+      <LogInForm onSubmit={handleSubmit(onSubmit)}>
+        <LogInInput
+          {...register("userId", { required: true })}
+          placeholder="ID"
+        />
+        <LogInInput
+          {...register("password", { required: true })}
+          placeholder="Password"
+          type="password"
+        />
         <LogInBtnList>
           <LogInBtn>로그인</LogInBtn>
           <LogInBtn as={Link} to={"/join/auth"}>
