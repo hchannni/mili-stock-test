@@ -59,7 +59,7 @@ table {
 }
 body {
   font-family: 'Source Sans 3', sans-serif;
-  background-color: midnightblue;
+  background-color: whitesmoke;
 }
 a {
   text-decoration: none;
