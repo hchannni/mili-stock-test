@@ -71,6 +71,7 @@ function JoinPage2() {
           disabled={false}
           rules={{ required: true }}
           placeholder="비밀번호"
+          type="password"
         />
         <Input
           control={control}
@@ -78,6 +79,7 @@ function JoinPage2() {
           disabled={false}
           rules={{ required: true }}
           placeholder="비밀번호 확인"
+          type="password"
         />
         <BtnList>
           <GoBackButton />

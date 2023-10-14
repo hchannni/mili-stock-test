@@ -3,6 +3,7 @@ import MainPage from "./routes/MainPage";
 import JoinPage from "./routes/joinpage/JoinPage";
 import JoinPage2 from "./routes/joinpage/JoinPage2";
 import JoinPage3 from "./routes/joinpage/JoinPage3";
+import JoinPage4 from "./routes/joinpage/JoinPage4";
 import FindIdPage from "./routes/findidpw/FindIdPage";
 import FindIdPage2 from "./routes/findidpw/FindIdPage2";
 import FindPWPage from "./routes/findidpw/FindPWPage";
@@ -20,7 +21,7 @@ function Router() {
         <Route path="/join/auth" element={<JoinPage />} />
         <Route path="/join/idpw" element={<JoinPage2 />} />
         <Route path="/join/detail" element={<JoinPage3 />} />
-        {/* <Route path="/join/success" element={<JoinPage4 />} /> */}
+        <Route path="/join/success" element={<JoinPage4 />} />
         <Route path="/findid/auth" element={<FindIdPage />} />
         <Route path="/findid/milnum" element={<FindIdPage2 />} />
         <Route path="/findpw/idcheck" element={<FindPWPage />} />

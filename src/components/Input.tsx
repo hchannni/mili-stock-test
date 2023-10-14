@@ -50,6 +50,7 @@ const InputTag = styled.input`
 
 interface InputProps extends UseControllerProps {
   placeholder: string;
+  type?: string;
 }
 
 function Input(props: InputProps) {
@@ -59,6 +60,7 @@ function Input(props: InputProps) {
       {...field}
       placeholder={props.placeholder}
       disabled={props.disabled}
+      type={props.type ?? "text"}
     />
   );
 }

@@ -34,7 +34,7 @@ function JoinPage3() {
   const onSubmit = (data: any) => {
     const submitData = { ...state, ...data };
     console.log(submitData);
-    // navigate("/join/success");
+    navigate("/join/success");
   };
 
   return (
