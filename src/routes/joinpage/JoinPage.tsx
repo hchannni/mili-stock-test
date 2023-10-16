@@ -9,6 +9,7 @@ import GoBackButton from "../../components/GoBackButton";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Form = styled.form`
   display: flex;
@@ -29,7 +30,14 @@ function JoinPage() {
   } = useForm();
   const navigate = useNavigate();
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
+    const response = await axios({
+      method: "post",
+      url: "https://8080-ddoong10-milistockbacke-nrobe7cyzq5.ws-us105.gitpod.io/members/identity",
+      data: data,
+    });
+
+    console.log(response);
     navigate("/join/idpw", { state: { ...data } });
   };
 
@@ -47,7 +55,7 @@ function JoinPage() {
           disabled={false}
           rules={{ required: true }}
           placeholder="신분구분"
-          options={["장교", "부사관", "병사", "군무원"]}
+          options={["간부", "병사", "군무원"]}
         />
         <Input
           control={control}
