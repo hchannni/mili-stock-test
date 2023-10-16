@@ -9,6 +9,7 @@ import GoBackButton from "../../components/GoBackButton";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
 
 const Form = styled.form`
   display: flex;
@@ -29,9 +30,15 @@ function FindIdPage() {
   } = useForm();
   const navigate = useNavigate();
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-    navigate("/findid/milnum");
+  const onSubmit = async (data: any) => {
+    const response = await axios({
+      method: "post",
+      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/help/idInquiry`,
+      data: data,
+    });
+
+    console.log(response);
+    navigate("/findid/milnum", { state: { ...response.data } });
   };
 
   return (

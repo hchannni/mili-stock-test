@@ -8,6 +8,7 @@ import TitleBox from "../../components/Title";
 import GoBackButton from "../../components/GoBackButton";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 const Form = styled.form`
   display: flex;
@@ -41,9 +42,15 @@ function FindPWPage() {
   } = useForm();
   const navigate = useNavigate();
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-    navigate("/findpw/auth");
+  const onSubmit = async (data: any) => {
+    const response = await axios({
+      method: "post",
+      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/help/idCheck`,
+      data: data,
+    });
+
+    console.log(response);
+    navigate("/findpw/auth", { state: { ...response.data } });
   };
 
   return (

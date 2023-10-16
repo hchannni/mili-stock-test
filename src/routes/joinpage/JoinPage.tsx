@@ -33,7 +33,7 @@ function JoinPage() {
   const onSubmit = async (data: any) => {
     const response = await axios({
       method: "post",
-      url: "https://8080-ddoong10-milistockbacke-nrobe7cyzq5.ws-us105.gitpod.io/members/identity",
+      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/identity`,
       data: data,
     });
 

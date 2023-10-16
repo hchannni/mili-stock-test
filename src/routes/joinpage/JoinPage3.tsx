@@ -10,6 +10,7 @@ import GoBackButton from "../../components/GoBackButton";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
 
 const Form = styled.form`
   display: flex;
@@ -31,9 +32,16 @@ function JoinPage3() {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     const submitData = { ...state, ...data };
-    console.log(submitData);
+
+    const response = await axios({
+      method: "post",
+      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/signup`,
+      data: submitData,
+    });
+    console.log(response);
+
     navigate("/join/success");
   };
 
@@ -57,6 +65,13 @@ function JoinPage3() {
           name="birth"
           rules={{ required: true }}
           placeholder="생년월일"
+        />
+        <Dropdown
+          control={control}
+          name="gender"
+          rules={{ required: true }}
+          placeholder="성별"
+          options={["남", "여"]}
         />
         <Input
           control={control}

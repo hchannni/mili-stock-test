@@ -3,7 +3,7 @@ import ScreenContainer from "../../components/ScreenContainer";
 import Logo from "../../components/Logo";
 import TitleBox from "../../components/Title";
 import BtnList from "../../components/BtnList";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const ContentBox = styled.div`
   display: flex;
@@ -37,13 +37,14 @@ const StyledLink = styled(Link)`
 `;
 
 function FindIdPage2() {
+  const { state } = useLocation();
   return (
     <ScreenContainer>
       <Logo />
       <TitleBox TitleText="아이디 찾기" />
       <ContentBox>
         <Content>회원님의 아이디는</Content>
-        <Content>OOOOOOOO</Content>
+        <Content>{state.userId}</Content>
         <Content>입니다.</Content>
         <BtnList>
           <StyledLink to={"/"}>로그인하러 가기</StyledLink>

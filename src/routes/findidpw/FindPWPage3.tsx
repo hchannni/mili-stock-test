@@ -6,9 +6,10 @@ import BtnList from "../../components/BtnList";
 import ScreenContainer from "../../components/ScreenContainer";
 import TitleBox from "../../components/Title";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import GoBackButton from "../../components/GoBackButton";
+import axios from "axios";
 
 const Form = styled.form`
   display: flex;
@@ -54,9 +55,17 @@ function FindPWPage3() {
     control,
   } = useForm();
   const navigate = useNavigate();
+  const { state } = useLocation();
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: any) => {
+    const submitData = { ...state, ...data };
+    const response = await axios({
+      method: "post",
+      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/help/pwChange`,
+      data: submitData,
+    });
+
+    console.log(response);
     navigate("/findpw/success");
   };
 
