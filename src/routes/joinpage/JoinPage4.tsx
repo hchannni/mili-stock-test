@@ -22,13 +22,13 @@ const StyledLink = styled(Link)`
   color: white;
 `;
 
-function FindPWPage4() {
+function JoinPage4() {
   return (
     <ScreenContainer>
       <Logo />
       <TitleBox
-        TitleText="비밀번호 찾기"
-        CaptionText="비밀번호를 성공적으로 변경하였습니다."
+        TitleText="회원가입"
+        CaptionText="미리스톡의 회원이 되신 것을 환영합니다!"
       />
       <MarginBox></MarginBox>
       <BtnList>
@@ -38,4 +38,4 @@ function FindPWPage4() {
   );
 }
 
-export default FindPWPage4;
+export default JoinPage4;

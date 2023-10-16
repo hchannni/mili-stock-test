@@ -5,6 +5,7 @@ import { ko } from "date-fns/esm/locale"; //한국어 설정
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faCalendar } from "@fortawesome/free-regular-svg-icons";
+import { useController, UseControllerProps } from "react-hook-form";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "../datePickerWrapper.css";
@@ -55,21 +56,27 @@ const StyledDatePicker = styled(ReactDatePicker)`
 
 const FAIcon = styled(FontAwesomeIcon)``;
 
-interface DatePickerProps {
+interface DatePickerProps extends UseControllerProps {
   placeholder: string;
 }
 
-function DatePicker({ placeholder }: DatePickerProps) {
-  const [startDate, setStartDate] = useState(new Date());
+function DatePicker(props: DatePickerProps) {
+  const { field } = useController(props);
+  const [startDate, setStartDate] = useState<Date | null>(null);
   return (
     <DatePickerBox>
       <StyledDatePicker
+        {...field}
         wrapperClassName="datePickerWrapper"
         locale={ko}
-        placeholderText={placeholder}
+        placeholderText={props.placeholder}
         dateFormat="yyyy년 MM월 dd일"
-        onChange={(date: Date) => setStartDate(date)}
-        // selected={startDate}
+        onChange={(date: Date) => {
+          field.onChange(date);
+          setStartDate(date);
+        }}
+        selected={startDate}
+        showYearDropdown
       ></StyledDatePicker>
       <FAIcon icon={faCalendar as IconProp} />
     </DatePickerBox>

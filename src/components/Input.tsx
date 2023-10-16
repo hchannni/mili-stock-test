@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
+import { useController, UseControllerProps } from "react-hook-form";
 
-const InputTag = styled.input.attrs({ required: true })`
+const InputTag = styled.input`
   width: 100%;
   padding: 10px;
   border: none;
@@ -34,16 +35,33 @@ const InputTag = styled.input.attrs({ required: true })`
   }
 `;
 
-interface InputProps {
+// interface InputProps {
+//   placeholder: string;
+//   disabled?: boolean;
+// }
+
+// function Input({ placeholder, disabled = false }: InputProps) {
+//   return (
+//     <>
+//       <InputTag placeholder={placeholder} disabled={disabled} />
+//     </>
+//   );
+// }
+
+interface InputProps extends UseControllerProps {
   placeholder: string;
-  disabled?: boolean;
+  type?: string;
 }
 
-function Input({ placeholder, disabled = false }: InputProps) {
+function Input(props: InputProps) {
+  const { field } = useController(props);
   return (
-    <>
-      <InputTag placeholder={placeholder} disabled={disabled} />
-    </>
+    <InputTag
+      {...field}
+      placeholder={props.placeholder}
+      disabled={props.disabled}
+      type={props.type ?? "text"}
+    />
   );
 }
 

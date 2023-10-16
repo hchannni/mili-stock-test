@@ -1,13 +1,25 @@
 import styled from "styled-components";
 import Logo from "../../components/Logo";
-import Form from "../../components/Form";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import BtnList from "../../components/BtnList";
 import ScreenContainer from "../../components/ScreenContainer";
 import TitleBox from "../../components/Title";
 import GoBackButton from "../../components/GoBackButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+
+  margin-top: 16px;
+  padding: 10px 0;
+  width: 100%;
+`;
 
 const FindIdLink = styled(Link)`
   color: #000;
@@ -23,6 +35,24 @@ const FindIdLink = styled(Link)`
 `;
 
 function FindPWPage() {
+  const {
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useForm();
+  const navigate = useNavigate();
+
+  const onSubmit = async (data: any) => {
+    const response = await axios({
+      method: "post",
+      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/help/idCheck`,
+      data: data,
+    });
+
+    console.log(response);
+    navigate("/findpw/auth", { state: { ...response.data } });
+  };
+
   return (
     <ScreenContainer>
       <Logo />
@@ -30,8 +60,13 @@ function FindPWPage() {
         TitleText="비밀번호 찾기"
         CaptionText="비밀번호를 찾고자 하는 ID를 입력해 주세요"
       />
-      <Form>
-        <Input placeholder="ID" disabled={false} />
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Input
+          control={control}
+          name="userId"
+          rules={{ required: true }}
+          placeholder="ID"
+        />
         <BtnList>
           <GoBackButton />
           <Button opacity={false} text="다음" />

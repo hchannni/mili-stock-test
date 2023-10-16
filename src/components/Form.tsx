@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { ReactNode } from "react";
 
-const Container = styled.div`
+const FormBox = styled.form`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -17,7 +17,7 @@ interface FormProps {
 }
 
 function Form(props: FormProps) {
-  return <Container>{props.children}</Container>;
+  return <FormBox>{props.children}</FormBox>;
 }
 
 export default Form;
