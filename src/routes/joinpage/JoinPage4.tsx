@@ -1,0 +1,41 @@
+import styled from "styled-components";
+import ScreenContainer from "../../components/ScreenContainer";
+import Logo from "../../components/Logo";
+import TitleBox from "../../components/Title";
+import BtnList from "../../components/BtnList";
+import { Link } from "react-router-dom";
+
+const MarginBox = styled.div`
+  color: inherit;
+  width: 100%;
+  height: 32px;
+`;
+
+const StyledLink = styled(Link)`
+  display: flex;
+  padding: 10px 20px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+
+  background-color: #ff8200;
+  color: white;
+`;
+
+function JoinPage4() {
+  return (
+    <ScreenContainer>
+      <Logo />
+      <TitleBox
+        TitleText="회원가입"
+        CaptionText="미리스톡의 회원이 되신 것을 환영합니다!"
+      />
+      <MarginBox></MarginBox>
+      <BtnList>
+        <StyledLink to={"/"}>로그인하러 가기</StyledLink>
+      </BtnList>
+    </ScreenContainer>
+  );
+}
+
+export default JoinPage4;
