@@ -11,12 +11,13 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
+import ToastPopup from "../../components/ToastPopup";
+import ErrorMessage from "../../components/ErrorMessage";
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 16px;
 
   margin-top: 16px;
   padding: 10px 0;
@@ -32,6 +33,8 @@ function JoinPage() {
   } = useForm();
   const navigate = useNavigate();
   const [toast, setToast] = useState(false);
+
+  console.log(errors);
 
   const onSubmit = async (data: any) => {
     const response = await axios({
@@ -75,6 +78,9 @@ function JoinPage() {
           placeholder="신분구분"
           options={["간부", "병사", "군무원"]}
         />
+        {errors.job && (
+          <ErrorMessage message={errors?.job?.message?.toString()} />
+        )}
         <Input
           control={control}
           name="name"
@@ -89,6 +95,9 @@ function JoinPage() {
           }}
           placeholder="이름"
         />
+        {errors.name && (
+          <ErrorMessage message={errors?.name?.message?.toString()} />
+        )}
         <Dropdown
           control={control}
           name="affiliation"
@@ -103,6 +112,9 @@ function JoinPage() {
           placeholder="군구분"
           options={["육군", "해군", "공군", "해병대"]}
         />
+        {errors.affiliation && (
+          <ErrorMessage message={errors?.affiliation?.message?.toString()} />
+        )}
         <Input
           control={control}
           name="serviceNumber"
@@ -116,12 +128,21 @@ function JoinPage() {
           }}
           placeholder="군번"
         />
+        {errors.serviceNumber && (
+          <ErrorMessage message={errors?.serviceNumber?.message?.toString()} />
+        )}
         <BtnList>
           <GoBackButton />
           <Button opacity={false} text="본인인증" />
         </BtnList>
       </Form>
-      {/* {toast && } */}
+      {toast && (
+        <ToastPopup
+          message="토스트 메시지 테스트"
+          toast={toast}
+          setToast={setToast}
+        />
+      )}
     </ScreenContainer>
   );
 }

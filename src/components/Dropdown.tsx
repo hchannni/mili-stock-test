@@ -15,6 +15,7 @@ const Containter = styled.div<ContainerProps>`
   font-size: 16px;
   color: ${(props) => (props.disabled ? "#a0a0a0" : "black")};
   border-color: ${(props) => (props.disabled ? "#a0a0a0" : "black")};
+  margin-top: 16px;
 
   display: flex;
   justify-content: space-around;

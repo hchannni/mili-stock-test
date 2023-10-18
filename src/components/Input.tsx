@@ -7,6 +7,7 @@ const InputTag = styled.input`
   border: none;
   border-bottom: 1.5px solid black;
   font-size: 16px;
+  margin-top: 16px;
 
   transition: all 0.2s ease-in-out;
 

@@ -16,6 +16,7 @@ const DatePickerBox = styled.div`
   border: none;
   border-bottom: 1.5px solid black;
   font-size: 16px;
+  margin-top: 16px;
 
   display: flex;
   justify-content: space-around;
