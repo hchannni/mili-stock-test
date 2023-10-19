@@ -34,8 +34,6 @@ function JoinPage() {
   const navigate = useNavigate();
   const [toast, setToast] = useState(false);
 
-  console.log(errors);
-
   const onSubmit = async (data: any) => {
     const response = await axios({
       method: "post",
@@ -77,6 +75,7 @@ function JoinPage() {
           }}
           placeholder="신분구분"
           options={["간부", "병사", "군무원"]}
+          validationError={errors.job ? true : false}
         />
         {errors.job && (
           <ErrorMessage message={errors?.job?.message?.toString()} />
@@ -94,6 +93,7 @@ function JoinPage() {
             },
           }}
           placeholder="이름"
+          validationError={errors.name ? true : false}
         />
         {errors.name && (
           <ErrorMessage message={errors?.name?.message?.toString()} />
@@ -111,6 +111,7 @@ function JoinPage() {
           }}
           placeholder="군구분"
           options={["육군", "해군", "공군", "해병대"]}
+          validationError={errors.affiliation ? true : false}
         />
         {errors.affiliation && (
           <ErrorMessage message={errors?.affiliation?.message?.toString()} />
@@ -127,6 +128,7 @@ function JoinPage() {
             },
           }}
           placeholder="군번"
+          validationError={errors.serviceNumber ? true : false}
         />
         {errors.serviceNumber && (
           <ErrorMessage message={errors?.serviceNumber?.message?.toString()} />

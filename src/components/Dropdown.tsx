@@ -6,6 +6,7 @@ import { useController, UseControllerProps } from "react-hook-form";
 
 interface ContainerProps {
   disabled: boolean;
+  error: boolean;
 }
 
 const Containter = styled.div<ContainerProps>`
@@ -13,8 +14,10 @@ const Containter = styled.div<ContainerProps>`
   border-bottom: 1.5px solid black;
   padding-right: 10px;
   font-size: 16px;
-  color: ${(props) => (props.disabled ? "#a0a0a0" : "black")};
-  border-color: ${(props) => (props.disabled ? "#a0a0a0" : "black")};
+  color: ${(props) =>
+    props.disabled ? "#a0a0a0" : props.error ? "#E00B03" : "#000"};
+  border-color: ${(props) =>
+    props.disabled ? "#a0a0a0" : props.error ? "#E00B03" : "#000"};
   margin-top: 16px;
 
   display: flex;
@@ -63,6 +66,7 @@ interface DropdownProps extends UseControllerProps {
   placeholder: string;
   options: string[];
   disabled?: boolean;
+  validationError: boolean;
 }
 
 // function Dropdown({ placeholder, disabled = false }: DropdownProps) {
@@ -82,7 +86,10 @@ interface DropdownProps extends UseControllerProps {
 function Dropdown(props: DropdownProps) {
   const { field } = useController(props);
   return (
-    <Containter disabled={props.disabled ?? false}>
+    <Containter
+      disabled={props.disabled ?? false}
+      error={props.validationError}
+    >
       <Select {...field}>
         <Option value="">{props.placeholder}</Option>
         {props.options.map((value) => (
