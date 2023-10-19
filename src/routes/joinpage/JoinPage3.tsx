@@ -11,12 +11,12 @@ import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
+import ErrorMessage from "../../components/ErrorMessage";
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 16px;
 
   margin-top: 16px;
   padding: 10px 0;
@@ -59,32 +59,55 @@ function JoinPage3() {
           placeholder={state.job}
           options={["장교", "부사관", "병사", "군무원"]}
           shouldUnregister={true}
+          validationError={errors.job ? true : false}
         />
         <DatePicker
           control={control}
           name="birth"
           rules={{ required: true }}
           placeholder="생년월일"
+          validationError={errors.birth ? true : false}
         />
+        {errors.birth && (
+          <ErrorMessage message={errors?.birth?.message?.toString()} />
+        )}
         <Dropdown
           control={control}
           name="gender"
           rules={{ required: true }}
           placeholder="성별"
           options={["남", "여"]}
+          validationError={errors.gender ? true : false}
         />
+        {errors.gender && (
+          <ErrorMessage message={errors?.gender?.message?.toString()} />
+        )}
         <Input
           control={control}
           name="phoneNumber"
           rules={{ required: true }}
           placeholder="휴대전화"
+          validationError={errors.phoneNumber ? true : false}
         />
+        {errors.phoneNumber && (
+          <ErrorMessage message={errors?.phoneNumber?.message?.toString()} />
+        )}
         <Input
           control={control}
           name="email"
-          rules={{ required: true }}
+          rules={{
+            required: true,
+            pattern: {
+              value: /^[a-zA-Z0-9+-\\_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$/,
+              message: "이메일 형식이 올바르지 않습니다.",
+            },
+          }}
           placeholder="이메일"
+          validationError={errors.email ? true : false}
         />
+        {errors.email && (
+          <ErrorMessage message={errors?.email?.message?.toString()} />
+        )}
         <Dropdown
           control={control}
           name="affiliation"
@@ -94,6 +117,7 @@ function JoinPage3() {
           placeholder={state.affiliation}
           options={["육군", "해군", "공군", "해병대"]}
           shouldUnregister={true}
+          validationError={errors.affiliation ? true : false}
         />
         <Dropdown
           control={control}
@@ -101,19 +125,31 @@ function JoinPage3() {
           rules={{ required: true }}
           placeholder="계급"
           options={["병장", "상병", "일병", "이병"]}
+          validationError={errors.militaryRank ? true : false}
         />
+        {errors.militaryRank && (
+          <ErrorMessage message={errors?.militaryRank?.message?.toString()} />
+        )}
         <DatePicker
           control={control}
           name="appointment"
           rules={{ required: true }}
           placeholder="임관일자"
+          validationError={errors.appointment ? true : false}
         />
+        {errors.appointment && (
+          <ErrorMessage message={errors?.appointment?.message?.toString()} />
+        )}
         <DatePicker
           control={control}
           name="discharge"
           rules={{ required: true }}
           placeholder="전역일자"
+          validationError={errors.discharge ? true : false}
         />
+        {errors.discharge && (
+          <ErrorMessage message={errors?.discharge?.message?.toString()} />
+        )}
         <BtnList>
           <GoBackButton />
           <Button opacity={false} text="가입완료" />
