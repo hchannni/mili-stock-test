@@ -40,7 +40,6 @@ function JoinPage() {
       url: `${process.env.REACT_APP_DONG10_BASEURL}/members/identity`,
       data: data,
     });
-
     console.log(response);
     const { status, reason } = response.data;
     if (status !== 200) {
@@ -53,6 +52,10 @@ function JoinPage() {
       navigate("/join/idpw", { state: { ...data } });
     }
   };
+  // BE 연동 힘들 때 테스트용!
+  // const onSubmit = (data: any) => {
+  //   navigate("/join/idpw", { state: { ...data } });
+  // };
 
   return (
     <ScreenContainer>

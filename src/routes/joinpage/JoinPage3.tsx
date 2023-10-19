@@ -44,6 +44,12 @@ function JoinPage3() {
 
     navigate("/join/success");
   };
+  // BE 연동 힘들 때 테스트용!
+  // const onSubmit = (data: any) => {
+  //   const submitData = { ...state, ...data };
+  //   console.log(submitData);
+  //   navigate("/join/success");
+  // };
 
   return (
     <ScreenContainer>
@@ -64,7 +70,14 @@ function JoinPage3() {
         <DatePicker
           control={control}
           name="birth"
-          rules={{ required: true }}
+          rules={{
+            required: true,
+            pattern: {
+              value:
+                /^(19|20)\d{2}\.(0[1-9]|1[0-2])\.(0[1-9]|[12][0-9]|3[01])$/,
+              message: "생년월일 형식을 맞춰 주세요!",
+            },
+          }}
           placeholder="생년월일"
           validationError={errors.birth ? true : false}
         />
@@ -98,7 +111,7 @@ function JoinPage3() {
           rules={{
             required: true,
             pattern: {
-              value: /^[a-zA-Z0-9+-\\_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$/,
+              value: /^[a-zA-Z0-9+-\\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
               message: "이메일 형식이 올바르지 않습니다.",
             },
           }}
@@ -133,7 +146,14 @@ function JoinPage3() {
         <DatePicker
           control={control}
           name="appointment"
-          rules={{ required: true }}
+          rules={{
+            required: true,
+            pattern: {
+              value:
+                /^(19|20)\d{2}\.(0[1-9]|1[0-2])\.(0[1-9]|[12][0-9]|3[01])$/,
+              message: "임관일자 형식이 올바르지 않습니다.",
+            },
+          }}
           placeholder="임관일자"
           validationError={errors.appointment ? true : false}
         />
@@ -143,7 +163,14 @@ function JoinPage3() {
         <DatePicker
           control={control}
           name="discharge"
-          rules={{ required: true }}
+          rules={{
+            required: true,
+            pattern: {
+              value:
+                /^(19|20)\d{2}\.(0[1-9]|1[0-2])\.(0[1-9]|[12][0-9]|3[01])$/,
+              message: "전역일자 형식이 올바르지 않습니다.",
+            },
+          }}
           placeholder="전역일자"
           validationError={errors.discharge ? true : false}
         />

@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faCalendar } from "@fortawesome/free-regular-svg-icons";
 import { useController, UseControllerProps } from "react-hook-form";
+import moment from "moment";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "../datePickerWrapper.css";
@@ -82,7 +83,7 @@ function DatePicker(props: DatePickerProps) {
         placeholderText={props.placeholder}
         dateFormat="yyyy년 MM월 dd일"
         onChange={(date: Date) => {
-          field.onChange(date);
+          field.onChange(moment(date).format("YYYY.MM.DD"));
           setStartDate(date);
         }}
         selected={startDate}
