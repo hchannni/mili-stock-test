@@ -68,7 +68,7 @@ function FindPWPage() {
         <Input
           control={control}
           name="userId"
-          rules={{ required: true }}
+          rules={{ required: "아이디를 입력해 주세요!" }}
           placeholder="ID"
           validationError={errors.userId ? true : false}
         />

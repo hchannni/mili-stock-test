@@ -82,7 +82,7 @@ function FindPWPage3() {
               control={control}
               name="newPassword"
               rules={{
-                required: true,
+                required: "'새 비밀번호'는 필수 항목입니다.",
                 pattern: {
                   value:
                     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{7,16}$/,
@@ -91,6 +91,7 @@ function FindPWPage3() {
                 },
               }}
               placeholder="새 비밀번호"
+              type="password"
               validationError={errors.newPassword ? true : false}
             />
             {errors.newPassword && (
@@ -100,7 +101,7 @@ function FindPWPage3() {
               control={control}
               name="newPasswordConfirmation"
               rules={{
-                required: true,
+                required: "'새 비밀번호 확인'은 필수 항목입니다.",
                 pattern: {
                   value:
                     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{7,16}$/,
@@ -109,6 +110,7 @@ function FindPWPage3() {
                 },
               }}
               placeholder="새 비밀번호 확인"
+              type="password"
               validationError={errors.newPasswordConfirmation ? true : false}
             />
             {errors.newPasswordConfirmation && (

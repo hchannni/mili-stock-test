@@ -71,7 +71,7 @@ function JoinPage3() {
           control={control}
           name="birth"
           rules={{
-            required: true,
+            required: "'생년월일'은 필수 항목입니다.",
             pattern: {
               value:
                 /^(19|20)\d{2}\.(0[1-9]|1[0-2])\.(0[1-9]|[12][0-9]|3[01])$/,
@@ -87,7 +87,7 @@ function JoinPage3() {
         <Dropdown
           control={control}
           name="gender"
-          rules={{ required: true }}
+          rules={{ required: "'성별'은 필수 항목입니다." }}
           placeholder="성별"
           options={["남", "여"]}
           validationError={errors.gender ? true : false}
@@ -98,7 +98,7 @@ function JoinPage3() {
         <Input
           control={control}
           name="phoneNumber"
-          rules={{ required: true }}
+          rules={{ required: "'휴대전화'는 필수 항목입니다." }}
           placeholder="휴대전화"
           validationError={errors.phoneNumber ? true : false}
         />
@@ -109,7 +109,7 @@ function JoinPage3() {
           control={control}
           name="email"
           rules={{
-            required: true,
+            required: "'이메일'은 필수 항목입니다.",
             pattern: {
               value: /^[a-zA-Z0-9+-\\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
               message: "이메일 형식이 올바르지 않습니다.",
@@ -135,7 +135,7 @@ function JoinPage3() {
         <Dropdown
           control={control}
           name="militaryRank"
-          rules={{ required: true }}
+          rules={{ required: "'계급'은 필수 항목입니다." }}
           placeholder="계급"
           options={["병장", "상병", "일병", "이병"]}
           validationError={errors.militaryRank ? true : false}
@@ -147,7 +147,7 @@ function JoinPage3() {
           control={control}
           name="appointment"
           rules={{
-            required: true,
+            required: "'임관일자'는 필수 항목입니다.",
             pattern: {
               value:
                 /^(19|20)\d{2}\.(0[1-9]|1[0-2])\.(0[1-9]|[12][0-9]|3[01])$/,
@@ -164,7 +164,7 @@ function JoinPage3() {
           control={control}
           name="discharge"
           rules={{
-            required: true,
+            required: "'전역일자'는 필수 항목입니다.",
             pattern: {
               value:
                 /^(19|20)\d{2}\.(0[1-9]|1[0-2])\.(0[1-9]|[12][0-9]|3[01])$/,

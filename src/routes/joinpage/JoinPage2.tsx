@@ -65,7 +65,7 @@ function JoinPage2() {
           name="userId"
           disabled={false}
           rules={{
-            required: true,
+            required: "'아이디'는 필수 항목입니다.",
             pattern: {
               value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{2,20}$/,
               message: "아이디는 영문자+숫자를 포함한 2~20자여야 합니다.",
@@ -82,7 +82,7 @@ function JoinPage2() {
           name="password"
           disabled={false}
           rules={{
-            required: true,
+            required: "'비밀번호'는 필수 항목입니다.",
             pattern: {
               value:
                 /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{7,16}$/,
@@ -102,7 +102,7 @@ function JoinPage2() {
           name="passwordConfirmation"
           disabled={false}
           rules={{
-            required: true,
+            required: "'비밀번호 확인'은 필수 항목입니다.",
             pattern: {
               value:
                 /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{7,16}$/,
