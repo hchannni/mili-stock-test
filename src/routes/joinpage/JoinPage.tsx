@@ -34,28 +34,28 @@ function JoinPage() {
   const navigate = useNavigate();
   const [toast, setToast] = useState(false);
 
-  const onSubmit = async (data: any) => {
-    const response = await axios({
-      method: "post",
-      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/identity`,
-      data: data,
-    });
-    console.log(response);
-    const { status, reason } = response.data;
-    if (status !== 200) {
-      // 에러 발생시키기 -> 단, 어디서 발생했는지는 알 수가 없다... 아숩
-      // setError의 name은 일단 job으로 두고, shouldFocus는 false로 해 두자(임시방편).
-      setError("job", { message: reason }, { shouldFocus: false });
-      setToast(true);
-      return;
-    } else {
-      navigate("/join/idpw", { state: { ...data } });
-    }
-  };
-  // BE 연동 힘들 때 테스트용!
-  // const onSubmit = (data: any) => {
-  //   navigate("/join/idpw", { state: { ...data } });
+  // const onSubmit = async (data: any) => {
+  //   const response = await axios({
+  //     method: "post",
+  //     url: `${process.env.REACT_APP_DONG10_BASEURL}/members/identity`,
+  //     data: data,
+  //   });
+  //   console.log(response);
+  //   const { status, reason } = response.data;
+  //   if (status !== 200) {
+  //     // 에러 발생시키기 -> 단, 어디서 발생했는지는 알 수가 없다... 아숩
+  //     // setError의 name은 일단 job으로 두고, shouldFocus는 false로 해 두자(임시방편).
+  //     setError("job", { message: reason }, { shouldFocus: false });
+  //     setToast(true);
+  //     return;
+  //   } else {
+  //     navigate("/join/idpw", { state: { ...data } });
+  //   }
   // };
+  // BE 연동 힘들 때 테스트용!
+  const onSubmit = (data: any) => {
+    navigate("/join/idpw", { state: { ...data } });
+  };
 
   return (
     <ScreenContainer>

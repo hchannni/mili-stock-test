@@ -9,12 +9,12 @@ import GoBackButton from "../../components/GoBackButton";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import ErrorMessage from "../../components/ErrorMessage";
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 16px;
 
   margin-top: 16px;
   padding: 10px 0;
@@ -42,15 +42,19 @@ function FindPWPage() {
   } = useForm();
   const navigate = useNavigate();
 
-  const onSubmit = async (data: any) => {
-    const response = await axios({
-      method: "post",
-      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/help/idCheck`,
-      data: data,
-    });
+  // const onSubmit = async (data: any) => {
+  //   const response = await axios({
+  //     method: "post",
+  //     url: `${process.env.REACT_APP_DONG10_BASEURL}/members/help/idCheck`,
+  //     data: data,
+  //   });
 
-    console.log(response);
-    navigate("/findpw/auth", { state: { ...response.data } });
+  //   console.log(response);
+  //   navigate("/findpw/auth", { state: { ...response.data } });
+  // };
+  // BE 연동 힘들 때 테스트용!
+  const onSubmit = (data: any) => {
+    navigate("/findpw/auth", { state: { ...data } });
   };
 
   return (
@@ -66,7 +70,11 @@ function FindPWPage() {
           name="userId"
           rules={{ required: true }}
           placeholder="ID"
+          validationError={errors.userId ? true : false}
         />
+        {errors.userId && (
+          <ErrorMessage message={errors.userId?.message?.toString()} />
+        )}
         <BtnList>
           <GoBackButton />
           <Button opacity={false} text="다음" />

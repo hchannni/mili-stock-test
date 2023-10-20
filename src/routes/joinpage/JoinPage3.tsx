@@ -32,24 +32,24 @@ function JoinPage3() {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  const onSubmit = async (data: any) => {
-    const submitData = { ...state, ...data };
-
-    const response = await axios({
-      method: "post",
-      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/signup`,
-      data: submitData,
-    });
-    console.log(response);
-
-    navigate("/join/success");
-  };
-  // BE 연동 힘들 때 테스트용!
-  // const onSubmit = (data: any) => {
+  // const onSubmit = async (data: any) => {
   //   const submitData = { ...state, ...data };
-  //   console.log(submitData);
+
+  //   const response = await axios({
+  //     method: "post",
+  //     url: `${process.env.REACT_APP_DONG10_BASEURL}/members/signup`,
+  //     data: submitData,
+  //   });
+  //   console.log(response);
+
   //   navigate("/join/success");
   // };
+  // BE 연동 힘들 때 테스트용!
+  const onSubmit = (data: any) => {
+    const submitData = { ...state, ...data };
+    console.log(submitData);
+    navigate("/join/success");
+  };
 
   return (
     <ScreenContainer>

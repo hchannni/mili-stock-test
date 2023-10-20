@@ -10,12 +10,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import GoBackButton from "../../components/GoBackButton";
 import axios from "axios";
+import ErrorMessage from "../../components/ErrorMessage";
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 16px;
 
   margin-top: 16px;
   padding: 10px 0;
@@ -57,15 +57,19 @@ function FindPWPage3() {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  const onSubmit = async (data: any) => {
-    const submitData = { ...state, ...data };
-    const response = await axios({
-      method: "post",
-      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/help/pwChange`,
-      data: submitData,
-    });
+  // const onSubmit = async (data: any) => {
+  //   const submitData = { ...state, ...data };
+  //   const response = await axios({
+  //     method: "post",
+  //     url: `${process.env.REACT_APP_DONG10_BASEURL}/members/help/pwChange`,
+  //     data: submitData,
+  //   });
 
-    console.log(response);
+  //   console.log(response);
+  //   navigate("/findpw/success");
+  // };
+  // BE 연동 힘들 때 테스트용!
+  const onSubmit = (data: any) => {
     navigate("/findpw/success");
   };
 
@@ -77,15 +81,41 @@ function FindPWPage3() {
             <Input
               control={control}
               name="newPassword"
-              rules={{ required: true }}
+              rules={{
+                required: true,
+                pattern: {
+                  value:
+                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{7,16}$/,
+                  message:
+                    "비밀번호는 영문+숫자+특수문자를 포함한 8~20자여야 합니다",
+                },
+              }}
               placeholder="새 비밀번호"
+              validationError={errors.newPassword ? true : false}
             />
+            {errors.newPassword && (
+              <ErrorMessage message={errors.newPassword?.message?.toString()} />
+            )}
             <Input
               control={control}
               name="newPasswordConfirmation"
-              rules={{ required: true }}
+              rules={{
+                required: true,
+                pattern: {
+                  value:
+                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{7,16}$/,
+                  message:
+                    "비밀번호는 영문+숫자+특수문자를 포함한 8~20자여야 합니다",
+                },
+              }}
               placeholder="새 비밀번호 확인"
+              validationError={errors.newPasswordConfirmation ? true : false}
             />
+            {errors.newPasswordConfirmation && (
+              <ErrorMessage
+                message={errors.newPasswordConfirmation?.message?.toString()}
+              />
+            )}
             <BtnList>
               <GoBackButton />
               {/* <Button opacity={true} text="취소" /> */}
