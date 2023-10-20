@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 import styled, { css, keyframes } from "styled-components";
 
 const fadein = keyframes`

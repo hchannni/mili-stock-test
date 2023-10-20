@@ -18,6 +18,7 @@ function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LogInPage />} />
+        <Route path="/main" element={<MainPage />} />
         <Route path="/join/auth" element={<JoinPage />} />
         <Route path="/join/idpw" element={<JoinPage2 />} />
         <Route path="/join/detail" element={<JoinPage3 />} />
