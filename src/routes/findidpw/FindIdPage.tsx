@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import ErrorMessage from "../../components/ErrorMessage";
+import { useState } from "react";
+import ToastPopup from "../../components/ToastPopup";
 
 const Form = styled.form`
   display: flex;
@@ -29,21 +31,30 @@ function FindIdPage() {
     control,
   } = useForm();
   const navigate = useNavigate();
+  const [toast, setToast] = useState(false);
+  let toastMessage = "Toast Message";
 
-  // const onSubmit = async (data: any) => {
-  //   const response = await axios({
-  //     method: "post",
-  //     url: `${process.env.REACT_APP_DONG10_BASEURL}/members/help/idInquiry`,
-  //     data: data,
-  //   });
+  const onSubmit = async (data: any) => {
+    const response = await axios({
+      method: "post",
+      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/help/idInquiry`,
+      data: data,
+    });
 
-  //   console.log(response);
-  //   navigate("/findid/milnum", { state: { ...response.data } });
-  // };
-  // BE 연동 힘들 때 테스트용!
-  const onSubmit = (data: any) => {
-    navigate("/findid/milnum", { state: { ...data } });
+    const { status, reason } = response.data;
+    if (status !== 200) {
+      // setError("", { message: reason }, { shouldFocus: true });
+      toastMessage = reason;
+      setToast(true);
+      return;
+    } else {
+      navigate("/findid/milnum", { state: { ...response.data } });
+    }
   };
+  // BE 연동 힘들 때 테스트용!
+  // const onSubmit = (data: any) => {
+  //   navigate("/findid/milnum", { state: { ...data } });
+  // };
 
   return (
     <ScreenContainer>
@@ -129,6 +140,9 @@ function FindIdPage() {
           <Button opacity={false} text="본인인증" />
         </BtnList>
       </Form>
+      {toast && (
+        <ToastPopup message={toastMessage} toast={toast} setToast={setToast} />
+      )}
     </ScreenContainer>
   );
 }

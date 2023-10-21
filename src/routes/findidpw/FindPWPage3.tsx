@@ -11,6 +11,8 @@ import styled from "styled-components";
 import GoBackButton from "../../components/GoBackButton";
 import axios from "axios";
 import ErrorMessage from "../../components/ErrorMessage";
+import { useState } from "react";
+import ToastPopup from "../../components/ToastPopup";
 
 const Form = styled.form`
   display: flex;
@@ -53,25 +55,42 @@ function FindPWPage3() {
     handleSubmit,
     formState: { errors },
     control,
+    setError,
   } = useForm();
   const navigate = useNavigate();
   const { state } = useLocation();
+  const [toast, setToast] = useState(false);
+  let toastMessage = "Toast Message";
 
-  // const onSubmit = async (data: any) => {
-  //   const submitData = { ...state, ...data };
-  //   const response = await axios({
-  //     method: "post",
-  //     url: `${process.env.REACT_APP_DONG10_BASEURL}/members/help/pwChange`,
-  //     data: submitData,
-  //   });
+  const onSubmit = async (data: any) => {
+    const submitData = { ...state, ...data };
+    const response = await axios({
+      method: "post",
+      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/help/pwChange`,
+      data: submitData,
+    });
 
-  //   console.log(response);
-  //   navigate("/findpw/success");
-  // };
-  // BE 연동 힘들 때 테스트용!
-  const onSubmit = (data: any) => {
+    const { status, reason } = response.data;
+    if (status !== 200) {
+      toastMessage = reason;
+      setToast(true);
+      return;
+    }
+    if (data.newPassword !== data.newPasswordConfirmation) {
+      setError(
+        "newPasswordConfirmation",
+        {
+          message: "비밀번호가 일치하지 않습니다. 다시 확인해 주세요!",
+        },
+        { shouldFocus: true }
+      );
+    }
     navigate("/findpw/success");
   };
+  // BE 연동 힘들 때 테스트용!
+  // const onSubmit = (data: any) => {
+  //   navigate("/findpw/success");
+  // };
 
   return (
     <ScreenContainer>
@@ -125,6 +144,13 @@ function FindPWPage3() {
             </BtnList>
           </Form>
         </Popup>
+        {toast && (
+          <ToastPopup
+            message={toastMessage}
+            toast={toast}
+            setToast={setToast}
+          />
+        )}
       </PopupBackground>
       {/* <Logo />
       <TitleBox

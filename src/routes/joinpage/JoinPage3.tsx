@@ -51,6 +51,7 @@ function JoinPage3() {
       // setError("", { message: reason }, { shouldFocus: true });
       toastMessage = reason;
       setToast(true);
+      return;
     } else {
       navigate("/join/success");
     }

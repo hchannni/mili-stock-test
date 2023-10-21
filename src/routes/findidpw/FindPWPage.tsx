@@ -10,6 +10,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import ErrorMessage from "../../components/ErrorMessage";
+import { useState } from "react";
+import ToastPopup from "../../components/ToastPopup";
 
 const Form = styled.form`
   display: flex;
@@ -41,21 +43,30 @@ function FindPWPage() {
     control,
   } = useForm();
   const navigate = useNavigate();
+  const [toast, setToast] = useState(false);
+  let toastMessage = "Toast Message";
 
-  // const onSubmit = async (data: any) => {
-  //   const response = await axios({
-  //     method: "post",
-  //     url: `${process.env.REACT_APP_DONG10_BASEURL}/members/help/idCheck`,
-  //     data: data,
-  //   });
+  const onSubmit = async (data: any) => {
+    const response = await axios({
+      method: "post",
+      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/help/idCheck`,
+      data: data,
+    });
 
-  //   console.log(response);
-  //   navigate("/findpw/auth", { state: { ...response.data } });
-  // };
-  // BE 연동 힘들 때 테스트용!
-  const onSubmit = (data: any) => {
-    navigate("/findpw/auth", { state: { ...data } });
+    const { status, reason } = response.data;
+    if (status !== 200) {
+      // setError("", { message: reason }, { shouldFocus: true });
+      toastMessage = reason;
+      setToast(true);
+      return;
+    } else {
+      navigate("/findpw/auth", { state: { ...data } });
+    }
   };
+  // BE 연동 힘들 때 테스트용!
+  // const onSubmit = (data: any) => {
+  //   navigate("/findpw/auth", { state: { ...data } });
+  // };
 
   return (
     <ScreenContainer>
@@ -83,6 +94,9 @@ function FindPWPage() {
           ID를 찾고 싶으신가요? (아이디 찾기)
         </FindIdLink>
       </Form>
+      {toast && (
+        <ToastPopup message={toastMessage} toast={toast} setToast={setToast} />
+      )}
     </ScreenContainer>
   );
 }
