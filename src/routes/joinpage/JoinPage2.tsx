@@ -25,13 +25,25 @@ function JoinPage2() {
     handleSubmit,
     formState: { errors },
     control,
+    setError,
   } = useForm();
   const navigate = useNavigate();
   const { state } = useLocation();
 
   const onSubmit = (data: any) => {
     const stateData = { ...state, ...data };
-    console.log(stateData);
+
+    // 여기에 토스트 메시지를 쓸까말까쓸까말까쓸말쓸말ㄹㄹ...
+    if (data.password !== data.passwordConfirmation) {
+      setError(
+        "passwordConfirmation",
+        {
+          message: "비밀번호가 일치하지 않습니다. 다시 확인해 주세요!",
+        },
+        { shouldFocus: true }
+      );
+      return;
+    }
     navigate("/join/detail", { state: { ...stateData } });
   };
 

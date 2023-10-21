@@ -33,29 +33,31 @@ function JoinPage() {
   } = useForm();
   const navigate = useNavigate();
   const [toast, setToast] = useState(false);
+  let toastMessage = "Toast Message";
 
-  // const onSubmit = async (data: any) => {
-  //   const response = await axios({
-  //     method: "post",
-  //     url: `${process.env.REACT_APP_DONG10_BASEURL}/members/identity`,
-  //     data: data,
-  //   });
-  //   console.log(response);
-  //   const { status, reason } = response.data;
-  //   if (status !== 200) {
-  //     // 에러 발생시키기 -> 단, 어디서 발생했는지는 알 수가 없다... 아숩
-  //     // setError의 name은 일단 job으로 두고, shouldFocus는 false로 해 두자(임시방편).
-  //     setError("job", { message: reason }, { shouldFocus: false });
-  //     setToast(true);
-  //     return;
-  //   } else {
-  //     navigate("/join/idpw", { state: { ...data } });
-  //   }
-  // };
-  // BE 연동 힘들 때 테스트용!
-  const onSubmit = (data: any) => {
-    navigate("/join/idpw", { state: { ...data } });
+  const onSubmit = async (data: any) => {
+    const response = await axios({
+      method: "post",
+      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/identity`,
+      data: data,
+    });
+
+    const { status, reason } = response.data;
+    if (status !== 200) {
+      // 에러 발생시키기 -> 단, 어디서 발생했는지는 알 수가 없다... 아숩
+      // 어디서 에러 발생했는지도 BE에 전달해줄 수 있는지 물어보기
+      // setError("", { message: reason }, { shouldFocus: true });
+      toastMessage = reason;
+      setToast(true);
+      return;
+    } else {
+      navigate("/join/idpw", { state: { ...data } });
+    }
   };
+  // BE 연동 힘들 때 테스트용!
+  // const onSubmit = (data: any) => {
+  //   navigate("/join/idpw", { state: { ...data } });
+  // };
 
   return (
     <ScreenContainer>
@@ -142,11 +144,7 @@ function JoinPage() {
         </BtnList>
       </Form>
       {toast && (
-        <ToastPopup
-          message="토스트 메시지 테스트"
-          toast={toast}
-          setToast={setToast}
-        />
+        <ToastPopup message={toastMessage} toast={toast} setToast={setToast} />
       )}
     </ScreenContainer>
   );
