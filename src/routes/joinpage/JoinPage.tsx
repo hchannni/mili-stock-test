@@ -33,7 +33,7 @@ function JoinPage() {
   } = useForm();
   const navigate = useNavigate();
   const [toast, setToast] = useState(false);
-
+  let toastMessage = "Toast Message";
 
   const onSubmit = async (data: any) => {
     const response = await axios({
