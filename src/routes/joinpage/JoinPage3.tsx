@@ -38,30 +38,30 @@ function JoinPage3() {
   const [toast, setToast] = useState(false);
   let toastMessage = "Toast Message";
 
-  const onSubmit = async (data: any) => {
-    const submitData = { ...state, ...data };
-
-    const response = await axios({
-      method: "post",
-      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/signup`,
-      data: submitData,
-    });
-    const { status, reason } = response.data;
-    if (status !== 200) {
-      // setError("", { message: reason }, { shouldFocus: true });
-      toastMessage = reason;
-      setToast(true);
-      return;
-    } else {
-      navigate("/join/success");
-    }
-  };
-  // BE 연동 힘들 때 테스트용!
-  // const onSubmit = (data: any) => {
+  // const onSubmit = async (data: any) => {
   //   const submitData = { ...state, ...data };
-  //   console.log(submitData);
-  //   navigate("/join/success");
+
+  //   const response = await axios({
+  //     method: "post",
+  //     url: `${process.env.REACT_APP_DONG10_BASEURL}/members/signup`,
+  //     data: submitData,
+  //   });
+  //   const { status, reason } = response.data;
+  //   if (status !== 200) {
+  //     // setError("", { message: reason }, { shouldFocus: true });
+  //     toastMessage = reason;
+  //     setToast(true);
+  //     return;
+  //   } else {
+  //     navigate("/join/success");
+  //   }
   // };
+  // BE 연동 힘들 때 테스트용!
+  const onSubmit = (data: any) => {
+    const submitData = { ...state, ...data };
+    console.log(submitData);
+    navigate("/join/success");
+  };
 
   return (
     <ScreenContainer>
