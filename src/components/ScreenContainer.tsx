@@ -7,7 +7,7 @@ const Screen = styled.div`
   margin: 0 auto;
 
   background-color: #ffffff;
-  height: 1000vh;
+  height: 100vh;
 `;
 
 interface ScreenContainerProps {
