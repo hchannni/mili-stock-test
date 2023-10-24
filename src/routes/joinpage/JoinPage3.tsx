@@ -40,7 +40,6 @@ function JoinPage3() {
 
   const onSubmit = async (data: any) => {
     const submitData = { ...state, ...data };
-
     const response = await axios({
       method: "post",
       url: `${process.env.REACT_APP_DONG10_BASEURL}/members/signup`,
