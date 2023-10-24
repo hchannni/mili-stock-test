@@ -63,6 +63,19 @@ function FindPWPage3() {
   let toastMessage = "Toast Message";
 
   const onSubmit = async (data: any) => {
+    // 1. '새 비밀번호' & '새 비밀번호 확인' 같은지 체크
+    if (data.newPassword !== data.newPasswordConfirmation) {
+      setError(
+        "newPasswordConfirmation",
+        {
+          message: "비밀번호가 일치하지 않습니다. 다시 확인해 주세요!",
+        },
+        { shouldFocus: true }
+      );
+      return;
+    }
+
+    // 2. 1번 통과했으면, BE에 request 보내기
     const submitData = { ...state, ...data };
     const response = await axios({
       method: "post",
@@ -76,15 +89,7 @@ function FindPWPage3() {
       setToast(true);
       return;
     }
-    if (data.newPassword !== data.newPasswordConfirmation) {
-      setError(
-        "newPasswordConfirmation",
-        {
-          message: "비밀번호가 일치하지 않습니다. 다시 확인해 주세요!",
-        },
-        { shouldFocus: true }
-      );
-    }
+
     navigate("/findpw/success");
   };
   // BE 연동 힘들 때 테스트용!
