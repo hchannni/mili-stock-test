@@ -33,31 +33,31 @@ function JoinPage() {
   } = useForm();
   const navigate = useNavigate();
   const [toast, setToast] = useState(false);
-  let toastMessage = "Toast Message";
+  const [toastMessage, setToastMessage] = useState("Toast Message");
 
-  // const onSubmit = async (data: any) => {
-  //   const response = await axios({
-  //     method: "post",
-  //     url: `${process.env.REACT_APP_DONG10_BASEURL}/members/identity`,
-  //     data: data,
-  //   });
+  const onSubmit = async (data: any) => {
+    const response = await axios({
+      method: "post",
+      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/identity`,
+      data: data,
+    });
 
-  //   const { status, reason } = response.data;
-  //   if (status !== 200) {
-  //     // 에러 발생시키기 -> 단, 어디서 발생했는지는 알 수가 없다... 아숩
-  //     // 어디서 에러 발생했는지도 BE에 전달해줄 수 있는지 물어보기
-  //     // setError("", { message: reason }, { shouldFocus: true });
-  //     toastMessage = reason;
-  //     setToast(true);
-  //     return;
-  //   } else {
-  //     navigate("/join/idpw", { state: { ...data } });
-  //   }
-  // };
-  // BE 연동 힘들 때 테스트용!
-  const onSubmit = (data: any) => {
-    navigate("/join/idpw", { state: { ...data } });
+    const { status, reason } = response.data;
+    if (status !== 200) {
+      // 에러 발생시키기 -> 단, 어디서 발생했는지는 알 수가 없다... 아숩
+      // 어디서 에러 발생했는지도 BE에 전달해줄 수 있는지 물어보기
+      // setError("", { message: reason }, { shouldFocus: true });
+      setToastMessage(reason);
+      setToast(true);
+      return;
+    } else {
+      navigate("/join/idpw", { state: { ...data } });
+    }
   };
+  // BE 연동 힘들 때 테스트용!
+  // const onSubmit = (data: any) => {
+  //   navigate("/join/idpw", { state: { ...data } });
+  // };
 
   return (
     <ScreenContainer>
