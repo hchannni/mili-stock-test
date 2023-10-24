@@ -46,7 +46,7 @@ function JoinPage3() {
       data: submitData,
     });
     const { status, reason } = response.data;
-    if (status !== 200) {
+    if (status !== 201) {
       // setError("", { message: reason }, { shouldFocus: true });
       setToastMessage(reason);
       setToast(true);
