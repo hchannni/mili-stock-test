@@ -107,9 +107,9 @@ function LogInPage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [toast, setToast] = useState(true);
+  const [toast, setToast] = useState(false);
   const navigate = useNavigate();
-  let toastMessage = "Toast Message";
+  const [toastMessage, setToastMessage] = useState("Toast Message");
 
   const onSubmit = async (data: any) => {
     const response = await axios({
@@ -118,10 +118,9 @@ function LogInPage() {
       data: data,
     });
 
-    console.log(response.data);
     const { status, reason } = response.data;
     if (status !== 200) {
-      toastMessage = reason;
+      setToastMessage(reason);
       setToast(true);
       return;
     } else {

@@ -60,7 +60,7 @@ function FindPWPage3() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [toast, setToast] = useState(false);
-  let toastMessage = "Toast Message";
+  const [toastMessage, setToastMessage] = useState("Toast Message");
 
   const onSubmit = async (data: any) => {
     // 1. '새 비밀번호' & '새 비밀번호 확인' 같은지 체크
@@ -85,7 +85,7 @@ function FindPWPage3() {
 
     const { status, reason } = response.data;
     if (status !== 200) {
-      toastMessage = reason;
+      setToastMessage(reason);
       setToast(true);
       return;
     }
