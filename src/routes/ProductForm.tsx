@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useState } from "react";
-import URL from "../url";
 
 const ProductForm: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -44,6 +43,7 @@ const ProductForm: React.FC = () => {
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
+        console.log('onsubmit triggered!')
         e.preventDefault();
 
         const formDataForSubmission = new FormData();
@@ -63,7 +63,7 @@ const ProductForm: React.FC = () => {
         }
 
         try {
-            const response = await axios.post(`${URL}/create`, formDataForSubmission);
+            const response = await axios.post(`${process.env.REACT_APP_DONG10_BASEURL}/product/create`, formDataForSubmission);
             // Handle the response, e.g., show a success message to the user
             console.log("Product created successfully:", response.data);
         } catch (error) {
