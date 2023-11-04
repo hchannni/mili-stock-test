@@ -10,6 +10,7 @@ import FindPWPage from "./routes/findidpw/FindPWPage";
 import FindPWPage2 from "./routes/findidpw/FindPWPage2";
 import FindPWPage3 from "./routes/findidpw/FindPWPage3";
 import FindPWPage4 from "./routes/findidpw/FindPWPage4";
+import ProductForm from "./routes/ProductForm";
 import LogInPage from "./routes/LogInPage";
 
 // Switch : 한 번에 하나의 Route를 렌더링할 수 있는 방법.
@@ -29,6 +30,7 @@ function Router() {
         <Route path="/findpw/auth" element={<FindPWPage2 />} />
         <Route path="/findpw/renewal" element={<FindPWPage3 />} />
         <Route path="/findpw/success" element={<FindPWPage4 />} />
+        <Route path="/product/create" element={<ProductForm />} />
       </Routes>
     </BrowserRouter>
   );
