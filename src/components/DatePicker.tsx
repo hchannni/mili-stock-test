@@ -5,16 +5,25 @@ import { ko } from "date-fns/esm/locale"; //한국어 설정
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faCalendar } from "@fortawesome/free-regular-svg-icons";
+import { useController, UseControllerProps } from "react-hook-form";
+import moment from "moment";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "../datePickerWrapper.css";
 
-const DatePickerBox = styled.div`
+interface ContainerProps {
+  error: boolean;
+}
+
+const DatePickerBox = styled.div<ContainerProps>`
   width: 100%;
   padding: 10px;
   border: none;
   border-bottom: 1.5px solid black;
   font-size: 16px;
+  margin-top: 16px;
+  color: ${(props) => (props.error ? "#E00B03" : "#000")};
+  border-color: ${(props) => (props.error ? "#E00B03" : "#000")};
 
   display: flex;
   justify-content: space-around;
@@ -29,10 +38,12 @@ const DatePickerBox = styled.div`
   }
 `;
 
-const StyledDatePicker = styled(ReactDatePicker)`
+const StyledDatePicker = styled(ReactDatePicker)<ContainerProps>`
   border: none;
   width: 100%;
   font-size: 16px;
+  color: ${(props) => (props.error ? "#E00B03" : "#000")};
+  border-color: ${(props) => (props.error ? "#E00B03" : "#000")};
 
   &::placeholder {
     text-align: left;
@@ -55,21 +66,29 @@ const StyledDatePicker = styled(ReactDatePicker)`
 
 const FAIcon = styled(FontAwesomeIcon)``;
 
-interface DatePickerProps {
+interface DatePickerProps extends UseControllerProps {
   placeholder: string;
+  validationError: boolean;
 }
 
-function DatePicker({ placeholder }: DatePickerProps) {
-  const [startDate, setStartDate] = useState(new Date());
+function DatePicker(props: DatePickerProps) {
+  const { field } = useController(props);
+  const [startDate, setStartDate] = useState<Date | null>(null);
   return (
-    <DatePickerBox>
+    <DatePickerBox error={props.validationError}>
       <StyledDatePicker
+        {...field}
         wrapperClassName="datePickerWrapper"
         locale={ko}
-        placeholderText={placeholder}
+        placeholderText={props.placeholder}
         dateFormat="yyyy년 MM월 dd일"
-        onChange={(date: Date) => setStartDate(date)}
-        // selected={startDate}
+        onChange={(date: Date) => {
+          field.onChange(moment(date).format("YYYY.MM.DD"));
+          setStartDate(date);
+        }}
+        selected={startDate}
+        showYearDropdown
+        error={props.validationError}
       ></StyledDatePicker>
       <FAIcon icon={faCalendar as IconProp} />
     </DatePickerBox>

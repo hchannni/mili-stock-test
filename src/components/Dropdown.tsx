@@ -2,9 +2,11 @@ import { styled } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { useController, UseControllerProps } from "react-hook-form";
 
 interface ContainerProps {
   disabled: boolean;
+  error: boolean;
 }
 
 const Containter = styled.div<ContainerProps>`
@@ -12,8 +14,11 @@ const Containter = styled.div<ContainerProps>`
   border-bottom: 1.5px solid black;
   padding-right: 10px;
   font-size: 16px;
-  color: ${(props) => (props.disabled ? "#a0a0a0" : "black")};
-  border-color: ${(props) => (props.disabled ? "#a0a0a0" : "black")};
+  color: ${(props) =>
+    props.disabled ? "#a0a0a0" : props.error ? "#E00B03" : "#000"};
+  border-color: ${(props) =>
+    props.disabled ? "#a0a0a0" : props.error ? "#E00B03" : "#000"};
+  margin-top: 16px;
 
   display: flex;
   justify-content: space-around;
@@ -57,19 +62,39 @@ const Option = styled.option`
 
 const FAIcon = styled(FontAwesomeIcon)``;
 
-interface DropdownProps {
+interface DropdownProps extends UseControllerProps {
   placeholder: string;
+  options: string[];
   disabled?: boolean;
+  validationError: boolean;
 }
 
-function Dropdown({ placeholder, disabled = false }: DropdownProps) {
+// function Dropdown({ placeholder, disabled = false }: DropdownProps) {
+//   return (
+//     <Containter disabled={disabled}>
+//       <Select disabled={disabled}>
+//         <Option value="">{placeholder}</Option>
+//         <Option>육군</Option>
+//         <Option>해군</Option>
+//         <Option>공군</Option>
+//       </Select>
+//       <FAIcon icon={faChevronDown as IconProp} />
+//     </Containter>
+//   );
+// }
+
+function Dropdown(props: DropdownProps) {
+  const { field } = useController(props);
   return (
-    <Containter disabled={disabled}>
-      <Select disabled={disabled}>
-        <Option value="">{placeholder}</Option>
-        <Option>육군</Option>
-        <Option>해군</Option>
-        <Option>공군</Option>
+    <Containter
+      disabled={props.disabled ?? false}
+      error={props.validationError}
+    >
+      <Select {...field}>
+        <Option value="">{props.placeholder}</Option>
+        {props.options.map((value) => (
+          <Option value={value}>{value}</Option>
+        ))}
       </Select>
       <FAIcon icon={faChevronDown as IconProp} />
     </Containter>
