@@ -74,15 +74,23 @@ const ProductForm: React.FC = () => {
                 'Authorization': `Bearer ${accessToken}`,
                 'Content-Type': 'multipart/form-data', // Or the appropriate content type for your request
             };
-
+            console.log('onsubmit triggered!1')
             const response = await axios.post(
                 `${process.env.REACT_APP_DONG10_BASEURL}/products/create`,
                 formDataForSubmission,
                 { headers }
             );
+            console.log('onsubmit triggered!2')
 
-            // Handle the response, e.g., show a success message to the user
-            console.log("Product created successfully:", response.data);
+            // Check if the response contains an error message
+            if (response.data.error) {
+                console.log('onsubmit triggered!3')
+                console.error("Error creating product:", response.data.error);
+            } else {
+                // Handle the successful response, e.g., show a success message to the user
+                console.log("Product created successfully:", response.data);
+            }
+
         } catch (error) {
             // Handle errors, e.g., display validation errors or a failure message
             console.error("Error creating product:", error);
