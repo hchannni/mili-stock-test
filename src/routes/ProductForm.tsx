@@ -63,7 +63,24 @@ const ProductForm: React.FC = () => {
         }
 
         try {
-            const response = await axios.post(`${process.env.REACT_APP_DONG10_BASEURL}/product/create`, formDataForSubmission);
+            const accessToken = localStorage.getItem('accessToken');
+            if (!accessToken) {
+                // Handle the case where the access token is missing, e.g., redirect to the login page.
+                console.error('Access token is missing.');
+                return;
+            }
+
+            const headers = {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'multipart/form-data', // Or the appropriate content type for your request
+            };
+
+            const response = await axios.post(
+                `${process.env.REACT_APP_DONG10_BASEURL}/products/create`,
+                formDataForSubmission,
+                { headers }
+            );
+
             // Handle the response, e.g., show a success message to the user
             console.log("Product created successfully:", response.data);
         } catch (error) {

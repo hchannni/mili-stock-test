@@ -118,13 +118,14 @@ function LogInPage() {
       data: data,
     });
 
-    const { status, reason } = response.data;
+    const { status, accessToken, reason } = response.data;
     if (status !== 200) {
       setToastMessage(reason);
       setToast(true);
       return;
     } else {
       // 유저 데이터 넘기는 방법은 ..?? BE에 물어보기
+      localStorage.setItem("accessToken", accessToken); // 태연 추가
       navigate("/main");
     }
   };
