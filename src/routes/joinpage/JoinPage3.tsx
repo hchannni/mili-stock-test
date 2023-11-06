@@ -36,20 +36,19 @@ function JoinPage3() {
   const { state } = useLocation();
 
   const [toast, setToast] = useState(false);
-  let toastMessage = "Toast Message";
+  const [toastMessage, setToastMessage] = useState("Toast Message");
 
   const onSubmit = async (data: any) => {
     const submitData = { ...state, ...data };
-
     const response = await axios({
       method: "post",
       url: `${process.env.REACT_APP_DONG10_BASEURL}/members/signup`,
       data: submitData,
     });
     const { status, reason } = response.data;
-    if (status !== 200) {
+    if (status !== 201) {
       // setError("", { message: reason }, { shouldFocus: true });
-      toastMessage = reason;
+      setToastMessage(reason);
       setToast(true);
       return;
     } else {
