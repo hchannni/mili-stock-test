@@ -29,7 +29,6 @@ function JoinPage() {
     handleSubmit,
     formState: { errors },
     control,
-    setError,
   } = useForm();
   const navigate = useNavigate();
   const [toast, setToast] = useState(false);
