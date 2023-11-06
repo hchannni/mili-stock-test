@@ -14,6 +14,8 @@ import FindPWPage4 from "./routes/findidpw/FindPWPage4";
 import LogInPage from "./routes/LogInPage";
 import "./transition.css";
 import MyPageMain from "./routes/mypage/MyPageMain";
+import PWCheck from "./routes/mypage/PWCheck";
+import EditPersonalInfo from "./routes/mypage/EditPersonalInfo";
 
 function Router() {
   const location = useLocation();
@@ -34,6 +36,8 @@ function Router() {
           <Route path="/findpw/renewal" element={<FindPWPage3 />} />
           <Route path="/findpw/success" element={<FindPWPage4 />} />
           <Route path="/mypage/main" element={<MyPageMain />} />
+          <Route path="/mypage/editpinfo/pwcheck" element={<PWCheck />} />
+          <Route path="/mypage/editpinfo/home" element={<EditPersonalInfo />} />
         </Routes>
       </CSSTransition>
     </TransitionGroup>

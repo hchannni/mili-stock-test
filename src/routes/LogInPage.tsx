@@ -125,7 +125,8 @@ function LogInPage() {
       return;
     } else {
       // 유저 데이터 넘기는 방법은 ..?? BE에 물어보기
-      navigate("/main");
+      // navigate("/main");
+      navigate("/mypage/main", { state: { ...response.data } });
     }
   };
 
