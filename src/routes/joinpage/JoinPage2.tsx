@@ -1,5 +1,5 @@
 import Logo from "../../components/Logo";
-import Input, { InputProps } from "../../components/Input";
+import Input from "../../components/Input";
 import Button from "../../components/Button";
 import BtnList from "../../components/BtnList";
 import ScreenContainer from "../../components/ScreenContainer";
