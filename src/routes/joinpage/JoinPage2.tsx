@@ -30,6 +30,7 @@ function JoinPage2() {
     formState: { errors },
     control,
     setError,
+    clearErrors,
   } = useForm();
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -38,22 +39,25 @@ function JoinPage2() {
   const [toastMessage, setToastMessage] = useState("Toast Message");
 
   const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+    const obj = {
+      userId: e.target.value,
+    };
 
     const response = await axios({
       method: "post",
       url: `${process.env.REACT_APP_DONG10_BASEURL}/members/idDuplicate`,
-      data: e.target.value,
+      data: JSON.stringify(obj),
+      headers: { "Content-Type": "application/json" },
     });
 
     const { status, reason } = response.data;
     if (status !== 200) {
-      console.log(reason);
       setError("userId", { message: reason }, { shouldFocus: true });
       setToastMessage(reason);
       setToast(true);
       return;
     } else {
+      clearErrors("userId");
       setIdAccepted(true);
       return;
     }
