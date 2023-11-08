@@ -32,14 +32,14 @@ const Username = styled.h2`
 `;
 
 function MyPageMain() {
-  // const { state } = useLocation();
+  const { state } = useLocation();
+
   return (
     <ScreenContainer>
       <PageHeader pageTitle="My 페이지" />
       <Profile>
         <ProfileImg />
-        {/* <Username>{`${state.name} 님`}</Username> */}
-        <Username>{`OOO 님`}</Username>
+        <Username>{`${state.name} 님`}</Username>
       </Profile>
       <Menus>
         <Link to={`/mypage/editpinfo/pwcheck`}>

@@ -57,8 +57,11 @@ function ChangePassword() {
 
     const response = await axios({
       method: "post",
-      url: `${process.env.REACT_APP_DONG10_BASEURL}`,
+      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/edit/pwChange`,
       data: data,
+      // headers: {
+      //   Authorization: `Bearer ${accessToken}`,
+      // },
     });
 
     const { status, reason } = response.data;
@@ -70,10 +73,6 @@ function ChangePassword() {
       // navigate("/join/idpw", { state: { ...data } });
     }
   };
-  // BE 연동 힘들 때 테스트용!
-  // const onSubmit = (data: any) => {
-  //   navigate("/join/idpw", { state: { ...data } });
-  // };
 
   return (
     <ScreenContainer>

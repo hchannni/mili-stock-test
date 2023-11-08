@@ -37,8 +37,11 @@ function UpdateUserInfo() {
   const onSubmit = async (data: any) => {
     const response = await axios({
       method: "post",
-      url: `${process.env.REACT_APP_DONG10_BASEURL}`,
+      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/edit/infoChange`,
       data: data,
+      // headers: {
+      //   Authorization: `Bearer ${accessToken}`,
+      // },
     });
 
     const { status, reason } = response.data;
@@ -50,10 +53,6 @@ function UpdateUserInfo() {
       // navigate("/join/idpw", { state: { ...data } });
     }
   };
-  // BE 연동 힘들 때 테스트용!
-  // const onSubmit = (data: any) => {
-  //   navigate("/join/idpw", { state: { ...data } });
-  // };
 
   return (
     <ScreenContainer>
@@ -106,6 +105,17 @@ function UpdateUserInfo() {
         />
         {errors.birth && (
           <ErrorMessage message={errors?.birth?.message?.toString()} />
+        )}
+        <Dropdown
+          control={control}
+          name="gender"
+          rules={{ required: "'성별'은 필수 항목입니다." }}
+          placeholder="성별"
+          options={["남", "여"]}
+          validationError={errors.gender ? true : false}
+        />
+        {errors.gender && (
+          <ErrorMessage message={errors?.gender?.message?.toString()} />
         )}
         <Input
           control={control}

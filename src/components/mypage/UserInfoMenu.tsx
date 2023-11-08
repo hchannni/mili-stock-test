@@ -9,6 +9,7 @@ const MenuBox = styled.div`
   padding: 0 8px;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 12px;
 `;
 
 const MenuTitle = styled.span`

@@ -6,6 +6,7 @@ import {
   faChevronLeft,
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   padding-top: 64px;
@@ -41,20 +42,33 @@ const PageTitle = styled.h1`
   letter-spacing: -0.408px;
 `;
 
+const Btn = styled.button`
+  border: none;
+  background-color: inherit;
+`;
+
 interface PageHeaderProps {
   pageTitle: string;
 }
 
 function PageHeader(props: PageHeaderProps) {
+  const navigate = useNavigate();
+
   return (
     <Container>
       <Title>
-        <FAIcon icon={faChevronLeft as IconProp} />
+        <Btn onClick={() => navigate(-1)}>
+          <FAIcon icon={faChevronLeft as IconProp} />
+        </Btn>
         <PageTitle>{props.pageTitle}</PageTitle>
       </Title>
       <Icons>
-        <FAIcon icon={faMagnifyingGlass as IconProp} />
-        <FAIcon icon={faCartShopping as IconProp} />
+        <Btn onClick={() => navigate(-1)}>
+          <FAIcon icon={faMagnifyingGlass as IconProp} />
+        </Btn>
+        <Btn onClick={() => navigate(-1)}>
+          <FAIcon icon={faCartShopping as IconProp} />
+        </Btn>
       </Icons>
     </Container>
   );

@@ -50,10 +50,14 @@ function PWCheck() {
 
   const onSubmit = async (data: any) => {
     // API Call url 체크!!
+    // header에 accessToken을 bearerToken 방식으로 넣어줘야 함.
     const response = await axios({
       method: "post",
-      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/edit`,
+      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/edit//pwCheck`,
       data: data,
+      // headers: {
+      //   Authorization: `Bearer ${accessToken}`,
+      // },
     });
 
     const { status, reason } = response.data;
@@ -66,10 +70,6 @@ function PWCheck() {
       navigate("/mypage/editpinfo/home");
     }
   };
-  // BE 연동 힘들 때 테스트용!
-  // const onSubmit = (data: any) => {
-  //   navigate("/findpw/auth", { state: { ...data } });
-  // };
 
   return (
     <ScreenContainer>
