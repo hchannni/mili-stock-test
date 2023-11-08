@@ -29,7 +29,7 @@ function Router() {
         <Route path="/findpw/auth" element={<FindPWPage2 />} />
         <Route path="/findpw/renewal" element={<FindPWPage3 />} />
         <Route path="/findpw/success" element={<FindPWPage4 />} />
-        <Route path="/findpw/success" element={<CartPage />} />
+        <Route path="/cartPage" element={<CartPage />} />
       </Routes>
     </BrowserRouter>
   );

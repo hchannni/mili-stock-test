@@ -3,49 +3,32 @@ import ProductCard from './ProductCard'; // Import the ProductCard component
 
 function CartPage() {
   const [cart, setCart] = useState<any>(null);
-  const [carts, setCarts] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [isChecked, setIsChecked] = useState(true);
-  const [allBtnCheck, setAllBtnCheck] = useState(true);
-  const [isAllChecked, setIsAllChecked] = useState([]);
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      getCartItem();
-    } else {
-      alert("로그인을 해주세요!");
-      // Assuming you have access to the history object via a hook or context, replace this line accordingly.
-      // For example, you can use the useHistory hook from 'react-router-dom'.
-      // history.push("/main");
-    }
-  }, []);
-
-  const getCartItem = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("accessToken");
     if (token) {
-      fetch(`${URL}cart`, {
+      fetch(`${process.env.REACT_APP_DONG10_BASEURL}/carts`, {
         headers: {
-          Authorization: token,
+          'Authorization': `Bearer ${token}`,
         },
       })
-        .then((res) => res.json())
-        .then(({ carts }) => {
-          let totalPrice = 0;
-          let emptyArr = [];
-          for (let i = 0; carts.length > i; i++) {
-            totalPrice += carts[i].price * carts[i].count;
-            emptyArr.push(true);
-          }
-
-          setCarts(carts);
-          setTotalPrice(totalPrice);
-          // setIsAllChecked(emptyArr);
-        });
+      .then((response) => response.json())
+      .then((data) => setCart(data))
+      .catch((error) => console.error(error));
     }
     else {
       console.error("Token is null. Please log in to access the cart.");
     }
-  };
+  }, []);
+
+  if (!cart) {
+    return <div>Loading...</div>;
+  }
+
+  const totalPrice = cart.products.reduce(
+    (total: number, product: any) => total + product.productPrice,
+    0
+  );
 
   return (
     <div>

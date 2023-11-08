@@ -1,6 +1,8 @@
+import axios from "axios";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useState } from "react";
 
 const LogInScreenContainer = styled.div`
   max-width: 390px;
@@ -102,10 +104,27 @@ function LogInPage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const [toast, setToast] = useState(false);
+  const navigate = useNavigate();
+  const [toastMessage, setToastMessage] = useState("Toast Message");
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-    // navigate to 'main' page
+  const onSubmit = async (data: any) => {
+    const response = await axios({
+      method: "post",
+      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/login`,
+      data: data,
+    });
+
+    const { status, accessToken, reason } = response.data;
+    if (status !== 200) {
+      setToastMessage(reason);
+      setToast(true);
+      return;
+    } else {
+      // 유저 데이터 넘기는 방법은 ..?? BE에 물어보기
+      localStorage.setItem("accessToken", accessToken); // 태연 추가
+      navigate("/main");
+    }
   };
 
   return (
