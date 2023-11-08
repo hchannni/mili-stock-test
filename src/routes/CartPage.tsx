@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import ProductCard from './ProductCard'; // Import the ProductCard component
 
 function CartPage() {
+  const [cart, setCart] = useState<any>(null);
   const [carts, setCarts] = useState([]);
-  const [totalPrice, setTotalPrice] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);
   const [isChecked, setIsChecked] = useState(true);
   const [allBtnCheck, setAllBtnCheck] = useState(true);
   const [isAllChecked, setIsAllChecked] = useState([]);
@@ -20,28 +21,46 @@ function CartPage() {
   }, []);
 
   const getCartItem = () => {
-    fetch(`${URL}cart`, {
-      headers: {
-        Authorization: localStorage.getItem("token"),
-      },
-    })
-      .then((res) => res.json())
-      .then(({ carts }) => {
-        let totalPrice = 0;
-        let emptyArr = [];
-        for (let i = 0; carts.length > i; i++) {
-          totalPrice += carts[i].price * carts[i].count;
-          emptyArr.push(true);
-        }
+    const token = localStorage.getItem("token");
+    if (token) {
+      fetch(`${URL}cart`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+        .then((res) => res.json())
+        .then(({ carts }) => {
+          let totalPrice = 0;
+          let emptyArr = [];
+          for (let i = 0; carts.length > i; i++) {
+            totalPrice += carts[i].price * carts[i].count;
+            emptyArr.push(true);
+          }
 
-        setCarts(carts);
-        setTotalPrice(totalPrice);
-        setIsAllChecked(emptyArr);
-      });
+          setCarts(carts);
+          setTotalPrice(totalPrice);
+          // setIsAllChecked(emptyArr);
+        });
+    }
+    else {
+      console.error("Token is null. Please log in to access the cart.");
+    }
   };
 
   return (
-    // Your JSX for the Cart component here
+    <div>
+      <h1>Shopping Cart</h1>
+      {cart.products.map((product: any) => (
+        <ProductCard
+          key={product.productNumber}
+          title={product.productTitle}
+          price={product.productPrice}
+          stock={product.productStock}
+          imageUrl={product.product_image_url}
+        />
+      ))}
+      <p>Total Price: ${totalPrice}</p>
+    </div>
   );
 }
 
