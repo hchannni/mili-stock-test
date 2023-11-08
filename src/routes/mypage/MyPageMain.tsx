@@ -10,7 +10,7 @@ const Profile = styled.div`
   align-items: center;
   gap: 8px;
   width: 100%;
-  padding: 40px 10px;
+  padding: 0 10px 40px 10px;
 `;
 
 const ProfileImg = styled.div`
@@ -32,13 +32,14 @@ const Username = styled.h2`
 `;
 
 function MyPageMain() {
-  const { state } = useLocation();
+  // const { state } = useLocation();
   return (
     <ScreenContainer>
       <PageHeader pageTitle="My 페이지" />
       <Profile>
         <ProfileImg />
-        <Username>{`${state.name} 님`}</Username>
+        {/* <Username>{`${state.name} 님`}</Username> */}
+        <Username>{`OOO 님`}</Username>
       </Profile>
       <Menus>
         <Link to={`/mypage/editpinfo/pwcheck`}>
