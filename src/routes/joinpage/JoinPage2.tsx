@@ -24,6 +24,15 @@ const Form = styled.form`
   width: 100%;
 `;
 
+const AcceptedMsg = styled.p`
+  width: 100%;
+  margin-top: 4px;
+
+  color: #008000;
+  font-size: 12px;
+  text-align: left;
+`;
+
 function JoinPage2() {
   const {
     handleSubmit,
@@ -31,7 +40,9 @@ function JoinPage2() {
     control,
     setError,
     clearErrors,
+    watch,
   } = useForm();
+  console.log(watch());
   const navigate = useNavigate();
   const { state } = useLocation();
   const [idAccepted, setIdAccepted] = useState(false);
@@ -52,6 +63,7 @@ function JoinPage2() {
 
     const { status, reason } = response.data;
     if (status !== 200) {
+      setIdAccepted(false);
       setError("userId", { message: reason }, { shouldFocus: true });
       setToastMessage(reason);
       setToast(true);
@@ -130,6 +142,9 @@ function JoinPage2() {
         />
         {errors.userId && (
           <ErrorMessage message={errors?.userId?.message?.toString()} />
+        )}
+        {idAccepted && (
+          <AcceptedMsg>{`사용 가능한 아이디입니다 :)`}</AcceptedMsg>
         )}
         <Input
           control={control}
