@@ -17,6 +17,7 @@ import MyPageMain from "./routes/mypage/MyPageMain";
 import PWCheck from "./routes/mypage/PWCheck";
 import EditPersonalInfo from "./routes/mypage/EditPersonalInfo";
 import UpdateUserInfo from "./routes/mypage/UpdateUserInfo";
+import ChangePassword from "./routes/mypage/ChangePassword";
 
 function Router() {
   const location = useLocation();
@@ -40,6 +41,7 @@ function Router() {
           <Route path="/mypage/editpinfo/pwcheck" element={<PWCheck />} />
           <Route path="/mypage/editpinfo/home" element={<EditPersonalInfo />} />
           <Route path="/mypage/editpinfo/user" element={<UpdateUserInfo />} />
+          <Route path="/mypage/editpinfo/pw" element={<ChangePassword />} />
         </Routes>
       </CSSTransition>
     </TransitionGroup>
