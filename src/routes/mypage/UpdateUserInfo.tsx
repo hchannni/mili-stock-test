@@ -2,7 +2,7 @@ import styled from "styled-components";
 import ScreenContainer from "../../components/ScreenContainer";
 import PageHeader from "../../components/mypage/PageHeader";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import ErrorMessage from "../../components/ErrorMessage";
@@ -11,6 +11,7 @@ import BtnList from "../../components/BtnList";
 import Button from "../../components/Button";
 import ToastPopup from "../../components/ToastPopup";
 import DatePicker from "../../components/DatePicker";
+import Dropdown from "../../components/Dropdown";
 
 const Form = styled.form`
   display: flex;
@@ -26,6 +27,7 @@ function UpdateUserInfo() {
     control,
   } = useForm();
   const navigate = useNavigate();
+  const { state } = useLocation();
   const [toast, setToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("Toast Message");
 
@@ -60,31 +62,34 @@ function UpdateUserInfo() {
         <Input
           control={control}
           name="name"
-          disabled={false}
-          rules={{
-            required: "'이름'은 필수 항목입니다.",
-            pattern: {
-              value: /^[a-zA-Z가-힣\\\\s]{2,15}/,
-              message:
-                "'이름'은 영문자, 한글, 공백포함 2자부터 15자까지 가능합니다.",
-            },
-          }}
-          placeholder="이름"
+          disabled={true}
+          rules={{ required: true }}
+          defaultValue={state.name}
+          placeholder={`${state.name} (이름)`}
+          shouldUnregister={true}
           validationError={errors.name ? true : false}
         />
-        {errors.name && (
-          <ErrorMessage message={errors?.name?.message?.toString()} />
-        )}
         <Input
           control={control}
-          name="phoneNumber"
-          rules={{ required: "'휴대전화'는 필수 항목입니다." }}
-          placeholder="휴대전화"
-          validationError={errors.phoneNumber ? true : false}
+          name="serviceNumber"
+          disabled={true}
+          rules={{ required: true }}
+          defaultValue={state.serviceNumber}
+          placeholder={`${state.serviceNumber} (군번)`}
+          shouldUnregister={true}
+          validationError={errors.serviceNumber ? true : false}
         />
-        {errors.phoneNumber && (
-          <ErrorMessage message={errors?.phoneNumber?.message?.toString()} />
-        )}
+        <Dropdown
+          control={control}
+          name="job"
+          disabled={true}
+          rules={{ required: true }}
+          defaultValue={state.job}
+          placeholder={state.job}
+          options={["장교", "부사관", "병사", "군무원"]}
+          shouldUnregister={true}
+          validationError={errors.job ? true : false}
+        />
         <DatePicker
           control={control}
           name="birth"
@@ -104,6 +109,16 @@ function UpdateUserInfo() {
         )}
         <Input
           control={control}
+          name="phoneNumber"
+          rules={{ required: "'휴대전화'는 필수 항목입니다." }}
+          placeholder="휴대전화"
+          validationError={errors.phoneNumber ? true : false}
+        />
+        {errors.phoneNumber && (
+          <ErrorMessage message={errors?.phoneNumber?.message?.toString()} />
+        )}
+        <Input
+          control={control}
           name="email"
           rules={{
             required: "'이메일'은 필수 항목입니다.",
@@ -117,6 +132,62 @@ function UpdateUserInfo() {
         />
         {errors.email && (
           <ErrorMessage message={errors?.email?.message?.toString()} />
+        )}
+        <Dropdown
+          control={control}
+          name="affiliation"
+          disabled={true}
+          rules={{ required: true }}
+          defaultValue={state.affiliation}
+          placeholder={state.affiliation}
+          options={["육군", "해군", "공군", "해병대"]}
+          shouldUnregister={true}
+          validationError={errors.affiliation ? true : false}
+        />
+        <Dropdown
+          control={control}
+          name="militaryRank"
+          rules={{ required: "'계급'은 필수 항목입니다." }}
+          placeholder="계급"
+          options={["병장", "상병", "일병", "이병"]}
+          validationError={errors.militaryRank ? true : false}
+        />
+        {errors.militaryRank && (
+          <ErrorMessage message={errors?.militaryRank?.message?.toString()} />
+        )}
+        <DatePicker
+          control={control}
+          name="appointment"
+          rules={{
+            required: "'임관일자'는 필수 항목입니다.",
+            pattern: {
+              value:
+                /^(19|20)\d{2}\.(0[1-9]|1[0-2])\.(0[1-9]|[12][0-9]|3[01])$/,
+              message: "임관일자 형식이 올바르지 않습니다.",
+            },
+          }}
+          placeholder="임관일자"
+          validationError={errors.appointment ? true : false}
+        />
+        {errors.appointment && (
+          <ErrorMessage message={errors?.appointment?.message?.toString()} />
+        )}
+        <DatePicker
+          control={control}
+          name="discharge"
+          rules={{
+            required: "'전역일자'는 필수 항목입니다.",
+            pattern: {
+              value:
+                /^(19|20)\d{2}\.(0[1-9]|1[0-2])\.(0[1-9]|[12][0-9]|3[01])$/,
+              message: "전역일자 형식이 올바르지 않습니다.",
+            },
+          }}
+          placeholder="전역일자"
+          validationError={errors.discharge ? true : false}
+        />
+        {errors.discharge && (
+          <ErrorMessage message={errors?.discharge?.message?.toString()} />
         )}
         <BtnList>
           <Button opacity={false} text="저장" />
