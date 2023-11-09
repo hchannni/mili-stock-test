@@ -11,13 +11,13 @@ function EditPersonalInfo() {
     <ScreenContainer>
       <PageHeader pageTitle="개인정보 수정" />
       <Menus>
-        <Link to="/mypage/editpinfo/user">
+        <Link to="/mypage/editpinfo/user" state={state}>
           <UserInfoMenu
             title="회원 정보"
-            name="허찬"
-            phoneNumber="010-5266-0448"
-            birth="2001.09.10"
-            email="22-70010541@af.mil"
+            name={state.name}
+            phoneNumber={state.phoneNumber}
+            birth={state.birth}
+            email={state.email}
           />
         </Link>
         <Link to="/mypage/editpinfo/pw">
