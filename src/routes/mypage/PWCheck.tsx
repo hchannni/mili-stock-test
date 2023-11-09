@@ -47,17 +47,18 @@ function PWCheck() {
   const navigate = useNavigate();
   const [toast, setToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("Toast Message");
+  const accessToken = localStorage.getItem("accessToken");
 
   const onSubmit = async (data: any) => {
     // API Call url 체크!!
     // header에 accessToken을 bearerToken 방식으로 넣어줘야 함.
     const response = await axios({
       method: "post",
-      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/edit//pwCheck`,
+      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/edit/pwCheck`,
       data: data,
-      // headers: {
-      //   Authorization: `Bearer ${accessToken}`,
-      // },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
 
     const { status, reason } = response.data;
@@ -67,7 +68,7 @@ function PWCheck() {
       setToast(true);
       return;
     } else {
-      navigate("/mypage/editpinfo/home");
+      navigate("/mypage/editpinfo/home", { state: { ...response.data } });
     }
   };
 

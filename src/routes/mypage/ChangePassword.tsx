@@ -28,6 +28,7 @@ function ChangePassword() {
   const navigate = useNavigate();
   const [toast, setToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("Toast Message");
+  const accessToken = localStorage.getItem("accessToken");
 
   // BE측에 url 주소 확인하기!!
   // 에러 없을 때 어디로 navigate하면 될지 ..?!
@@ -59,9 +60,9 @@ function ChangePassword() {
       method: "post",
       url: `${process.env.REACT_APP_DONG10_BASEURL}/members/edit/pwChange`,
       data: data,
-      // headers: {
-      //   Authorization: `Bearer ${accessToken}`,
-      // },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
 
     const { status, reason } = response.data;
