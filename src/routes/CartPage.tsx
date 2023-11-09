@@ -15,6 +15,8 @@ function CartPage() {
       .then((response) => response.json())
       .then((data) => setCart(data))
       .catch((error) => console.error(error));
+
+      console.log(cart);
     }
     else {
       console.error("Token is null. Please log in to access the cart.");
@@ -25,10 +27,11 @@ function CartPage() {
     return <div>Loading...</div>;
   }
 
-  const totalPrice = cart.products.reduce(
-    (total: number, product: any) => total + product.productPrice,
-    0
-  );
+  const totalPrice = 10;
+  // const totalPrice = cart.products.reduce(
+  //   (total: number, product: any) => total + product.productPrice,
+  //   0
+  // );
 
   return (
     <div>
