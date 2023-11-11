@@ -1,14 +1,22 @@
 import { styled } from "styled-components";
 import { useController, UseControllerProps } from "react-hook-form";
 
-const InputTag = styled.input`
+interface InputTagProps {
+  error: boolean;
+}
+
+const InputTag = styled.input<InputTagProps>`
   width: 100%;
   padding: 10px;
   border: none;
   border-bottom: 1.5px solid black;
   font-size: 16px;
+  margin-top: 16px;
 
   transition: all 0.2s ease-in-out;
+
+  color: ${(props) => (props.error ? "#E00B03" : "#000")};
+  border-color: ${(props) => (props.error ? "#E00B03" : "#000")};
 
   &::placeholder {
     text-align: left;
@@ -51,6 +59,7 @@ const InputTag = styled.input`
 interface InputProps extends UseControllerProps {
   placeholder: string;
   type?: string;
+  validationError: boolean;
 }
 
 function Input(props: InputProps) {
@@ -61,6 +70,7 @@ function Input(props: InputProps) {
       placeholder={props.placeholder}
       disabled={props.disabled}
       type={props.type ?? "text"}
+      error={props.validationError}
     />
   );
 }

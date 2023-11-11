@@ -2,7 +2,9 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import ErrorMessage from "../components/ErrorMessage";
 import { useState } from "react";
+import ToastPopup from "../components/ToastPopup";
 
 const LogInScreenContainer = styled.div`
   max-width: 390px;
@@ -29,7 +31,6 @@ const Logo = styled.div`
 const LogInForm = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 20px;
 
   width: 100%;
 `;
@@ -42,6 +43,7 @@ const LogInInput = styled.input`
   border-radius: 16px;
   font-size: 16px;
   font-weight: 500;
+  margin-top: 20px;
 
   display: flex;
   align-items: center;
@@ -64,6 +66,7 @@ const LogInInput = styled.input`
 const LogInBtnList = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-top: 20px;
 `;
 
 const LogInBtn = styled.button`
@@ -132,14 +135,20 @@ function LogInPage() {
       <Logo></Logo>
       <LogInForm onSubmit={handleSubmit(onSubmit)}>
         <LogInInput
-          {...register("userId", { required: true })}
+          {...register("userId", { required: "ID를 입력해 주세요." })}
           placeholder="ID"
         />
+        {errors.userId && (
+          <ErrorMessage message={errors.userId.message?.toString()} />
+        )}
         <LogInInput
-          {...register("password", { required: true })}
+          {...register("password", { required: "비밀번호를 입력해 주세요." })}
           placeholder="Password"
           type="password"
         />
+        {errors.password && (
+          <ErrorMessage message={errors.password.message?.toString()} />
+        )}
         <LogInBtnList>
           <LogInBtn>로그인</LogInBtn>
           <LogInBtn as={Link} to={"/join/auth"}>
@@ -151,6 +160,9 @@ function LogInPage() {
         <FindLink to={"/findid/auth"}>ID 찾기</FindLink>
         <FindLink to={"/findpw/idcheck"}>PW 찾기</FindLink>
       </FindLinks>
+      {toast && (
+        <ToastPopup message={toastMessage} toast={toast} setToast={setToast} />
+      )}
     </LogInScreenContainer>
   );
 }

@@ -10,6 +10,7 @@ import FindPWPage from "./routes/findidpw/FindPWPage";
 import FindPWPage2 from "./routes/findidpw/FindPWPage2";
 import FindPWPage3 from "./routes/findidpw/FindPWPage3";
 import FindPWPage4 from "./routes/findidpw/FindPWPage4";
+import ProductForm from "./routes/ProductForm";
 import LogInPage from "./routes/LogInPage";
 import CartPage from "./routes/CartPage";
 
@@ -19,6 +20,7 @@ function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LogInPage />} />
+        <Route path="/main" element={<MainPage />} />
         <Route path="/join/auth" element={<JoinPage />} />
         <Route path="/join/idpw" element={<JoinPage2 />} />
         <Route path="/join/detail" element={<JoinPage3 />} />
@@ -29,6 +31,7 @@ function Router() {
         <Route path="/findpw/auth" element={<FindPWPage2 />} />
         <Route path="/findpw/renewal" element={<FindPWPage3 />} />
         <Route path="/findpw/success" element={<FindPWPage4 />} />
+        <Route path="/product/create" element={<ProductForm />} />
         <Route path="/cartPage" element={<CartPage />} />
       </Routes>
     </BrowserRouter>

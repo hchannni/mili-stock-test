@@ -11,12 +11,14 @@ import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
+import ErrorMessage from "../../components/ErrorMessage";
+import { useState } from "react";
+import ToastPopup from "../../components/ToastPopup";
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 16px;
 
   margin-top: 16px;
   padding: 10px 0;
@@ -28,9 +30,13 @@ function JoinPage3() {
     handleSubmit,
     formState: { errors },
     control,
+    setError,
   } = useForm();
   const navigate = useNavigate();
   const { state } = useLocation();
+
+  const [toast, setToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("Toast Message");
 
   const onSubmit = async (data: any) => {
     const submitData = { ...state, ...data };
@@ -40,10 +46,22 @@ function JoinPage3() {
       url: `${process.env.REACT_APP_DONG10_BASEURL}/members/signup`,
       data: submitData,
     });
-    console.log(response);
-
-    navigate("/join/success");
+    const { status, reason } = response.data;
+    if (status !== 200) {
+      // setError("", { message: reason }, { shouldFocus: true });
+      setToastMessage(reason);
+      setToast(true);
+      return;
+    } else {
+      navigate("/join/success");
+    }
   };
+  // BE 연동 힘들 때 테스트용!
+  // const onSubmit = (data: any) => {
+  //   const submitData = { ...state, ...data };
+  //   console.log(submitData);
+  //   navigate("/join/success");
+  // };
 
   return (
     <ScreenContainer>
@@ -59,32 +77,62 @@ function JoinPage3() {
           placeholder={state.job}
           options={["장교", "부사관", "병사", "군무원"]}
           shouldUnregister={true}
+          validationError={errors.job ? true : false}
         />
         <DatePicker
           control={control}
           name="birth"
-          rules={{ required: true }}
+          rules={{
+            required: "'생년월일'은 필수 항목입니다.",
+            pattern: {
+              value:
+                /^(19|20)\d{2}\.(0[1-9]|1[0-2])\.(0[1-9]|[12][0-9]|3[01])$/,
+              message: "생년월일 형식을 맞춰 주세요!",
+            },
+          }}
           placeholder="생년월일"
+          validationError={errors.birth ? true : false}
         />
+        {errors.birth && (
+          <ErrorMessage message={errors?.birth?.message?.toString()} />
+        )}
         <Dropdown
           control={control}
           name="gender"
-          rules={{ required: true }}
+          rules={{ required: "'성별'은 필수 항목입니다." }}
           placeholder="성별"
           options={["남", "여"]}
+          validationError={errors.gender ? true : false}
         />
+        {errors.gender && (
+          <ErrorMessage message={errors?.gender?.message?.toString()} />
+        )}
         <Input
           control={control}
           name="phoneNumber"
-          rules={{ required: true }}
+          rules={{ required: "'휴대전화'는 필수 항목입니다." }}
           placeholder="휴대전화"
+          validationError={errors.phoneNumber ? true : false}
         />
+        {errors.phoneNumber && (
+          <ErrorMessage message={errors?.phoneNumber?.message?.toString()} />
+        )}
         <Input
           control={control}
           name="email"
-          rules={{ required: true }}
+          rules={{
+            required: "'이메일'은 필수 항목입니다.",
+            pattern: {
+              value: /^[a-zA-Z0-9+-\\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+              message: "이메일 형식이 올바르지 않습니다.",
+            },
+          }}
           placeholder="이메일"
+          validationError={errors.email ? true : false}
         />
+        {errors.email && (
+          <ErrorMessage message={errors?.email?.message?.toString()} />
+        )}
         <Dropdown
           control={control}
           name="affiliation"
@@ -94,31 +142,61 @@ function JoinPage3() {
           placeholder={state.affiliation}
           options={["육군", "해군", "공군", "해병대"]}
           shouldUnregister={true}
+          validationError={errors.affiliation ? true : false}
         />
         <Dropdown
           control={control}
           name="militaryRank"
-          rules={{ required: true }}
+          rules={{ required: "'계급'은 필수 항목입니다." }}
           placeholder="계급"
           options={["병장", "상병", "일병", "이병"]}
+          validationError={errors.militaryRank ? true : false}
         />
+        {errors.militaryRank && (
+          <ErrorMessage message={errors?.militaryRank?.message?.toString()} />
+        )}
         <DatePicker
           control={control}
           name="appointment"
-          rules={{ required: true }}
+          rules={{
+            required: "'임관일자'는 필수 항목입니다.",
+            pattern: {
+              value:
+                /^(19|20)\d{2}\.(0[1-9]|1[0-2])\.(0[1-9]|[12][0-9]|3[01])$/,
+              message: "임관일자 형식이 올바르지 않습니다.",
+            },
+          }}
           placeholder="임관일자"
+          validationError={errors.appointment ? true : false}
         />
+        {errors.appointment && (
+          <ErrorMessage message={errors?.appointment?.message?.toString()} />
+        )}
         <DatePicker
           control={control}
           name="discharge"
-          rules={{ required: true }}
+          rules={{
+            required: "'전역일자'는 필수 항목입니다.",
+            pattern: {
+              value:
+                /^(19|20)\d{2}\.(0[1-9]|1[0-2])\.(0[1-9]|[12][0-9]|3[01])$/,
+              message: "전역일자 형식이 올바르지 않습니다.",
+            },
+          }}
           placeholder="전역일자"
+          validationError={errors.discharge ? true : false}
         />
+        {errors.discharge && (
+          <ErrorMessage message={errors?.discharge?.message?.toString()} />
+        )}
         <BtnList>
           <GoBackButton />
           <Button opacity={false} text="가입완료" />
         </BtnList>
       </Form>
+      {toast && (
+        <ToastPopup message={toastMessage} toast={toast} setToast={setToast} />
+      )}
     </ScreenContainer>
   );
 }

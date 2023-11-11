@@ -10,12 +10,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import GoBackButton from "../../components/GoBackButton";
 import axios from "axios";
+import ErrorMessage from "../../components/ErrorMessage";
+import { useState } from "react";
+import ToastPopup from "../../components/ToastPopup";
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 16px;
 
   margin-top: 16px;
   padding: 10px 0;
@@ -53,11 +55,27 @@ function FindPWPage3() {
     handleSubmit,
     formState: { errors },
     control,
+    setError,
   } = useForm();
   const navigate = useNavigate();
   const { state } = useLocation();
+  const [toast, setToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("Toast Message");
 
   const onSubmit = async (data: any) => {
+    // 1. '새 비밀번호' & '새 비밀번호 확인' 같은지 체크
+    if (data.newPassword !== data.newPasswordConfirmation) {
+      setError(
+        "newPasswordConfirmation",
+        {
+          message: "비밀번호가 일치하지 않습니다. 다시 확인해 주세요!",
+        },
+        { shouldFocus: true }
+      );
+      return;
+    }
+
+    // 2. 1번 통과했으면, BE에 request 보내기
     const submitData = { ...state, ...data };
     const response = await axios({
       method: "post",
@@ -65,9 +83,19 @@ function FindPWPage3() {
       data: submitData,
     });
 
-    console.log(response);
+    const { status, reason } = response.data;
+    if (status !== 200) {
+      setToastMessage(reason);
+      setToast(true);
+      return;
+    }
+
     navigate("/findpw/success");
   };
+  // BE 연동 힘들 때 테스트용!
+  // const onSubmit = (data: any) => {
+  //   navigate("/findpw/success");
+  // };
 
   return (
     <ScreenContainer>
@@ -77,15 +105,43 @@ function FindPWPage3() {
             <Input
               control={control}
               name="newPassword"
-              rules={{ required: true }}
+              rules={{
+                required: "'새 비밀번호'는 필수 항목입니다.",
+                pattern: {
+                  value:
+                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{7,16}$/,
+                  message:
+                    "비밀번호는 영문+숫자+특수문자를 포함한 8~20자여야 합니다",
+                },
+              }}
               placeholder="새 비밀번호"
+              type="password"
+              validationError={errors.newPassword ? true : false}
             />
+            {errors.newPassword && (
+              <ErrorMessage message={errors.newPassword?.message?.toString()} />
+            )}
             <Input
               control={control}
               name="newPasswordConfirmation"
-              rules={{ required: true }}
+              rules={{
+                required: "'새 비밀번호 확인'은 필수 항목입니다.",
+                pattern: {
+                  value:
+                    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{7,16}$/,
+                  message:
+                    "비밀번호는 영문+숫자+특수문자를 포함한 8~20자여야 합니다",
+                },
+              }}
               placeholder="새 비밀번호 확인"
+              type="password"
+              validationError={errors.newPasswordConfirmation ? true : false}
             />
+            {errors.newPasswordConfirmation && (
+              <ErrorMessage
+                message={errors.newPasswordConfirmation?.message?.toString()}
+              />
+            )}
             <BtnList>
               <GoBackButton />
               {/* <Button opacity={true} text="취소" /> */}
@@ -93,6 +149,13 @@ function FindPWPage3() {
             </BtnList>
           </Form>
         </Popup>
+        {toast && (
+          <ToastPopup
+            message={toastMessage}
+            toast={toast}
+            setToast={setToast}
+          />
+        )}
       </PopupBackground>
       {/* <Logo />
       <TitleBox

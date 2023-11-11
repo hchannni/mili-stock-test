@@ -8,12 +8,12 @@ import GoBackButton from "../../components/GoBackButton";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import ErrorMessage from "../../components/ErrorMessage";
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 16px;
 
   margin-top: 16px;
   padding: 10px 0;
@@ -25,13 +25,25 @@ function JoinPage2() {
     handleSubmit,
     formState: { errors },
     control,
+    setError,
   } = useForm();
   const navigate = useNavigate();
   const { state } = useLocation();
 
   const onSubmit = (data: any) => {
     const stateData = { ...state, ...data };
-    console.log(stateData);
+
+    // 여기에 토스트 메시지를 쓸까말까쓸까말까쓸말쓸말ㄹㄹ...
+    if (data.password !== data.passwordConfirmation) {
+      setError(
+        "passwordConfirmation",
+        {
+          message: "비밀번호가 일치하지 않습니다. 다시 확인해 주세요!",
+        },
+        { shouldFocus: true }
+      );
+      return;
+    }
     navigate("/join/detail", { state: { ...stateData } });
   };
 
@@ -48,6 +60,7 @@ function JoinPage2() {
           defaultValue={state.name}
           placeholder={`${state.name} (이름)`}
           shouldUnregister={true}
+          validationError={errors.name ? true : false}
         />
         <Input
           control={control}
@@ -57,30 +70,67 @@ function JoinPage2() {
           defaultValue={state.serviceNumber}
           placeholder={`${state.serviceNumber} (군번)`}
           shouldUnregister={true}
+          validationError={errors.serviceNumber ? true : false}
         />
         <Input
           control={control}
           name="userId"
           disabled={false}
-          rules={{ required: true }}
+          rules={{
+            required: "'아이디'는 필수 항목입니다.",
+            pattern: {
+              value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{2,20}$/,
+              message: "아이디는 영문자+숫자를 포함한 2~20자여야 합니다.",
+            },
+          }}
           placeholder="아이디"
+          validationError={errors.userId ? true : false}
         />
+        {errors.userId && (
+          <ErrorMessage message={errors?.userId?.message?.toString()} />
+        )}
         <Input
           control={control}
           name="password"
           disabled={false}
-          rules={{ required: true }}
+          rules={{
+            required: "'비밀번호'는 필수 항목입니다.",
+            pattern: {
+              value:
+                /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{7,16}$/,
+              message:
+                "비밀번호는 영문+숫자+특수문자를 포함한 8~20자여야 합니다",
+            },
+          }}
           placeholder="비밀번호"
           type="password"
+          validationError={errors.password ? true : false}
         />
+        {errors.password && (
+          <ErrorMessage message={errors?.password?.message?.toString()} />
+        )}
         <Input
           control={control}
           name="passwordConfirmation"
           disabled={false}
-          rules={{ required: true }}
+          rules={{
+            required: "'비밀번호 확인'은 필수 항목입니다.",
+            pattern: {
+              value:
+                /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{7,16}$/,
+              message:
+                "비밀번호는 영문+숫자+특수문자를 포함한 8~20자여야 합니다",
+            },
+          }}
           placeholder="비밀번호 확인"
           type="password"
+          validationError={errors.passwordConfirmation ? true : false}
         />
+        {errors.passwordConfirmation && (
+          <ErrorMessage
+            message={errors?.passwordConfirmation?.message?.toString()}
+          />
+        )}
         <BtnList>
           <GoBackButton />
           <Button opacity={false} text="다음" />
