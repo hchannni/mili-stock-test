@@ -12,6 +12,7 @@ import Button from "../../components/Button";
 import ToastPopup from "../../components/ToastPopup";
 import DatePicker from "../../components/DatePicker";
 import Dropdown from "../../components/Dropdown";
+import PopupMessage from "../../components/mypage/PopupMessage";
 
 const Form = styled.form`
   display: flex;
@@ -30,6 +31,10 @@ function UpdateUserInfo() {
   const { state } = useLocation();
   const [toast, setToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("Toast Message");
+  const [modalOpen, setModalOpen] = useState(false);
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   const accessToken = localStorage.getItem("accessToken");
 
   // BE측에 url 주소 확인하기!!
@@ -51,7 +56,16 @@ function UpdateUserInfo() {
       setToast(true);
       return;
     } else {
-      // navigate("/join/idpw", { state: { ...data } });
+      setModalOpen(true);
+      <PopupMessage
+        modalOpen={modalOpen}
+        message="회원 정보가 수정되었습니다!"
+        onAfterClose={() => {
+          navigate("/mypage/editpinfo/home", { state: { data } });
+        }}
+        onRequestClose={closeModal}
+        onClickfn={closeModal}
+      />;
     }
   };
 
