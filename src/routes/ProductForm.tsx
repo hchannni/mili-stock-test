@@ -1,5 +1,61 @@
 import axios from "axios";
 import React, { useState } from "react";
+import styled from "styled-components";
+
+// Styled components
+const Container = styled.div`
+    max-width: 600px;
+    margin: 0 auto;
+`;
+
+const FormGroup = styled.div`
+    margin-bottom: 20px;
+`;
+
+const Label = styled.label`
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+`;
+
+const Input = styled.input`
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+`;
+
+
+const CheckboxLabel = styled.label`
+    display: flex;
+    align-items: center;
+`;
+
+const CheckboxInput = styled.input`
+    appearance: none;
+    border: 1.5px solid gainsboro;
+    border-radius: 0.35rem;
+    width: 1.5rem;
+    height: 1.5rem;
+
+    &:checked {
+    border-color: transparent;
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
+    background-size: 100% 100%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-color: limegreen;
+    }
+`;
+
+const SubmitButton = styled.button`
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+`;
+
 
 const ProductForm: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -98,101 +154,107 @@ const ProductForm: React.FC = () => {
     };
 
     return (
-        <div>
+        <Container>
             <h2>Product Form</h2>
             <form onSubmit={handleSubmit}>
-                <label>
-                    Product Title:
-                    <input
+
+                <FormGroup>
+                    <Label>Product Title:</Label>
+                    <Input
                         type="text"
                         name="productTitle"
                         value={formData.productTitle}
                         onChange={handleChange}
                     />
-                </label>
+                    <Label>
+                        <Label>Product Price:</Label>
+                        <Input
+                            type="number"
+                            name="productPrice"
+                            value={formData.productPrice}
+                            onChange={handleChange}
+                        />
+                    </Label>
+                    <Label>
+                        <Label>Product Stock:</Label>
+                        <Input
+                            type="number"
+                            name="productStock"
+                            value={formData.productStock}
+                            onChange={handleChange}
+                        />
+                    </Label>
+                    <Label>
+                        <Label>Category:</Label>
+                        <Input
+                            type="text"
+                            name="category"
+                            value={formData.category}
+                            onChange={handleChange}
+                        />
+                    </Label>
+                </FormGroup>
 
-                <label>
-                    Product Price:
-                    <input
-                        type="number"
-                        name="productPrice"
-                        value={formData.productPrice}
-                        onChange={handleChange}
-                    />
-                </label>
+                <FormGroup as={CheckboxLabel}>
+                    <Label>
+                        Is Discounted Product:
+                        <CheckboxInput
+                            type="checkbox"
+                            name="isDiscountedProduct"
+                            checked={formData.isDiscountedProduct}
+                            onChange={handleChange}
+                        />
+                        <span>Is Discounted Product</span>
+                    </Label>
+                    {/* <Label>
+                        Is New Product:
+                        <CheckboxLabel>
+                            <CheckboxInput
+                                type="checkbox"
+                                name="isNewProduct"
+                                checked={formData.isNewProduct}
+                                onChange={handleChange}
+                            />
+                            Is New Product
+                        </CheckboxLabel>
+                    </Label>
 
-                <label>
-                    Product Stock:
-                    <input
-                        type="number"
-                        name="productStock"
-                        value={formData.productStock}
-                        onChange={handleChange}
-                    />
-                </label>
+                    <Label>
+                        Is Popular Product:
+                        <CheckboxLabel>
+                            <CheckboxInput
+                                type="checkbox"
+                                name="isPopularProduct"
+                                checked={formData.isPopularProduct}
+                                onChange={handleChange}
+                            />
+                            Is Popular Product
+                        </CheckboxLabel>
+                    </Label> */}
+                </FormGroup>
 
-                <label>
-                    Category:
-                    <input
-                        type="text"
-                        name="category"
-                        value={formData.category}
-                        onChange={handleChange}
-                    />
-                </label>
-
-                <label>
-                    Is Discounted Product:
-                    <input
-                        type="checkbox"
-                        name="isDiscountedProduct"
-                        checked={formData.isDiscountedProduct}
-                        onChange={handleChange}
-                    />
-                </label>
-
-                <label>
-                    Is New Product:
-                    <input
-                        type="checkbox"
-                        name="isNewProduct"
-                        checked={formData.isNewProduct}
-                        onChange={handleChange}
-                    />
-                </label>
-
-                <label>
-                    Is Popular Product:
-                    <input
-                        type="checkbox"
-                        name="isPopularProduct"
-                        checked={formData.isPopularProduct}
-                        onChange={handleChange}
-                    />
-                </label>
-
-                <label>
-                    Product Discount Price:
-                    <input
+                <FormGroup>
+                    <Label>Product Discount Price:</Label>
+                    <Input
                         type="number"
                         name="productDiscountPrice"
                         value={formData.productDiscountPrice}
                         onChange={handleChange}
                     />
-                </label>
+                </FormGroup>
 
-                <label>
-                    Image:
-                    <input
+                <FormGroup>
+                    <Label>Image:</Label>
+                    <Input
                         type="file"
                         name="image"
                         onChange={handleChange}
                     />
-                </label>
+                </FormGroup>
 
-                <button type="submit">Submit</button>
+                <SubmitButton type="submit">Submit</SubmitButton>
             </form>
-        </div>
+        </Container>
     );
 };
 
