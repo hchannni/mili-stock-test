@@ -69,15 +69,24 @@ const CartBtn = styled.div`
 // <FontAwesomeIcon icon="fa-solid fa-cart-shopping" />
 // <FontAwesomeIcon icon="fa-solid fa-heart" /> // heart-filled
 // <FontAwesomeIcon icon="fa-regular fa-heart" /> // heart-outlined
-function ProductCard() {
+
+// 김태연 추가:
+interface ProductCardProps {
+  title: string;
+  price: number;
+  stock: number;
+  imageUrl: string;
+}
+
+function ProductCard({ title, price, stock, imageUrl }: ProductCardProps) {
   return (
     <Container>
-      <Image />
+      <img src={imageUrl} alt={title} />
       <Info>
         <TextBox>
-          <Title>Title</Title>
-          <Price>2,100원</Price>
-          <Stocks>000 left</Stocks>
+          <Title>{title}</Title>
+          <Price>{price}원</Price>
+          <Stocks>{stock} left</Stocks>
         </TextBox>
         <CartBtn></CartBtn>
       </Info>

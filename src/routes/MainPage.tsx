@@ -110,10 +110,10 @@ function MainPage() {
             <SectionPageLink to={"/allitems"}>전체보기</SectionPageLink>
           </SectionHeader>
           <SectionItems>
+            {/* <ProductCard />
             <ProductCard />
             <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            <ProductCard /> */}
           </SectionItems>
         </HotItems>
       </Main>
