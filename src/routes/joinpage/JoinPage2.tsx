@@ -24,36 +24,52 @@ const Form = styled.form`
   width: 100%;
 `;
 
+const AcceptedMsg = styled.p`
+  width: 100%;
+  margin-top: 4px;
+
+  color: #008000;
+  font-size: 12px;
+  text-align: left;
+`;
+
 function JoinPage2() {
   const {
     handleSubmit,
     formState: { errors },
     control,
     setError,
+    clearErrors,
+    watch,
   } = useForm();
+  console.log(watch());
   const navigate = useNavigate();
   const { state } = useLocation();
   const [idAccepted, setIdAccepted] = useState(false);
   const [toast, setToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("Toast Message");
 
-  const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+  const onBlur = async (e: React.FocusEvent<HTMLInputElement>) => {
+    const obj = {
+      userId: e.target.value,
+    };
 
     const response = await axios({
       method: "post",
       url: `${process.env.REACT_APP_DONG10_BASEURL}/members/idDuplicate`,
-      data: e.target.value,
+      data: JSON.stringify(obj),
+      headers: { "Content-Type": "application/json" },
     });
 
     const { status, reason } = response.data;
     if (status !== 200) {
-      console.log(reason);
+      setIdAccepted(false);
       setError("userId", { message: reason }, { shouldFocus: true });
       setToastMessage(reason);
       setToast(true);
       return;
     } else {
+      clearErrors("userId");
       setIdAccepted(true);
       return;
     }
@@ -121,11 +137,14 @@ function JoinPage2() {
           }}
           placeholder="아이디"
           validationError={errors.userId ? true : false}
-          onChange={onChange}
+          onBlur={onBlur}
           accepted={idAccepted ? true : false}
         />
         {errors.userId && (
           <ErrorMessage message={errors?.userId?.message?.toString()} />
+        )}
+        {idAccepted && (
+          <AcceptedMsg>{`사용 가능한 아이디입니다 :)`}</AcceptedMsg>
         )}
         <Input
           control={control}
