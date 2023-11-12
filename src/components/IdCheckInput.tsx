@@ -49,7 +49,7 @@ const InputTag = styled.input<InputTagProps>`
 `;
 
 interface IdCheckInputProps extends InputProps {
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
   accepted: boolean;
 }
 
@@ -61,7 +61,7 @@ function IdCheckInput(props: IdCheckInputProps) {
       placeholder={props.placeholder}
       disabled={props.disabled}
       type={props.type ?? "text"}
-      onChange={props.onChange}
+      onBlur={props.onBlur}
       error={props.validationError}
       accepted={props.accepted}
     />

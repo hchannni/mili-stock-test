@@ -49,7 +49,7 @@ function JoinPage2() {
   const [toast, setToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("Toast Message");
 
-  const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onBlur = async (e: React.FocusEvent<HTMLInputElement>) => {
     const obj = {
       userId: e.target.value,
     };
@@ -137,7 +137,7 @@ function JoinPage2() {
           }}
           placeholder="아이디"
           validationError={errors.userId ? true : false}
-          onChange={onChange}
+          onBlur={onBlur}
           accepted={idAccepted ? true : false}
         />
         {errors.userId && (
