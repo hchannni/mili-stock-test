@@ -10,6 +10,7 @@ import Input from "../../components/Input";
 import BtnList from "../../components/BtnList";
 import Button from "../../components/Button";
 import ToastPopup from "../../components/ToastPopup";
+import PopupMessage from "../../components/mypage/PopupMessage";
 
 const Form = styled.form`
   display: flex;
@@ -28,11 +29,12 @@ function ChangePassword() {
   const navigate = useNavigate();
   const [toast, setToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("Toast Message");
+  const [modalOpen, setModalOpen] = useState(false);
+  const closeModal = () => {
+    setModalOpen(false);
+  };
   const accessToken = localStorage.getItem("accessToken");
 
-  // BE측에 url 주소 확인하기!!
-  // 에러 없을 때 어디로 navigate하면 될지 ..?!
-  // 일단 생각은 팝업 창 띄우고 확인 버튼 누르면 개인정보수정 페이지로 이동하는 쪽으로 ..
   const onSubmit = async (data: any) => {
     // 1. '기존 비밀번호'와 '새 비밀번호'가 다른지 검사 (같으면 에러 표시)
     if (data.currentPassword === data.newPassword) {
@@ -71,13 +73,22 @@ function ChangePassword() {
       setToast(true);
       return;
     } else {
-      // navigate("/join/idpw", { state: { ...data } });
+      setModalOpen(true);
+      <PopupMessage
+        modalOpen={modalOpen}
+        message="비밀번호가 변경되었습니다!"
+        onAfterClose={() => {
+          navigate("/mypage/editpinfo/home", { state: { data } });
+        }}
+        onRequestClose={closeModal}
+        onClickfn={closeModal}
+      />;
     }
   };
 
   return (
     <ScreenContainer>
-      <PageHeader pageTitle="회원 정보" />
+      <PageHeader pageTitle="비밀번호 변경" />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Input
           control={control}

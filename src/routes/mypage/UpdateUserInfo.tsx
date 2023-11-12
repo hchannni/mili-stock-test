@@ -37,9 +37,6 @@ function UpdateUserInfo() {
   };
   const accessToken = localStorage.getItem("accessToken");
 
-  // BE측에 url 주소 확인하기!!
-  // 에러 없을 때 어디로 navigate하면 될지 ..?!
-  // 일단 생각은 팝업 창 띄우고 확인 버튼 누르면 개인정보수정 페이지로 이동하는 쪽으로 ..
   const onSubmit = async (data: any) => {
     const response = await axios({
       method: "post",
