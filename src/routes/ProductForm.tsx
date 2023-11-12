@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 // Styled components
+
 const Container = styled.div`
     max-width: 600px;
     margin: 0 auto;
@@ -204,33 +205,26 @@ const ProductForm: React.FC = () => {
                             checked={formData.isDiscountedProduct}
                             onChange={handleChange}
                         />
-                        <span>Is Discounted Product</span>
                     </Label>
-                    {/* <Label>
+                    <Label>
                         Is New Product:
-                        <CheckboxLabel>
-                            <CheckboxInput
-                                type="checkbox"
-                                name="isNewProduct"
-                                checked={formData.isNewProduct}
-                                onChange={handleChange}
-                            />
-                            Is New Product
-                        </CheckboxLabel>
+                        <CheckboxInput
+                            type="checkbox"
+                            name="isNewProduct"
+                            checked={formData.isNewProduct}
+                            onChange={handleChange}
+                        />
                     </Label>
 
                     <Label>
                         Is Popular Product:
-                        <CheckboxLabel>
-                            <CheckboxInput
-                                type="checkbox"
-                                name="isPopularProduct"
-                                checked={formData.isPopularProduct}
-                                onChange={handleChange}
-                            />
-                            Is Popular Product
-                        </CheckboxLabel>
-                    </Label> */}
+                        <CheckboxInput
+                            type="checkbox"
+                            name="isPopularProduct"
+                            checked={formData.isPopularProduct}
+                            onChange={handleChange}
+                        />
+                    </Label>
                 </FormGroup>
 
                 <FormGroup>
