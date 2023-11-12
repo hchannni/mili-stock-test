@@ -54,20 +54,20 @@ function UpdateUserInfo() {
       return;
     } else {
       setModalOpen(true);
-      <PopupMessage
-        modalOpen={modalOpen}
-        message="회원 정보가 수정되었습니다!"
-        onAfterClose={() => {
-          navigate("/mypage/editpinfo/home", { state: { data } });
-        }}
-        onRequestClose={closeModal}
-        onClickfn={closeModal}
-      />;
     }
   };
 
   return (
     <ScreenContainer>
+      <PopupMessage
+        modalOpen={modalOpen}
+        message="회원 정보가 수정되었습니다!"
+        onAfterClose={() => {
+          navigate("/mypage/editpinfo/home");
+        }}
+        onRequestClose={closeModal}
+        onClickfn={closeModal}
+      />
       <PageHeader pageTitle="회원 정보" />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Input

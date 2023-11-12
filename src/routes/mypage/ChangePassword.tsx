@@ -74,20 +74,20 @@ function ChangePassword() {
       return;
     } else {
       setModalOpen(true);
-      <PopupMessage
-        modalOpen={modalOpen}
-        message="비밀번호가 변경되었습니다!"
-        onAfterClose={() => {
-          navigate("/mypage/editpinfo/home", { state: { data } });
-        }}
-        onRequestClose={closeModal}
-        onClickfn={closeModal}
-      />;
     }
   };
 
   return (
     <ScreenContainer>
+      <PopupMessage
+        modalOpen={modalOpen}
+        message="비밀번호가 변경되었습니다!"
+        onAfterClose={() => {
+          navigate("/mypage/editpinfo/home");
+        }}
+        onRequestClose={closeModal}
+        onClickfn={closeModal}
+      />
       <PageHeader pageTitle="비밀번호 변경" />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Input
