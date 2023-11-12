@@ -71,6 +71,8 @@ const ProductForm: React.FC = () => {
         productDiscountPrice: 0,
     });
 
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLInputElement>) => {
         const { name, value, type } = e.target;
 
@@ -97,6 +99,20 @@ const ProductForm: React.FC = () => {
                 [name]: value,
             }));
         }
+    };
+
+    const resetForm = () => {
+        setFormData({
+            productTitle: "",
+            productPrice: 0,
+            productStock: 0,
+            image: undefined,
+            category: "",
+            isDiscountedProduct: false,
+            isNewProduct: false,
+            isPopularProduct: false,
+            productDiscountPrice: 0,
+        });
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -146,6 +162,15 @@ const ProductForm: React.FC = () => {
             } else {
                 // Handle the successful response, e.g., show a success message to the user
                 console.log("Product created successfully:", response.data);
+
+                // Set success message
+                setSuccessMessage('Product created successfully!');
+
+                // Reset the form after a delay (you can adjust the delay as needed)
+                setTimeout(() => {
+                    setSuccessMessage(null);
+                    resetForm();
+                }, 1000); // 1000 milliseconds (1 seconds) delay
             }
 
         } catch (error) {
@@ -157,8 +182,12 @@ const ProductForm: React.FC = () => {
     return (
         <Container>
             <h2>Product Form</h2>
+            {successMessage && (
+                <div>
+                    <p>{successMessage}</p>
+                </div>
+            )}
             <form onSubmit={handleSubmit}>
-
                 <FormGroup>
                     <Label>Product Title:</Label>
                     <Input
