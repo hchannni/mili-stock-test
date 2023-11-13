@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
 
+import * as yup from 'yup';
+
 // Styled components
 
 const Container = styled.div`
@@ -71,6 +73,13 @@ const ProductForm: React.FC = () => {
         productDiscountPrice: 0,
     });
 
+    const productSchema = yup.object().shape({
+        productTitle: yup.string().required('상품명은 필수 입력 값입니다.'),
+        productPrice: yup.number().min(1, '가격은 최소 1 이상이어야 합니다.'),
+        productStock: yup.number().min(1, '재고는 최소 1 이상이어야 합니다.'),
+        // Add other validations as needed
+      });
+
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLInputElement>) => {
@@ -136,6 +145,9 @@ const ProductForm: React.FC = () => {
         }
 
         try {
+
+            await productSchema.validate(formData, { abortEarly: false });
+            
             const accessToken = localStorage.getItem('accessToken');
             if (!accessToken) {
                 // Handle the case where the access token is missing, e.g., redirect to the login page.
@@ -176,6 +188,9 @@ const ProductForm: React.FC = () => {
         } catch (error) {
             // Handle errors, e.g., display validation errors or a failure message
             console.error("Error creating product:", error);
+        }
+        catch (validationError){
+            console.error('Validation error:', validationError.errors);
         }
     };
 
