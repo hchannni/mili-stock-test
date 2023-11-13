@@ -3,7 +3,7 @@ import ScreenContainer from "../../components/ScreenContainer";
 import PageHeader from "../../components/mypage/PageHeader";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import ErrorMessage from "../../components/ErrorMessage";
 import Input from "../../components/Input";
@@ -21,21 +21,51 @@ const Form = styled.form`
   width: 100%;
 `;
 
+const CurrentInfoBtn = styled.button`
+  border: none;
+  background-color: white;
+  color: #120de4;
+  text-align: center;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  line-height: 22px; /* 183.333% */
+  letter-spacing: -0.408px;
+  text-decoration-line: underline;
+`;
+
 function UpdateUserInfo() {
   const {
     handleSubmit,
     formState: { errors },
     control,
+    setValue,
   } = useForm();
   const navigate = useNavigate();
   const { state } = useLocation();
+  const accessToken = localStorage.getItem("accessToken");
   const [toast, setToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("Toast Message");
   const [modalOpen, setModalOpen] = useState(false);
   const closeModal = () => {
     setModalOpen(false);
   };
-  const accessToken = localStorage.getItem("accessToken");
+  const [isCurValue, setIsCurValue] = useState(false);
+
+  const currentInfoBtnClick = () => {
+    setIsCurValue(true);
+  };
+  useEffect(() => {
+    if (isCurValue) {
+      setValue("birth", state.birth);
+      setValue("gender", state.gender);
+      setValue("phoneNumber", state.phoneNumber);
+      setValue("email", state.email);
+      setValue("militaryRank", state.militaryRank);
+      setValue("appointment", state.appointment);
+      setValue("discharge", state.discharge);
+    }
+  }, [isCurValue]);
 
   const onSubmit = async (data: any) => {
     // 1. '휴대전화'에 하이픈 넣기
@@ -75,6 +105,9 @@ function UpdateUserInfo() {
         onClickfn={closeModal}
       />
       <PageHeader pageTitle="회원 정보" />
+      <CurrentInfoBtn onClick={currentInfoBtnClick}>
+        기존 정보 불러오기
+      </CurrentInfoBtn>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Input
           control={control}
