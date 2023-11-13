@@ -30,7 +30,6 @@ function JoinPage3() {
     handleSubmit,
     formState: { errors },
     control,
-    setError,
   } = useForm();
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -40,6 +39,13 @@ function JoinPage3() {
 
   const onSubmit = async (data: any) => {
     const submitData = { ...state, ...data };
+
+    // 1. '휴대전화'에 하이픈 넣기
+    data.phoneNumber = data.phoneNumber
+      .replace(/[^0-9]/g, "") // 숫자를 제외한 모든 문자 제거
+      .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+
+    // 2. 회원가입 API Call
     const response = await axios({
       method: "post",
       url: `${process.env.REACT_APP_DONG10_BASEURL}/members/signup`,
@@ -112,6 +118,7 @@ function JoinPage3() {
           rules={{ required: "'휴대전화'는 필수 항목입니다." }}
           placeholder="휴대전화"
           validationError={errors.phoneNumber ? true : false}
+          type="tel"
         />
         {errors.phoneNumber && (
           <ErrorMessage message={errors?.phoneNumber?.message?.toString()} />
