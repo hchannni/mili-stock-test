@@ -107,9 +107,9 @@ function LogInPage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [toast, setToast] = useState(true);
+  const [toast, setToast] = useState(false);
   const navigate = useNavigate();
-  let toastMessage = "Toast Message";
+  const [toastMessage, setToastMessage] = useState("Toast Message");
 
   const onSubmit = async (data: any) => {
     const response = await axios({
@@ -118,15 +118,17 @@ function LogInPage() {
       data: data,
     });
 
-    console.log(response.data);
-    const { status, reason } = response.data;
+    const { status, reason, accessToken, refreshToken } = response.data;
     if (status !== 200) {
-      toastMessage = reason;
+      setToastMessage(reason);
       setToast(true);
       return;
     } else {
-      // 유저 데이터 넘기는 방법은 ..?? BE에 물어보기
-      navigate("/main");
+      // localStorage에 JWT Token 저장!
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      // navigate("/main");
+      navigate("/mypage/main", { state: { ...response.data } });
     }
   };
 

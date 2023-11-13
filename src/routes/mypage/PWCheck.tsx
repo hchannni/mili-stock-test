@@ -23,7 +23,7 @@ const Form = styled.form`
   width: 100%;
 `;
 
-const FindIdLink = styled(Link)`
+const FindPWLink = styled(Link)`
   color: #000;
   text-align: center;
   font-family: Inter;
@@ -34,65 +34,71 @@ const FindIdLink = styled(Link)`
   letter-spacing: -0.408px;
 
   border-bottom: 1px solid black;
+  margin-top: 8px;
 `;
 
-function FindPWPage() {
+function PWCheck() {
   const {
     handleSubmit,
     formState: { errors },
     control,
+    setError,
   } = useForm();
   const navigate = useNavigate();
   const [toast, setToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("Toast Message");
+  const accessToken = localStorage.getItem("accessToken");
 
   const onSubmit = async (data: any) => {
+    // API Call url 체크!!
+    // header에 accessToken을 bearerToken 방식으로 넣어줘야 함.
     const response = await axios({
       method: "post",
-      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/help/idCheck`,
+      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/edit/pwCheck`,
       data: data,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
 
     const { status, reason } = response.data;
     if (status !== 200) {
-      // setError("", { message: reason }, { shouldFocus: true });
+      setError("password", { message: reason }, { shouldFocus: true });
       setToastMessage(reason);
       setToast(true);
       return;
     } else {
-      navigate("/findpw/auth", { state: { ...data } });
+      navigate("/mypage/editpinfo/home", { state: { ...response.data } });
     }
   };
-  // BE 연동 힘들 때 테스트용!
-  // const onSubmit = (data: any) => {
-  //   navigate("/findpw/auth", { state: { ...data } });
-  // };
 
   return (
     <ScreenContainer>
       <Logo />
       <TitleBox
-        TitleText="비밀번호 찾기"
-        CaptionText="비밀번호를 찾고자 하는 ID를 입력해 주세요"
+        TitleText="비밀번호 확인"
+        CaptionText="본인인증을 위해 비밀번호를 한 번 더 
+        입력해 주세요."
       />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Input
           control={control}
-          name="userId"
-          rules={{ required: "아이디를 입력해 주세요!" }}
-          placeholder="ID"
-          validationError={errors.userId ? true : false}
+          name="password"
+          rules={{ required: "비밀번호를 입력해 주세요!" }}
+          placeholder="비밀번호"
+          type="password"
+          validationError={errors.password ? true : false}
         />
-        {errors.userId && (
-          <ErrorMessage message={errors.userId?.message?.toString()} />
+        {errors.password && (
+          <ErrorMessage message={errors.password?.message?.toString()} />
         )}
         <BtnList>
           <GoBackButton />
-          <Button opacity={false} text="다음" />
+          <Button opacity={false} text="확인" />
         </BtnList>
-        <FindIdLink to="/findid/auth">
-          ID를 찾고 싶으신가요? (아이디 찾기)
-        </FindIdLink>
+        <FindPWLink to="/findpw/idCheck">
+          비밀번호를 찾고 싶으신가요? (비밀번호 찾기)
+        </FindPWLink>
       </Form>
       {toast && (
         <ToastPopup message={toastMessage} toast={toast} setToast={setToast} />
@@ -101,4 +107,4 @@ function FindPWPage() {
   );
 }
 
-export default FindPWPage;
+export default PWCheck;

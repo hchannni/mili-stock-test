@@ -5,10 +5,14 @@ import BtnList from "../../components/BtnList";
 import ScreenContainer from "../../components/ScreenContainer";
 import TitleBox from "../../components/Title";
 import GoBackButton from "../../components/GoBackButton";
+import ErrorMessage from "../../components/ErrorMessage";
+import ToastPopup from "../../components/ToastPopup";
+import IdCheckInput from "../../components/IdCheckInput";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import ErrorMessage from "../../components/ErrorMessage";
+import axios from "axios";
+import React, { useState } from "react";
 
 const Form = styled.form`
   display: flex;
@@ -20,15 +24,56 @@ const Form = styled.form`
   width: 100%;
 `;
 
+const AcceptedMsg = styled.p`
+  width: 100%;
+  margin-top: 4px;
+
+  color: #008000;
+  font-size: 12px;
+  text-align: left;
+`;
+
 function JoinPage2() {
   const {
     handleSubmit,
     formState: { errors },
     control,
     setError,
+    clearErrors,
+    watch,
   } = useForm();
+  console.log(watch());
   const navigate = useNavigate();
   const { state } = useLocation();
+  const [idAccepted, setIdAccepted] = useState(false);
+  const [toast, setToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("Toast Message");
+
+  const onBlur = async (e: React.FocusEvent<HTMLInputElement>) => {
+    const obj = {
+      userId: e.target.value,
+    };
+
+    const response = await axios({
+      method: "post",
+      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/idDuplicate`,
+      data: JSON.stringify(obj),
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const { status, reason } = response.data;
+    if (status !== 200) {
+      setIdAccepted(false);
+      setError("userId", { message: reason }, { shouldFocus: true });
+      setToastMessage(reason);
+      setToast(true);
+      return;
+    } else {
+      clearErrors("userId");
+      setIdAccepted(true);
+      return;
+    }
+  };
 
   const onSubmit = (data: any) => {
     const stateData = { ...state, ...data };
@@ -42,6 +87,13 @@ function JoinPage2() {
         },
         { shouldFocus: true }
       );
+      return;
+    }
+
+    // idDuplicate가 성공적으로 이뤄지지 않았을 때 다음 페이지로 넘어가는 것 방지
+    if (!idAccepted) {
+      setToastMessage("ID 중복체크가 확인되지 않았습니다!");
+      setToast(true);
       return;
     }
     navigate("/join/detail", { state: { ...stateData } });
@@ -72,7 +124,7 @@ function JoinPage2() {
           shouldUnregister={true}
           validationError={errors.serviceNumber ? true : false}
         />
-        <Input
+        <IdCheckInput
           control={control}
           name="userId"
           disabled={false}
@@ -85,9 +137,14 @@ function JoinPage2() {
           }}
           placeholder="아이디"
           validationError={errors.userId ? true : false}
+          onBlur={onBlur}
+          accepted={idAccepted ? true : false}
         />
         {errors.userId && (
           <ErrorMessage message={errors?.userId?.message?.toString()} />
+        )}
+        {idAccepted && (
+          <AcceptedMsg>{`사용 가능한 아이디입니다 :)`}</AcceptedMsg>
         )}
         <Input
           control={control}
@@ -136,6 +193,9 @@ function JoinPage2() {
           <Button opacity={false} text="다음" />
         </BtnList>
       </Form>
+      {toast && (
+        <ToastPopup message={toastMessage} toast={toast} setToast={setToast} />
+      )}
     </ScreenContainer>
   );
 }

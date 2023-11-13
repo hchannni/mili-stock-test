@@ -29,11 +29,10 @@ function JoinPage() {
     handleSubmit,
     formState: { errors },
     control,
-    setError,
   } = useForm();
   const navigate = useNavigate();
   const [toast, setToast] = useState(false);
-  let toastMessage = "Toast Message";
+  const [toastMessage, setToastMessage] = useState("Toast Message");
 
   const onSubmit = async (data: any) => {
     const response = await axios({
@@ -47,7 +46,7 @@ function JoinPage() {
       // 에러 발생시키기 -> 단, 어디서 발생했는지는 알 수가 없다... 아숩
       // 어디서 에러 발생했는지도 BE에 전달해줄 수 있는지 물어보기
       // setError("", { message: reason }, { shouldFocus: true });
-      toastMessage = reason;
+      setToastMessage(reason);
       setToast(true);
       return;
     } else {

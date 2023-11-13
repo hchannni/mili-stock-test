@@ -1,45 +1,73 @@
-import Logo from "../../components/Logo";
-import Input from "../../components/Input";
-import Button from "../../components/Button";
-import BtnList from "../../components/BtnList";
-import DatePicker from "../../components/DatePicker";
-import Dropdown from "../../components/Dropdown";
+import styled from "styled-components";
 import ScreenContainer from "../../components/ScreenContainer";
-import TitleBox from "../../components/Title";
-import GoBackButton from "../../components/GoBackButton";
+import PageHeader from "../../components/mypage/PageHeader";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import ErrorMessage from "../../components/ErrorMessage";
-import { useState } from "react";
+import Input from "../../components/Input";
+import BtnList from "../../components/BtnList";
+import Button from "../../components/Button";
 import ToastPopup from "../../components/ToastPopup";
+import DatePicker from "../../components/DatePicker";
+import Dropdown from "../../components/Dropdown";
+import PopupMessage from "../../components/mypage/PopupMessage";
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-
-  margin-top: 16px;
-  padding: 10px 0;
   width: 100%;
 `;
 
-function JoinPage3() {
+const CurrentInfoBtn = styled.button`
+  border: none;
+  background-color: white;
+  color: #120de4;
+  text-align: center;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  line-height: 22px; /* 183.333% */
+  letter-spacing: -0.408px;
+  text-decoration-line: underline;
+`;
+
+function UpdateUserInfo() {
   const {
     handleSubmit,
     formState: { errors },
     control,
+    setValue,
   } = useForm();
   const navigate = useNavigate();
   const { state } = useLocation();
-
+  const accessToken = localStorage.getItem("accessToken");
   const [toast, setToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("Toast Message");
+  const [modalOpen, setModalOpen] = useState(false);
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  const [isCurValue, setIsCurValue] = useState(false);
+
+  const currentInfoBtnClick = () => {
+    setIsCurValue(true);
+  };
+  useEffect(() => {
+    if (isCurValue) {
+      setValue("birth", state.birth);
+      setValue("gender", state.gender);
+      setValue("phoneNumber", state.phoneNumber);
+      setValue("email", state.email);
+      setValue("militaryRank", state.militaryRank);
+      setValue("appointment", state.appointment);
+      setValue("discharge", state.discharge);
+    }
+  }, [isCurValue]);
 
   const onSubmit = async (data: any) => {
-    const submitData = { ...state, ...data };
-
     // 1. '휴대전화'에 하이픈 넣기
     data.phoneNumber = data.phoneNumber
       .replace(/[^0-9]/g, "") // 숫자를 제외한 모든 문자 제거
@@ -48,31 +76,59 @@ function JoinPage3() {
     // 2. 회원가입 API Call
     const response = await axios({
       method: "post",
-      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/signup`,
-      data: submitData,
+      url: `${process.env.REACT_APP_DONG10_BASEURL}/members/edit/infoChange`,
+      data: data,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
+
     const { status, reason } = response.data;
-    if (status !== 201) {
-      // setError("", { message: reason }, { shouldFocus: true });
+    if (status !== 200) {
       setToastMessage(reason);
       setToast(true);
       return;
     } else {
-      navigate("/join/success");
+      setModalOpen(true);
     }
   };
-  // BE 연동 힘들 때 테스트용!
-  // const onSubmit = (data: any) => {
-  //   const submitData = { ...state, ...data };
-  //   console.log(submitData);
-  //   navigate("/join/success");
-  // };
 
   return (
     <ScreenContainer>
-      <Logo />
-      <TitleBox TitleText="회원가입" />
+      <PopupMessage
+        modalOpen={modalOpen}
+        message="회원 정보가 수정되었습니다!"
+        onAfterClose={() => {
+          navigate("/mypage/editpinfo/home");
+        }}
+        onRequestClose={closeModal}
+        onClickfn={closeModal}
+      />
+      <PageHeader pageTitle="회원 정보" />
+      <CurrentInfoBtn onClick={currentInfoBtnClick}>
+        기존 정보 불러오기
+      </CurrentInfoBtn>
       <Form onSubmit={handleSubmit(onSubmit)}>
+        <Input
+          control={control}
+          name="name"
+          disabled={true}
+          rules={{ required: true }}
+          defaultValue={state.name}
+          placeholder={`${state.name} (이름)`}
+          shouldUnregister={true}
+          validationError={errors.name ? true : false}
+        />
+        <Input
+          control={control}
+          name="serviceNumber"
+          disabled={true}
+          rules={{ required: true }}
+          defaultValue={state.serviceNumber}
+          placeholder={`${state.serviceNumber} (군번)`}
+          shouldUnregister={true}
+          validationError={errors.serviceNumber ? true : false}
+        />
         <Dropdown
           control={control}
           name="job"
@@ -196,8 +252,7 @@ function JoinPage3() {
           <ErrorMessage message={errors?.discharge?.message?.toString()} />
         )}
         <BtnList>
-          <GoBackButton />
-          <Button opacity={false} text="가입완료" />
+          <Button opacity={false} text="저장" />
         </BtnList>
       </Form>
       {toast && (
@@ -207,4 +262,4 @@ function JoinPage3() {
   );
 }
 
-export default JoinPage3;
+export default UpdateUserInfo;

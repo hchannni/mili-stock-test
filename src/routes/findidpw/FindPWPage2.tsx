@@ -33,7 +33,7 @@ function FindPWPage2() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [toast, setToast] = useState(false);
-  let toastMessage = "Toast Message";
+  const [toastMessage, setToastMessage] = useState("Toast Message");
 
   const onSubmit = async (data: any) => {
     const submitData = { ...state, ...data };
@@ -46,7 +46,7 @@ function FindPWPage2() {
     const { status, reason } = response.data;
     if (status !== 200) {
       // setError("", { message: reason }, { shouldFocus: true });
-      toastMessage = reason;
+      setToastMessage(reason);
       setToast(true);
       return;
     } else {
