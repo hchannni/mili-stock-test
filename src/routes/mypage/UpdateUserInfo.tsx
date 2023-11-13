@@ -38,6 +38,12 @@ function UpdateUserInfo() {
   const accessToken = localStorage.getItem("accessToken");
 
   const onSubmit = async (data: any) => {
+    // 1. '휴대전화'에 하이픈 넣기
+    data.phoneNumber = data.phoneNumber
+      .replace(/[^0-9]/g, "") // 숫자를 제외한 모든 문자 제거
+      .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+
+    // 2. 회원가입 API Call
     const response = await axios({
       method: "post",
       url: `${process.env.REACT_APP_DONG10_BASEURL}/members/edit/infoChange`,
@@ -135,6 +141,7 @@ function UpdateUserInfo() {
           rules={{ required: "'휴대전화'는 필수 항목입니다." }}
           placeholder="휴대전화"
           validationError={errors.phoneNumber ? true : false}
+          type="tel"
         />
         {errors.phoneNumber && (
           <ErrorMessage message={errors?.phoneNumber?.message?.toString()} />
