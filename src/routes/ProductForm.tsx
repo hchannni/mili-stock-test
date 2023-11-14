@@ -86,8 +86,8 @@ const ProductForm: React.FC = () => {
 
     const productSchema = yup.object().shape({
         productTitle: yup.string().required('상품명은 필수 입력 값입니다.'),
-        productPrice: yup.number().min(1, '가격은 최소 1 이상이어야 합니다.'),
-        productStock: yup.number().min(1, '재고는 최소 1 이상이어야 합니다.'),
+        productPrice: yup.number().min(1, '가격은 최소 1 이상이어야 합니다.').required('가격은 필수 입력 값입니다.'),
+        productStock: yup.number().min(1, '재고는 최소 1 이상이어야 합니다.').required('재고는 필수 입력 값입니다.'),
         // Add other validations as needed
     });
 
@@ -242,7 +242,7 @@ const ProductForm: React.FC = () => {
                         value={formData.productPrice}
                         onChange={handleChange}
                     />
-                    {validationErrors.productTitle && (
+                    {validationErrors.productPrice && (
                         <ErrorMessage>{validationErrors.productPrice}</ErrorMessage>
                     )}
                     <Label>Product Stock:</Label>
@@ -252,7 +252,7 @@ const ProductForm: React.FC = () => {
                         value={formData.productStock}
                         onChange={handleChange}
                     />
-                    {validationErrors.productTitle && (
+                    {validationErrors.productStock && (
                         <ErrorMessage>{validationErrors.productStock}</ErrorMessage>
                     )}
                     <Label>Category:</Label>
