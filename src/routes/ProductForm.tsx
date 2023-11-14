@@ -1,10 +1,17 @@
 import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { ValidationError } from 'yup';
 
 import * as yup from 'yup';
 
 // Styled components
+
+const ErrorMessage = styled.div`
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+`;
 
 const Container = styled.div`
     max-width: 600px;
@@ -73,12 +80,16 @@ const ProductForm: React.FC = () => {
         productDiscountPrice: 0,
     });
 
+    const [validationErrors, setValidationErrors] = useState<{
+        [key: string]: string;
+    }>({});
+
     const productSchema = yup.object().shape({
         productTitle: yup.string().required('상품명은 필수 입력 값입니다.'),
         productPrice: yup.number().min(1, '가격은 최소 1 이상이어야 합니다.'),
         productStock: yup.number().min(1, '재고는 최소 1 이상이어야 합니다.'),
         // Add other validations as needed
-      });
+    });
 
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
@@ -147,7 +158,7 @@ const ProductForm: React.FC = () => {
         try {
 
             await productSchema.validate(formData, { abortEarly: false });
-            
+
             const accessToken = localStorage.getItem('accessToken');
             if (!accessToken) {
                 // Handle the case where the access token is missing, e.g., redirect to the login page.
@@ -185,12 +196,22 @@ const ProductForm: React.FC = () => {
                 }, 1000); // 1000 milliseconds (1 seconds) delay
             }
 
-        } catch (error) {
-            // Handle errors, e.g., display validation errors or a failure message
-            console.error("Error creating product:", error);
+            // Clear validation errors
+            setValidationErrors({});
+
         }
-        catch (validationError){
-            console.error('Validation error:', validationError.errors);
+        // catch (error) {
+        //     // Handle errors, e.g., display validation errors or a failure message
+        //     console.error("Error creating product:", error);
+        // }
+        catch (validationError) {
+            if (validationError instanceof yup.ValidationError) {
+                const errors: { [key: string]: string } = {};
+                validationError.inner.forEach((err) => {
+                    errors[err.path as string] = err.message;
+                });
+                setValidationErrors(errors);
+            }
         }
     };
 
@@ -211,33 +232,36 @@ const ProductForm: React.FC = () => {
                         value={formData.productTitle}
                         onChange={handleChange}
                     />
-                    <Label>
-                        <Label>Product Price:</Label>
-                        <Input
-                            type="number"
-                            name="productPrice"
-                            value={formData.productPrice}
-                            onChange={handleChange}
-                        />
-                    </Label>
-                    <Label>
-                        <Label>Product Stock:</Label>
-                        <Input
-                            type="number"
-                            name="productStock"
-                            value={formData.productStock}
-                            onChange={handleChange}
-                        />
-                    </Label>
-                    <Label>
-                        <Label>Category:</Label>
-                        <Input
-                            type="text"
-                            name="category"
-                            value={formData.category}
-                            onChange={handleChange}
-                        />
-                    </Label>
+                    {validationErrors.productTitle && (
+                        <ErrorMessage>{validationErrors.productTitle}</ErrorMessage>
+                    )}
+                    <Label>Product Price:</Label>
+                    <Input
+                        type="number"
+                        name="productPrice"
+                        value={formData.productPrice}
+                        onChange={handleChange}
+                    />
+                    {validationErrors.productTitle && (
+                        <ErrorMessage>{validationErrors.productPrice}</ErrorMessage>
+                    )}
+                    <Label>Product Stock:</Label>
+                    <Input
+                        type="number"
+                        name="productStock"
+                        value={formData.productStock}
+                        onChange={handleChange}
+                    />
+                    {validationErrors.productTitle && (
+                        <ErrorMessage>{validationErrors.productStock}</ErrorMessage>
+                    )}
+                    <Label>Category:</Label>
+                    <Input
+                        type="text"
+                        name="category"
+                        value={formData.category}
+                        onChange={handleChange}
+                    />
                 </FormGroup>
 
                 <FormGroup as={CheckboxLabel}>
