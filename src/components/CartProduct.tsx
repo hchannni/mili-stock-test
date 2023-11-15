@@ -138,13 +138,17 @@ interface CartProductProps {
   price: number;
   stocks: number;
   count: number;
+  imageUrl: string;
 }
 
-function CartProduct({ name, price, stocks, count }: CartProductProps) {
+function CartProduct({ name, price, stocks, count, imageUrl }: CartProductProps) {
+
+  console.log('Received imageUrl:', imageUrl);
+
   return (
     <Container>
       <ProductCard>
-        <Img src="*" alt="" />
+      <img src={imageUrl} alt={name} style={{ maxWidth: '30%', height: 'auto' }} />
         <ProductInfo>
           <ProductName>{name}</ProductName>
           <Price>{`${price}원`}</Price>
