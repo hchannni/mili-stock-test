@@ -4,6 +4,15 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faHeart, faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 
+const TotalPrice = styled.span`
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+`;
+
 const Container = styled.div`
   width: 100%;
 `;
@@ -131,7 +140,6 @@ const Count = styled.span`
   padding: 0 24px;
 `;
 
-const TotalPrice = styled.span``;
 
 interface CartProductProps {
   name: string;
@@ -172,6 +180,7 @@ function CartProduct({ name, price, stocks, count, imageUrl }: CartProductProps)
         <DeleteBtn>
           <DeleteIcon icon={faTrashCan as IconProp}></DeleteIcon>
         </DeleteBtn>
+        <TotalPrice>{`${price * count}`}원</TotalPrice>
       </ProductCard>
     </Container>
   );
