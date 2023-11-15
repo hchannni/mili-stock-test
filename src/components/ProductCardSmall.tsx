@@ -85,7 +85,17 @@ const CartBtn = styled.button`
   background-color: inherit;
   width: 16px;
   height: 16px;
-  margin-top: 4px;
+
+  position: relative;
+`;
+
+const CartIcon = styled(FontAwesomeIcon)`
+  width: 16px;
+  height: 16px;
+
+  position: absolute;
+  right: 0;
+  top: 4px;
 `;
 
 interface ProductCardProps {
@@ -112,7 +122,7 @@ function ProductCardSmall({ name, price, stocks, imageUrl }: ProductCardProps) {
           <Stocks>{`${stocks}개 남음`}</Stocks>
         </TextBox>
         <CartBtn>
-          <FontAwesomeIcon icon={faCartShopping as IconProp} />
+          <CartIcon icon={faCartShopping as IconProp} />
         </CartBtn>
       </Info>
     </Container>

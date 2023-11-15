@@ -3,6 +3,7 @@ import HookingButton from "../components/HookingButton";
 import ScreenContainer from "../components/ScreenContainer";
 import PageHeader from "../components/mypage/PageHeader";
 import ProductCardSmall from "../components/ProductCardSmall";
+import ProductCard from "../components/ProductCard";
 
 const HookingButtons = styled.section`
   width: 100%;
@@ -60,6 +61,12 @@ function LikeProductPage() {
           imageUrl="*"
         />
         <ProductCardSmall
+          name="아사히생맥주"
+          price={2100}
+          stocks={107}
+          imageUrl="*"
+        />
+        <ProductCard
           name="아사히생맥주"
           price={2100}
           stocks={107}
