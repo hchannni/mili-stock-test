@@ -10,7 +10,7 @@ const Btn = styled.button`
   border-radius: 24px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05);
   display: flex;
-  padding: 4px 16px;
+  padding: 4px 12px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -24,6 +24,7 @@ const Desc = styled.span`
   font-weight: 400;
   line-height: 24px; /* 200% */
   letter-spacing: -0.408px;
+  white-space: nowrap;
 `;
 
 const Frame = styled.div`

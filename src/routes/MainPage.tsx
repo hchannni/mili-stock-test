@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
-import ProductCard from "./ProductCard";
+import ProductCard from "../components/ProductCard";
 
 const Container = styled.div`
   max-width: 390px;
