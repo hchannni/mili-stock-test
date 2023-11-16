@@ -147,16 +147,17 @@ interface CartProductProps {
   stocks: number;
   count: number;
   imageUrl: string;
+  onDelete?: () => void;
 }
 
-function CartProduct({ name, price, stocks, count, imageUrl }: CartProductProps) {
+function CartProduct({ name, price, stocks, count, imageUrl, onDelete }: CartProductProps) {
 
   console.log('Received imageUrl:', imageUrl);
 
   return (
     <Container>
       <ProductCard>
-      <img src={imageUrl} alt={name} style={{ maxWidth: '30%', height: 'auto' }} />
+      <Img src={imageUrl} alt={name} />
         <ProductInfo>
           <ProductName>{name}</ProductName>
           <Price>{`${price}원`}</Price>
@@ -177,7 +178,7 @@ function CartProduct({ name, price, stocks, count, imageUrl }: CartProductProps)
         <HeartBtn>
           <HeartIcon icon={faHeart as IconProp}></HeartIcon>
         </HeartBtn>
-        <DeleteBtn>
+        <DeleteBtn onClick={onDelete}>
           <DeleteIcon icon={faTrashCan as IconProp}></DeleteIcon>
         </DeleteBtn>
         <TotalPrice>{`${price * count}`}원</TotalPrice>
