@@ -1,8 +1,21 @@
 
 import React, { useState, useEffect } from 'react';
+import styled from "styled-components";
 import ScreenContainer from "../components/ScreenContainer";
 import PageHeader from "../components/mypage/PageHeader";
 import CartProduct from "../components/CartProduct";
+
+const Price = styled.div`
+  margin-top: 10px;
+  color: #000;
+  text-align: center;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: bold;
+`;
+
+
 
 function CartPage() {
   const [cart, setCart] = useState<any>(null);
@@ -81,7 +94,7 @@ function CartPage() {
           onDelete={() => handleDeleteProduct(product.productNumber)}
         />
       ))}
-
+     <Price> {`총합: ${totalPrice}원`} </Price>
     </ScreenContainer>
   );
 }

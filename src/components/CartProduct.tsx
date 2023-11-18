@@ -91,6 +91,11 @@ const DeleteBtn = styled.button`
 
   border: none;
   background-color: inherit;
+  cursor: pointer;
+
+  &:hover {
+    color: darkred; /* Change the color on hover */
+  }
 `;
 
 const DeleteIcon = styled(FontAwesomeIcon)`
