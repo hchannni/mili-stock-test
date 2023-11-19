@@ -7,6 +7,7 @@ import Toggle from "../components/Toggle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightLeft } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import BottomSheet from "../components/BottomSheet";
 
 const HookingButtons = styled.section`
   width: 100%;
@@ -136,6 +137,7 @@ function LikeProductPage() {
           imageUrl="*"
         />
       </ProductsContainer>
+      <BottomSheet />
     </ScreenContainer>
   );
 }
