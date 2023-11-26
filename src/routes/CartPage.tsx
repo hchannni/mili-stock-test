@@ -1,3 +1,4 @@
+// 11.27 TODO: Make product be deleted when cnt=0 (ask chatgpt)
 
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
@@ -137,7 +138,38 @@ function CartPage() {
     })
       .then((response) => response.json())
       .then((data) => {
-        
+
+        console.log("Parsed JSON Data:", data);
+
+        setCart((prevCart: any) => ({
+          ...prevCart,
+          cartItems: prevCart.cartItems.map((cartItem: { product: { productNumber: any; }, quantity: number }) => {
+            if (cartItem.product.productNumber === productNumber) {
+              // Update the quantity of the specific cart item
+              return {
+                ...cartItem,
+                quantity: data,
+              };
+            }
+            return cartItem;
+          }),
+        }));
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const handleDecreaseCount = (productNumber: any, quantitySubtracted: number) => {
+    const token = localStorage.getItem("accessToken");
+
+    fetch(`${process.env.REACT_APP_DONG10_BASEURL}/carts/decreaseCount/productNumber/${productNumber}/by/${quantitySubtracted}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+
         console.log("Parsed JSON Data:", data);
 
         setCart((prevCart: any) => ({
@@ -170,6 +202,7 @@ function CartPage() {
           imageUrl={cartItem.product.productImageUrl}
           onDelete={() => handleDeleteProduct(cartItem.product.productNumber)}
           increaseCount={() => handleIncreaseCount(cartItem.product.productNumber, 1)}
+          decreaseCount={() => handleDecreaseCount(cartItem.product.productNumber, 1)}
         />
       ))}
       <ShoppingNav>
