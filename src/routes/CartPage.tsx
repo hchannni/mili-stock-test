@@ -88,9 +88,9 @@ function CartPage() {
       let totalPrice = 0;
       let totalCount = 0;
 
-      for (const product of cart.products) {
-        totalPrice += product.productPrice;
-        totalCount += product.productStock;
+      for (const cartItem of cart.cartItems) {
+        totalPrice += cartItem.product.productPrice;
+        totalCount += cartItem.quantity;
       }
       setTotalPrice(totalPrice);
       setTotalCount(totalCount);
@@ -115,11 +115,44 @@ function CartPage() {
     })
       .then((response) => response.json())
       .then((data) => {
+        setTimeout(() => {
+          setCart((prevCart: any) => ({
+            ...prevCart,
+            cartItems: prevCart.cartItems.filter((cartItem: { product: { productNumber: any } }) => cartItem.product.productNumber !== productNumber), // filter: 삭제된 productNumber를 제외한 상품들만 새 배열에
+          }));
+        }, 100);
+        console.log(`Product ${productNumber} deleted. Response:`, data);
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const handleIncreaseCount = (productNumber: any, quantityAdded: number) => {
+    const token = localStorage.getItem("accessToken");
+
+    fetch(`${process.env.REACT_APP_DONG10_BASEURL}/carts/increaseCount/productNumber/${productNumber}/by/${quantityAdded}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        
+        console.log("Parsed JSON Data:", data);
+
         setCart((prevCart: any) => ({
           ...prevCart,
-          products: prevCart.products.filter((product: { productNumber: any; }) => product.productNumber !== productNumber), // filter: 삭제된 productNumber를 제외한 상품들만 새 배열에
+          cartItems: prevCart.cartItems.map((cartItem: { product: { productNumber: any; }, quantity: number }) => {
+            if (cartItem.product.productNumber === productNumber) {
+              // Update the quantity of the specific cart item
+              return {
+                ...cartItem,
+                quantity: data,
+              };
+            }
+            return cartItem;
+          }),
         }));
-        console.log(`Product ${productNumber} deleted. Response:`, data);
       })
       .catch((error) => console.error(error));
   };
@@ -127,15 +160,16 @@ function CartPage() {
   return (
     <ScreenContainer>
       <PageHeader pageTitle="장바구니" />
-      {cart.products.map((product: any) => (
+      {cart.cartItems.map((cartItem: any) => (
         <CartProduct
-          key={product.productNumber}
-          name={product.productTitle}
-          price={product.productPrice}
-          stocks={product.productStock}
-          count={1}
-          imageUrl={product.productImageUrl}
-          onDelete={() => handleDeleteProduct(product.productNumber)}
+          key={cartItem.product.productNumber}
+          name={cartItem.product.productTitle}
+          price={cartItem.product.productPrice}
+          stocks={cartItem.product.productStock}
+          count={cartItem.quantity}
+          imageUrl={cartItem.product.productImageUrl}
+          onDelete={() => handleDeleteProduct(cartItem.product.productNumber)}
+          increaseCount={() => handleIncreaseCount(cartItem.product.productNumber, 1)}
         />
       ))}
       <ShoppingNav>

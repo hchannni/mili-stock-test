@@ -124,6 +124,10 @@ const MinusBtn = styled.button`
   width: 24px;
   height: 24px;
   border-radius: 50%;
+
+  &:hover {
+    color: darkred; /* Change the color on hover */
+  }
 `;
 
 const PlusBtn = styled.button`
@@ -132,6 +136,10 @@ const PlusBtn = styled.button`
   width: 24px;
   height: 24px;
   border-radius: 50%;
+
+  &:hover {
+    color: darkred; /* Change the color on hover */
+  }
 `;
 
 const Count = styled.span`
@@ -153,9 +161,11 @@ interface CartProductProps {
   count: number;
   imageUrl: string;
   onDelete?: () => void;
+  increaseCount?: () => void;
+  decreaseCount?: () => void;
 }
 
-function CartProduct({ name, price, stocks, count, imageUrl, onDelete }: CartProductProps) {
+function CartProduct({ name, price, stocks, count, imageUrl, onDelete, increaseCount, decreaseCount }: CartProductProps) {
 
   console.log('Received imageUrl:', imageUrl);
 
@@ -169,11 +179,11 @@ function CartProduct({ name, price, stocks, count, imageUrl, onDelete }: CartPro
           <Stocks>{`${stocks}개 남음`}</Stocks>
           <CountInfo>
             <Counter>
-              <MinusBtn>
+              <MinusBtn onClick={decreaseCount}>
                 <FontAwesomeIcon icon={faMinus as IconProp} />
               </MinusBtn>
               <Count>{count}</Count>
-              <PlusBtn>
+              <PlusBtn onClick={increaseCount}>
                 <FontAwesomeIcon icon={faPlus as IconProp} />
               </PlusBtn>
             </Counter>
