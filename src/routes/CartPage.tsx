@@ -172,9 +172,8 @@ function CartPage() {
 
         console.log("Parsed JSON Data:", data);
 
-        setCart((prevCart: any) => ({
-          ...prevCart,
-          cartItems: prevCart.cartItems.map((cartItem: { product: { productNumber: any; }, quantity: number }) => {
+        setCart((prevCart: any) => {
+          const updatedCartItems = prevCart.cartItems.map((cartItem: { product: { productNumber: any; }, quantity: number }) => {
             if (cartItem.product.productNumber === productNumber) {
               // Update the quantity of the specific cart item
               return {
@@ -183,8 +182,20 @@ function CartPage() {
               };
             }
             return cartItem;
-          }),
-        }));
+          });
+  
+          // Check if the new quantity is less than or equal to 0
+          const updatedCartItem = updatedCartItems.find((cartItem: any) => cartItem.product.productNumber === productNumber);
+          if (updatedCartItem && updatedCartItem.quantity <= 0) {
+            // If the quantity is less than or equal to 0, call handleDeleteProduct
+            handleDeleteProduct(productNumber);
+          }
+  
+          return {
+            ...prevCart,
+            cartItems: updatedCartItems,
+          };
+        });
       })
       .catch((error) => console.error(error));
   };
