@@ -57,7 +57,6 @@ const TotalPrice = styled.span`
   letter-spacing: -0.382px;
 `;
 
-
 function CartPage() {
   const [cart, setCart] = useState<any>(null);
   const [totalPrice, setTotalPrice] = useState<number>(0);
