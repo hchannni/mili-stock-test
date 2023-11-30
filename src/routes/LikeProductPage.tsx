@@ -94,11 +94,12 @@ function LikeProductPage() {
     const fetchHearts = async () => { // async 왜 씀? .then.then.catch 대신 await로 코드 깔끔하게 가능
       try {
         // Send a request to your backend API to get all hearts for the current user
-        const response = await fetch('/api/hearts', {
+        const token = localStorage.getItem("accessToken");
+        
+        const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/hearts`, {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${getBearerToken()}`, // Include the bearer token
-            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`, // Include the bearer token
           },
         });
 
@@ -142,42 +143,16 @@ function LikeProductPage() {
 
       <ProductsContainer>
         {/* API로부터 데이터 받아왔을 때는 map함수를 통해 ProductCardSamll 컴포넌트를 그리면 OK */}
-        <ProductCardSmall
-          name="아사히생맥주"
-          price={2100}
-          stocks={107}
-          imageUrl="*"
-        />
-        <ProductCardSmall
-          name="아사히생맥주"
-          price={2100}
-          stocks={107}
-          imageUrl="*"
-        />
-        <ProductCardSmall
-          name="아사히생맥주"
-          price={2100}
-          stocks={107}
-          imageUrl="*"
-        />
-        <ProductCardSmall
-          name="아사히생맥주"
-          price={2100}
-          stocks={107}
-          imageUrl="*"
-        />
-        <ProductCardSmall
-          name="아사히생맥주"
-          price={2100}
-          stocks={107}
-          imageUrl="*"
-        />
-        <ProductCardSmall
-          name="아사히생맥주"
-          price={2100}
-          stocks={107}
-          imageUrl="*"
-        />
+        {hearts.map((heart) => (
+          // Use the properties of the heart.product object in the ProductCardSmall component
+          <ProductCardSmall
+            key={heart.heartId}
+            name={heart.product.productTitle}
+            price={heart.product.productPrice}
+            stocks={heart.product.productStock}
+            imageUrl={heart.product.productImageUrl}
+          />
+        ))}
       </ProductsContainer>
       <BottomSheet />
     </ScreenContainer>

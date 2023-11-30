@@ -163,9 +163,10 @@ interface CartProductProps {
   onDelete?: () => void;
   increaseCount?: () => void;
   decreaseCount?: () => void;
+  liked?: boolean;
 }
 
-function CartProduct({ name, price, stocks, count, imageUrl, onDelete, increaseCount, decreaseCount }: CartProductProps) {
+function CartProduct({ name, price, stocks, count, imageUrl, onDelete, increaseCount, decreaseCount, liked }: CartProductProps) {
 
   console.log('Received imageUrl:', imageUrl);
 

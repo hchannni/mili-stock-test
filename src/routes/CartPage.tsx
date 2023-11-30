@@ -61,6 +61,7 @@ function CartPage() {
   const [cart, setCart] = useState<any>(null);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(0);
+  const [isLiked, setIsLiked] = useState(liked || false);
 
   // 페이지 새로고침: 카트 불러옴
   useEffect(() => {
