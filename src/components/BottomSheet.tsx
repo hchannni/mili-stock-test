@@ -5,7 +5,7 @@ const Wrapper = styled.div`
   background-color: #fff;
   border-radius: 24px 24px 0 0;
   padding: 40px 24px 32px 24px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
 
   display: flex;
   flex-direction: column;
@@ -37,16 +37,13 @@ const SortOptions = styled.div`
   gap: 12px;
 `;
 
-const SortBy = styled.button`
-  border: none;
-  background-color: inherit;
-
+const SortBy = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
 `;
 
-const OptName = styled.span`
+const StyledLabel = styled.label`
   color: #000;
   font-family: Inter;
   font-size: 16px;
@@ -54,7 +51,15 @@ const OptName = styled.span`
   font-weight: 400;
   line-height: 22px; /* 137.5% */
   letter-spacing: -0.408px;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
+
+const StyledRadio = styled.input.attrs(() => ({
+  type: "radio",
+}))``;
 
 const SelectedCircleOuter = styled.div`
   display: flex;
@@ -102,23 +107,23 @@ function BottomSheet() {
       </Header>
       <SortOptions>
         <SortBy>
-          <OptName>인기순</OptName>
+          <StyledLabel htmlFor="인기순">인기순</StyledLabel>
           <NotSelectedCircle />
         </SortBy>
         <SortBy>
-          <OptName>신상품순</OptName>
+          <StyledLabel>신상품순</StyledLabel>
           <NotSelectedCircle />
         </SortBy>
         <SortBy>
-          <OptName>가격낮은순</OptName>
+          <StyledLabel>가격낮은순</StyledLabel>
           <NotSelectedCircle />
         </SortBy>
         <SortBy>
-          <OptName>가격높은순</OptName>
+          <StyledLabel>가격높은순</StyledLabel>
           <NotSelectedCircle />
         </SortBy>
         <SortBy>
-          <OptName>재고적은순</OptName>
+          <StyledLabel>재고적은순</StyledLabel>
           <SelectedCircleOuter>
             <SelectedCircleInner></SelectedCircleInner>
           </SelectedCircleOuter>
