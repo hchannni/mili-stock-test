@@ -83,12 +83,6 @@ function LikeProductPage() {
   const [hearts, setHearts] = useState<any[]>([]);
 
   useEffect(() => {
-    // Function to get the bearer token (replace with your actual implementation)
-    const getBearerToken = (): string => {
-      // Implement your logic to get the bearer token here
-      // For example, you might have it stored in localStorage or a state variable
-      return 'your_bearer_token';
-    };
 
     // Fetch hearts from the backend when the component mounts
     const fetchHearts = async () => { // async 왜 씀? .then.then.catch 대신 await로 코드 깔끔하게 가능
@@ -99,7 +93,7 @@ function LikeProductPage() {
         const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/hearts`, {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${token}`, // Include the bearer token
+            'Authorization': `Bearer ${token}`,
           },
         });
 

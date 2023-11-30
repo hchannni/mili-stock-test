@@ -61,7 +61,7 @@ function CartPage() {
   const [cart, setCart] = useState<any>(null);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(0);
-  const [isLiked, setIsLiked] = useState(liked || false);
+  const [isLiked, setIsLiked] = useState(false);
 
   // 페이지 새로고침: 카트 불러옴
   useEffect(() => {
@@ -198,6 +198,28 @@ function CartPage() {
         });
       })
       .catch((error) => console.error(error));
+  };
+
+  const handleHeartClick = async (productNumber: any) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${productNumber}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        setIsLiked(!isLiked);
+      } else {
+        // Handle error response
+        console.error('Error:', response.statusText);
+      }
+    } catch (error) {
+      // Handle network error
+      console.error('Error:', error);
+    }
   };
 
   return (
