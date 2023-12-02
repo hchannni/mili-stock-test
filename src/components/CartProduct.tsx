@@ -163,10 +163,11 @@ interface CartProductProps {
   onDelete?: () => void;
   increaseCount?: () => void;
   decreaseCount?: () => void;
-  liked?: boolean;
+  onHeartClick?: () => void;
+  liked?: boolean;  
 }
 
-function CartProduct({ name, price, stocks, count, imageUrl, onDelete, increaseCount, decreaseCount, liked }: CartProductProps) {
+function CartProduct({ name, price, stocks, count, imageUrl, onDelete, increaseCount, decreaseCount, onHeartClick, liked }: CartProductProps) {
 
   console.log('Received imageUrl:', imageUrl);
 
@@ -191,8 +192,11 @@ function CartProduct({ name, price, stocks, count, imageUrl, onDelete, increaseC
             <TotalPrice>{`${price * count}`}원</TotalPrice>
           </CountInfo>
         </ProductInfo>
-        <HeartBtn>
-          <HeartIcon icon={faHeart as IconProp}></HeartIcon>
+        <HeartBtn onClick={onHeartClick}>
+          <HeartIcon 
+            icon={liked ? faHeart : farHeart}
+            color={liked ? '#d61818' : 'black'}
+          ></HeartIcon>
         </HeartBtn>
         <DeleteBtn onClick={onDelete}>
           <DeleteIcon icon={faTrashCan as IconProp}></DeleteIcon>

@@ -236,6 +236,8 @@ function CartPage() {
           onDelete={() => handleDeleteProduct(cartItem.product.productNumber)}
           increaseCount={() => handleIncreaseCount(cartItem.product.productNumber, 1)}
           decreaseCount={() => handleDecreaseCount(cartItem.product.productNumber, 1)}
+          onHeartClick={() => handleHeartClick(cartItem.product.productNumber)}
+          liked={cartItem.isLiked()}
         />
       ))}
       <ShoppingNav>
