@@ -194,7 +194,7 @@ function CartProduct({ name, price, stocks, count, imageUrl, onDelete, increaseC
         </ProductInfo>
         <HeartBtn onClick={onHeartClick}>
           <HeartIcon 
-            icon={liked ? faHeart : farHeart}
+            icon={faHeart}
             color={liked ? '#d61818' : 'black'}
           ></HeartIcon>
         </HeartBtn>

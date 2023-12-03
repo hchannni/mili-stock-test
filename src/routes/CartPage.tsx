@@ -61,7 +61,6 @@ function CartPage() {
   const [cart, setCart] = useState<any>(null);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(0);
-  const [isLiked, setIsLiked] = useState(false);
 
   // 페이지 새로고침: 카트 불러옴
   useEffect(() => {
@@ -200,26 +199,80 @@ function CartPage() {
       .catch((error) => console.error(error));
   };
 
-  const handleHeartClick = async (productNumber: any) => {
-    try {
-      const token = localStorage.getItem("accessToken");
-      const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${productNumber}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+  const handleHeartClick = async (productNumber: any, heart: any) => {
+    // 하트 x -> 하트 추가
+    if (heart==null){
+      console.log("heart==null");
+      try {
+        const token = localStorage.getItem("accessToken");
+        const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${productNumber}`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
 
-      if (response.ok) {
-        setIsLiked(!isLiked);
-      } else {
-        // Handle error response
-        console.error('Error:', response.statusText);
+        if (response.ok) {
+          const data = await response.json();
+
+          setCart((prevCart: any) => ({
+            ...prevCart,
+            cartItems: prevCart.cartItems.map((cartItem: { product: { productNumber: any; }, heart: any }) => {
+              if (cartItem.product.productNumber === productNumber) {
+                // Update the heart of the specific cart item
+                return {
+                  ...cartItem,
+                  heart: data,
+                };
+              }
+              return cartItem;
+            }),
+          }));
+        } else {
+          // Handle error response
+          console.error('Error:', response.statusText);
+        }
+      } catch (error) {
+        // Handle network error
+        console.error('Error:', error);
       }
-    } catch (error) {
-      // Handle network error
-      console.error('Error:', error);
     }
+    // 하트 o -> 하트 해제
+    else {
+      try {
+        console.log("heart!=null");
+        const token = localStorage.getItem("accessToken");
+        const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${productNumber}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          setCart((prevCart: any) => ({
+            ...prevCart,
+            cartItems: prevCart.cartItems.map((cartItem: { product: { productNumber: any; }, heart: any }) => {
+              if (cartItem.product.productNumber === productNumber) {
+                // Update the heart of the specific cart item
+                return {
+                  ...cartItem,
+                  heart: null,
+                };
+              }
+              return cartItem;
+            }),
+          }));
+        } else {
+          // Handle error response
+          console.error('Error:', response.statusText);
+        }
+      } catch (error) {
+        // Handle network error
+        console.error('Error:', error);
+      }
+    }
+    
   };
 
   return (
@@ -236,8 +289,8 @@ function CartPage() {
           onDelete={() => handleDeleteProduct(cartItem.product.productNumber)}
           increaseCount={() => handleIncreaseCount(cartItem.product.productNumber, 1)}
           decreaseCount={() => handleDecreaseCount(cartItem.product.productNumber, 1)}
-          onHeartClick={() => handleHeartClick(cartItem.product.productNumber)}
-          liked={cartItem.isLiked()}
+          onHeartClick={() => handleHeartClick(cartItem.product.productNumber, cartItem.heart)}
+          liked={cartItem.heart!=null}
         />
       ))}
       <ShoppingNav>
