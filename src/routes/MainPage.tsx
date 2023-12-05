@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
-import ProductCard from "./ProductCard";
+import ProductCard from "../components/ProductCard";
 
 const Container = styled.div`
   max-width: 390px;
@@ -110,10 +110,30 @@ function MainPage() {
             <SectionPageLink to={"/allitems"}>전체보기</SectionPageLink>
           </SectionHeader>
           <SectionItems>
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            <ProductCard
+              name="아사히생맥주"
+              price={2100}
+              stocks={107}
+              imageUrl="*"
+            />
+            <ProductCard
+              name="아사히생맥주"
+              price={2100}
+              stocks={107}
+              imageUrl="*"
+            />
+            <ProductCard
+              name="아사히생맥주"
+              price={2100}
+              stocks={107}
+              imageUrl="*"
+            />
+            <ProductCard
+              name="아사히생맥주"
+              price={2100}
+              stocks={107}
+              imageUrl="*"
+            />
           </SectionItems>
         </HotItems>
       </Main>

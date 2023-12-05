@@ -19,6 +19,7 @@ import EditPersonalInfo from "./routes/mypage/EditPersonalInfo";
 import UpdateUserInfo from "./routes/mypage/UpdateUserInfo";
 import ChangePassword from "./routes/mypage/ChangePassword";
 import CartPage from "./routes/CartPage";
+import LikeProductPage from "./routes/LikeProductPage";
 
 function Router() {
   const location = useLocation();
@@ -44,6 +45,7 @@ function Router() {
           <Route path="/mypage/editpinfo/user" element={<UpdateUserInfo />} />
           <Route path="/mypage/editpinfo/pw" element={<ChangePassword />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/likeproduct" element={<LikeProductPage />} />
         </Routes>
       </CSSTransition>
     </TransitionGroup>
