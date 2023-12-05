@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { faHeart, faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { IconProp } from "@fortawesome/fontawesome-svg-core"; 
+import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
+import { faHeart as regularHeart, faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as solidHeart, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const TotalPrice = styled.span`
   position: absolute;
@@ -76,6 +77,11 @@ const HeartBtn = styled.button`
 
   border: none;
   background-color: inherit;
+  cursor: pointer;
+
+  &:hover {
+    color: darkred; /* Change the color on hover */
+  }
 `;
 
 const HeartIcon = styled(FontAwesomeIcon)`
@@ -194,8 +200,7 @@ function CartProduct({ name, price, stocks, count, imageUrl, onDelete, increaseC
         </ProductInfo>
         <HeartBtn onClick={onHeartClick}>
           <HeartIcon 
-            icon={faHeart}
-            color={liked ? '#d61818' : 'black'}
+            icon={liked ? solidHeart : regularHeart}
           ></HeartIcon>
         </HeartBtn>
         <DeleteBtn onClick={onDelete}>
