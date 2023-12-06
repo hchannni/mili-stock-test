@@ -7,9 +7,11 @@ import {
   faCartShopping,
   faChevronLeft,
   faMagnifyingGlass,
+  faRightLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import axios from "axios";
+import ProductCard from "../components/ProductCard";
 
 const Header = styled.header`
   width: 100%;
@@ -61,10 +63,98 @@ const SearchIcon = styled(FontAwesomeIcon)`
   height: 20px;
 `;
 
+const Notice = styled.p`
+  color: #000;
+  text-align: center;
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px; /* 183.333% */
+  letter-spacing: -0.408px;
+
+  margin: 16px 0;
+`;
+
+const CountBold = styled.span`
+  color: #ff8200;
+  text-align: center;
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22px; /* 183.333% */
+  letter-spacing: -0.408px;
+`;
+
+const Options = styled.div`
+  margin-top: 4px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const ResultNumber = styled.span`
+  display: flex;
+
+  color: #000;
+  text-align: center;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22px; /* 183.333% */
+  letter-spacing: -0.408px;
+`;
+
+const SortingButton = styled.button`
+  border: none;
+  background-color: inherit;
+
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`;
+
+const SortingOption = styled.span`
+  color: #000;
+  text-align: center;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22px; /* 183.333% */
+  letter-spacing: -0.408px;
+`;
+
+const ProductsContainer = styled.div`
+  margin-top: 8px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+`;
+
+interface ProductProps {
+  productNumber: number;
+  productTitle: string;
+  productPrice: number;
+  productStock: number;
+  productImageUrl: string;
+  category: string;
+  isDiscountedProduct: boolean;
+  isNewProduct: boolean;
+  isPopularProduct: boolean;
+  productDiscountPrice: number;
+  productTimeAdded: string;
+}
+
 function SearchPage() {
   const accessToken = localStorage.getItem("accessToken");
   const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
+  const [count, setCount] = useState(0); // 검색결과 count
+  const [results, setResults] = useState<ProductProps[]>([]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
@@ -83,6 +173,8 @@ function SearchPage() {
     });
 
     console.log(response.data);
+    setResults(response.data.content);
+    setCount(response.data.totalElements);
   };
 
   return (
@@ -105,6 +197,30 @@ function SearchPage() {
           <FAIcon icon={faCartShopping as IconProp} />
         </Btn>
       </Header>
+      {count !== 0 && (
+        <>
+          <Notice>
+            총 <CountBold>{count}</CountBold>개 상품이 검색되었습니다.
+          </Notice>
+          <Options>
+            <ResultNumber>검색결과 {count}</ResultNumber>
+            <SortingButton>
+              <FontAwesomeIcon icon={faRightLeft as IconProp} rotation={90} />
+              <SortingOption>최신순</SortingOption>
+            </SortingButton>
+          </Options>
+          <ProductsContainer>
+            {results.map((v: ProductProps) => (
+              <ProductCard
+                name={v.productTitle}
+                price={v.productStock}
+                stocks={v.productStock}
+                imageUrl={v.productImageUrl}
+              />
+            ))}
+          </ProductsContainer>
+        </>
+      )}
     </ScreenContainer>
   );
 }
