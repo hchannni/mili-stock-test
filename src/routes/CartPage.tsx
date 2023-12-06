@@ -73,7 +73,7 @@ function CartPage() {
       })
         .then((response) => response.json())
         .then((data) => setCart(data))
-        .catch((error) => console.error(error));
+        .catch((error) => console.error(error));       
 
     }
     else {
