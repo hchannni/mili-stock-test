@@ -1,9 +1,8 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconProp } from "@fortawesome/fontawesome-svg-core"; 
-import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
-import { faHeart as regularHeart, faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import { faHeart as solidHeart, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { faHeart, faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const TotalPrice = styled.span`
   position: absolute;
@@ -199,9 +198,10 @@ function CartProduct({ name, price, stocks, count, imageUrl, onDelete, increaseC
           </CountInfo>
         </ProductInfo>
         <HeartBtn onClick={onHeartClick}>
-          <HeartIcon 
+          <HeartIcon icon={faHeart as IconProp}></HeartIcon>
+          {/* <HeartIcon 
             icon={liked ? solidHeart : regularHeart}
-          ></HeartIcon>
+          ></HeartIcon> */}
         </HeartBtn>
         <DeleteBtn onClick={onDelete}>
           <DeleteIcon icon={faTrashCan as IconProp}></DeleteIcon>

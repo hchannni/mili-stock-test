@@ -103,12 +103,13 @@ interface ProductCardProps {
   price: number;
   stocks: number;
   imageUrl: string;
+  onCartClick?: () => void;
 }
 
 // <FontAwesomeIcon icon="fa-solid fa-cart-shopping" />
 // <FontAwesomeIcon icon="fa-solid fa-heart" /> // heart-filled
 // <FontAwesomeIcon icon="fa-regular fa-heart" /> // heart-outlined
-function ProductCardSmall({ name, price, stocks, imageUrl }: ProductCardProps) {
+function ProductCardSmall({ name, price, stocks, imageUrl, onCartClick }: ProductCardProps) {
   return (
     <Container>
       <Image src={imageUrl} alt={name} />
@@ -121,7 +122,7 @@ function ProductCardSmall({ name, price, stocks, imageUrl }: ProductCardProps) {
           <Price>{`${price}원`}</Price>
           <Stocks>{`${stocks}개 남음`}</Stocks>
         </TextBox>
-        <CartBtn>
+        <CartBtn onClick={onCartClick}>
           <CartIcon icon={faCartShopping as IconProp} />
         </CartBtn>
       </Info>
