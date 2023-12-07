@@ -20,6 +20,7 @@ import EditPersonalInfo from "./routes/mypage/EditPersonalInfo";
 import UpdateUserInfo from "./routes/mypage/UpdateUserInfo";
 import ChangePassword from "./routes/mypage/ChangePassword";
 import LikeProductPage from "./routes/LikeProductPage";
+import SearchPage from "./routes/SearchPage";
 import ItemsPage from "./routes/ItemsPage";
 import "./transition.css";
 
@@ -48,6 +49,7 @@ function Router() {
           <Route path="/mypage/editpinfo/pw" element={<ChangePassword />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/likeproduct" element={<LikeProductPage />} />
+          <Route path="/search" element={<SearchPage />} />
           <Route path="/allitems" element={<ItemsPage />} />
           <Route path="/product/create" element={<ProductForm />} />
           <Route path="/cartPage" element={<CartPage />} />
