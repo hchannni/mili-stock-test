@@ -4,6 +4,15 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faHeart, faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 
+const TotalPrice = styled.span`
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+`;
+
 const Container = styled.div`
   width: 100%;
 `;
@@ -82,6 +91,11 @@ const DeleteBtn = styled.button`
 
   border: none;
   background-color: inherit;
+  cursor: pointer;
+
+  &:hover {
+    color: darkred; /* Change the color on hover */
+  }
 `;
 
 const DeleteIcon = styled(FontAwesomeIcon)`
@@ -110,6 +124,10 @@ const MinusBtn = styled.button`
   width: 24px;
   height: 24px;
   border-radius: 50%;
+
+  &:hover {
+    color: darkred; /* Change the color on hover */
+  }
 `;
 
 const PlusBtn = styled.button`
@@ -118,6 +136,10 @@ const PlusBtn = styled.button`
   width: 24px;
   height: 24px;
   border-radius: 50%;
+
+  &:hover {
+    color: darkred; /* Change the color on hover */
+  }
 `;
 
 const Count = styled.span`
@@ -131,31 +153,37 @@ const Count = styled.span`
   padding: 0 24px;
 `;
 
-const TotalPrice = styled.span``;
 
 interface CartProductProps {
   name: string;
   price: number;
   stocks: number;
   count: number;
+  imageUrl: string;
+  onDelete?: () => void;
+  increaseCount?: () => void;
+  decreaseCount?: () => void;
 }
 
-function CartProduct({ name, price, stocks, count }: CartProductProps) {
+function CartProduct({ name, price, stocks, count, imageUrl, onDelete, increaseCount, decreaseCount }: CartProductProps) {
+
+  console.log('Received imageUrl:', imageUrl);
+
   return (
     <Container>
       <ProductCard>
-        <Img src="*" alt="" />
+      <Img src={imageUrl} alt={name} />
         <ProductInfo>
           <ProductName>{name}</ProductName>
           <Price>{`${price}원`}</Price>
           <Stocks>{`${stocks}개 남음`}</Stocks>
           <CountInfo>
             <Counter>
-              <MinusBtn>
+              <MinusBtn onClick={decreaseCount}>
                 <FontAwesomeIcon icon={faMinus as IconProp} />
               </MinusBtn>
               <Count>{count}</Count>
-              <PlusBtn>
+              <PlusBtn onClick={increaseCount}>
                 <FontAwesomeIcon icon={faPlus as IconProp} />
               </PlusBtn>
             </Counter>
@@ -165,9 +193,10 @@ function CartProduct({ name, price, stocks, count }: CartProductProps) {
         <HeartBtn>
           <HeartIcon icon={faHeart as IconProp}></HeartIcon>
         </HeartBtn>
-        <DeleteBtn>
+        <DeleteBtn onClick={onDelete}>
           <DeleteIcon icon={faTrashCan as IconProp}></DeleteIcon>
         </DeleteBtn>
+        <TotalPrice>{`${price * count}`}원</TotalPrice>
       </ProductCard>
     </Container>
   );

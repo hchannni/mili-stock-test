@@ -11,15 +11,18 @@ import FindPWPage from "./routes/findidpw/FindPWPage";
 import FindPWPage2 from "./routes/findidpw/FindPWPage2";
 import FindPWPage3 from "./routes/findidpw/FindPWPage3";
 import FindPWPage4 from "./routes/findidpw/FindPWPage4";
+import ProductForm from "./routes/ProductForm";
 import LogInPage from "./routes/LogInPage";
-import "./transition.css";
+import CartPage from "./routes/CartPage";
 import MyPageMain from "./routes/mypage/MyPageMain";
 import PWCheck from "./routes/mypage/PWCheck";
 import EditPersonalInfo from "./routes/mypage/EditPersonalInfo";
 import UpdateUserInfo from "./routes/mypage/UpdateUserInfo";
 import ChangePassword from "./routes/mypage/ChangePassword";
-import CartPage from "./routes/CartPage";
 import LikeProductPage from "./routes/LikeProductPage";
+import SearchPage from "./routes/SearchPage";
+import ItemsPage from "./routes/ItemsPage";
+import "./transition.css";
 
 function Router() {
   const location = useLocation();
@@ -46,6 +49,10 @@ function Router() {
           <Route path="/mypage/editpinfo/pw" element={<ChangePassword />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/likeproduct" element={<LikeProductPage />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="/allitems" element={<ItemsPage />} />
+          <Route path="/product/create" element={<ProductForm />} />
+          <Route path="/cartPage" element={<CartPage />} />
         </Routes>
       </CSSTransition>
     </TransitionGroup>
