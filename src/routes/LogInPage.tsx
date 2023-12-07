@@ -118,15 +118,17 @@ function LogInPage() {
       data: data,
     });
 
-    const { status, accessToken, reason } = response.data;
+    const { status, reason, accessToken, refreshToken } = response.data;
     if (status !== 200) {
       setToastMessage(reason);
       setToast(true);
       return;
     } else {
-      // 유저 데이터 넘기는 방법은 ..?? BE에 물어보기
-      localStorage.setItem("accessToken", accessToken); // 태연 추가
-      navigate("/main");
+      // localStorage에 JWT Token 저장!
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      // navigate("/main");
+      navigate("/mypage/main", { state: { ...response.data } });
     }
   };
 

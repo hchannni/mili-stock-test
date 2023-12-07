@@ -1,8 +1,11 @@
-import { styled } from "styled-components";
-import { useController, UseControllerProps } from "react-hook-form";
+import styled from "styled-components";
+import { InputProps } from "./Input";
+import { useController } from "react-hook-form";
 
 interface InputTagProps {
   error: boolean;
+  accepted: boolean;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const InputTag = styled.input<InputTagProps>`
@@ -15,8 +18,10 @@ const InputTag = styled.input<InputTagProps>`
 
   transition: all 0.2s ease-in-out;
 
-  color: ${(props) => (props.error ? "#E00B03" : "#000")};
-  border-color: ${(props) => (props.error ? "#E00B03" : "#000")};
+  color: ${(props) =>
+    props.error ? "#E00B03" : props.accepted ? "#008000" : "#000"};
+  border-color: ${(props) =>
+    props.error ? "#E00B03" : props.accepted ? "#008000" : "#000"};
 
   &::placeholder {
     text-align: left;
@@ -43,26 +48,12 @@ const InputTag = styled.input<InputTagProps>`
   }
 `;
 
-// interface InputProps {
-//   placeholder: string;
-//   disabled?: boolean;
-// }
-
-// function Input({ placeholder, disabled = false }: InputProps) {
-//   return (
-//     <>
-//       <InputTag placeholder={placeholder} disabled={disabled} />
-//     </>
-//   );
-// }
-
-export interface InputProps extends UseControllerProps {
-  placeholder: string;
-  type?: string;
-  validationError: boolean;
+interface IdCheckInputProps extends InputProps {
+  onBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
+  accepted: boolean;
 }
 
-function Input(props: InputProps) {
+function IdCheckInput(props: IdCheckInputProps) {
   const { field } = useController(props);
   return (
     <InputTag
@@ -70,9 +61,11 @@ function Input(props: InputProps) {
       placeholder={props.placeholder}
       disabled={props.disabled}
       type={props.type ?? "text"}
+      onBlur={props.onBlur}
       error={props.validationError}
+      accepted={props.accepted}
     />
   );
 }
 
-export default Input;
+export default IdCheckInput;
