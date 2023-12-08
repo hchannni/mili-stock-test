@@ -19,10 +19,13 @@ import PWCheck from "./routes/mypage/PWCheck";
 import EditPersonalInfo from "./routes/mypage/EditPersonalInfo";
 import UpdateUserInfo from "./routes/mypage/UpdateUserInfo";
 import ChangePassword from "./routes/mypage/ChangePassword";
-import LikeProductPage from "./routes/LikeProductPage";
+
+import CartPage from "./routes/CartPage";
+
 import SearchPage from "./routes/SearchPage";
 import ItemsPage from "./routes/ItemsPage";
 import "./transition.css";
+
 
 function Router() {
   const location = useLocation();

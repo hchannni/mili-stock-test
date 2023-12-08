@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightLeft } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import BottomSheet from "../components/BottomSheet";
+import { useEffect, useState } from "react";
+
 
 const HookingButtons = styled.section`
   width: 100%;
@@ -78,6 +80,65 @@ const SortingOption = styled.span`
 `;
 
 function LikeProductPage() {
+  const [hearts, setHearts] = useState<any[]>([]);
+
+  useEffect(() => {
+
+    // Fetch hearts from the backend when the component mounts
+    const fetchHearts = async () => { // async 왜 씀? .then.then.catch 대신 await로 코드 깔끔하게 가능
+      try {
+        // Send a request to your backend API to get all hearts for the current user
+        const token = localStorage.getItem("accessToken");
+        
+        const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/hearts`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        // Check if the request was successful (status code 200)
+        if (response.ok) {
+          // Parse the response JSON and set it to the state
+          const data = await response.json();
+          setHearts(data);
+        } else {
+          // Handle error cases
+          console.error('Failed to fetch hearts:', response.status, response.statusText);
+        }
+      } catch (error) {
+        console.error('Error during fetch:', error);
+      }
+    };
+
+    // Call the fetchHearts function
+    fetchHearts();
+  }, []); // Empty dependency array to run the effect only once when the component mounts
+
+  const handleCartClick = async (productNumber: any) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/carts/productNumber/${productNumber}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(`Cart ${data}에 추가되었습니다`);
+      } else {
+        // Handle error response
+        console.error('Error:', response.statusText);
+      }
+    } catch (error) {
+      // Handle network error
+      console.error('Error:', error);
+    }
+  }
+
+
   return (
     <ScreenContainer>
       <PageHeader pageTitle="관심상품" />
@@ -100,42 +161,18 @@ function LikeProductPage() {
 
       <ProductsContainer>
         {/* API로부터 데이터 받아왔을 때는 map함수를 통해 ProductCardSamll 컴포넌트를 그리면 OK */}
-        <ProductCardSmall
-          name="아사히생맥주"
-          price={2100}
-          stocks={107}
-          imageUrl="*"
-        />
-        <ProductCardSmall
-          name="아사히생맥주"
-          price={2100}
-          stocks={107}
-          imageUrl="*"
-        />
-        <ProductCardSmall
-          name="아사히생맥주"
-          price={2100}
-          stocks={107}
-          imageUrl="*"
-        />
-        <ProductCardSmall
-          name="아사히생맥주"
-          price={2100}
-          stocks={107}
-          imageUrl="*"
-        />
-        <ProductCardSmall
-          name="아사히생맥주"
-          price={2100}
-          stocks={107}
-          imageUrl="*"
-        />
-        <ProductCardSmall
-          name="아사히생맥주"
-          price={2100}
-          stocks={107}
-          imageUrl="*"
-        />
+        {hearts.map((heart) => (
+          // Use the properties of the heart.product object in the ProductCardSmall component
+          <ProductCardSmall
+            key={heart.heartId}
+            name={heart.product.productTitle}
+            price={heart.product.productPrice}
+            stocks={heart.product.productStock}
+            imageUrl={heart.product.productImageUrl}
+            onCartClick={() => handleCartClick(heart.product.productNumber)}
+          />
+        ))}
+
       </ProductsContainer>
       <BottomSheet />
     </ScreenContainer>

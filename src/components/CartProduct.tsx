@@ -76,6 +76,11 @@ const HeartBtn = styled.button`
 
   border: none;
   background-color: inherit;
+  cursor: pointer;
+
+  &:hover {
+    color: darkred; /* Change the color on hover */
+  }
 `;
 
 const HeartIcon = styled(FontAwesomeIcon)`
@@ -163,9 +168,11 @@ interface CartProductProps {
   onDelete?: () => void;
   increaseCount?: () => void;
   decreaseCount?: () => void;
+  onHeartClick?: () => void;
+  liked?: boolean;  
 }
 
-function CartProduct({ name, price, stocks, count, imageUrl, onDelete, increaseCount, decreaseCount }: CartProductProps) {
+function CartProduct({ name, price, stocks, count, imageUrl, onDelete, increaseCount, decreaseCount, onHeartClick, liked }: CartProductProps) {
 
   console.log('Received imageUrl:', imageUrl);
 
@@ -190,8 +197,11 @@ function CartProduct({ name, price, stocks, count, imageUrl, onDelete, increaseC
             <TotalPrice>{`${price * count}`}원</TotalPrice>
           </CountInfo>
         </ProductInfo>
-        <HeartBtn>
+        <HeartBtn onClick={onHeartClick}>
           <HeartIcon icon={faHeart as IconProp}></HeartIcon>
+          {/* <HeartIcon 
+            icon={liked ? solidHeart : regularHeart}
+          ></HeartIcon> */}
         </HeartBtn>
         <DeleteBtn onClick={onDelete}>
           <DeleteIcon icon={faTrashCan as IconProp}></DeleteIcon>
