@@ -79,66 +79,72 @@ const SortingOption = styled.span`
 
 function LikeProductPage() {
   return (
-    <ScreenContainer>
-      <PageHeader pageTitle="관심상품" />
-      <HookingButtons>
-        <HookingButton desc="요즘 인기 있는" pageName="인기상품" link="/" />
-        <HookingButton desc="현명한 소비를 위한" pageName="할인상품" link="/" />
-        <HookingButton desc="혹시 이건 어때요?" pageName="신상품" link="/" />
-      </HookingButtons>
-      <ResultNumber>{`검색결과 ${35}`}</ResultNumber>
-      <Options>
-        <div style={{ display: "flex", gap: "4px" }}>
-          <Toggle />
-          <ToggleLabel>품절제외</ToggleLabel>
-        </div>
-        <SortingButton>
-          <FontAwesomeIcon icon={faRightLeft as IconProp} rotation={90} />
-          <SortingOption>최신순</SortingOption>
-        </SortingButton>
-      </Options>
+    <>
+      <ScreenContainer>
+        <PageHeader pageTitle="관심상품" />
+        <HookingButtons>
+          <HookingButton desc="요즘 인기 있는" pageName="인기상품" link="/" />
+          <HookingButton
+            desc="현명한 소비를 위한"
+            pageName="할인상품"
+            link="/"
+          />
+          <HookingButton desc="혹시 이건 어때요?" pageName="신상품" link="/" />
+        </HookingButtons>
+        <ResultNumber>{`검색결과 ${35}`}</ResultNumber>
+        <Options>
+          <div style={{ display: "flex", gap: "4px" }}>
+            <Toggle />
+            <ToggleLabel>품절제외</ToggleLabel>
+          </div>
+          <SortingButton>
+            <FontAwesomeIcon icon={faRightLeft as IconProp} rotation={90} />
+            <SortingOption>최신순</SortingOption>
+          </SortingButton>
+        </Options>
 
-      <ProductsContainer>
-        {/* API로부터 데이터 받아왔을 때는 map함수를 통해 ProductCardSamll 컴포넌트를 그리면 OK */}
-        <ProductCardSmall
-          name="아사히생맥주"
-          price={2100}
-          stocks={107}
-          imageUrl="*"
-        />
-        <ProductCardSmall
-          name="아사히생맥주"
-          price={2100}
-          stocks={107}
-          imageUrl="*"
-        />
-        <ProductCardSmall
-          name="아사히생맥주"
-          price={2100}
-          stocks={107}
-          imageUrl="*"
-        />
-        <ProductCardSmall
-          name="아사히생맥주"
-          price={2100}
-          stocks={107}
-          imageUrl="*"
-        />
-        <ProductCardSmall
-          name="아사히생맥주"
-          price={2100}
-          stocks={107}
-          imageUrl="*"
-        />
-        <ProductCardSmall
-          name="아사히생맥주"
-          price={2100}
-          stocks={107}
-          imageUrl="*"
-        />
-      </ProductsContainer>
-      <BottomSheet />
-    </ScreenContainer>
+        <ProductsContainer>
+          {/* API로부터 데이터 받아왔을 때는 map함수를 통해 ProductCardSamll 컴포넌트를 그리면 OK */}
+          <ProductCardSmall
+            name="아사히생맥주"
+            price={2100}
+            stocks={107}
+            imageUrl="*"
+          />
+          <ProductCardSmall
+            name="아사히생맥주"
+            price={2100}
+            stocks={107}
+            imageUrl="*"
+          />
+          <ProductCardSmall
+            name="아사히생맥주"
+            price={2100}
+            stocks={107}
+            imageUrl="*"
+          />
+          <ProductCardSmall
+            name="아사히생맥주"
+            price={2100}
+            stocks={107}
+            imageUrl="*"
+          />
+          <ProductCardSmall
+            name="아사히생맥주"
+            price={2100}
+            stocks={107}
+            imageUrl="*"
+          />
+          <ProductCardSmall
+            name="아사히생맥주"
+            price={2100}
+            stocks={107}
+            imageUrl="*"
+          />
+        </ProductsContainer>
+      </ScreenContainer>
+      <BottomSheet url={"products/heart"} />
+    </>
   );
 }
 

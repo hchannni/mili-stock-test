@@ -12,6 +12,7 @@ import {
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import axios from "axios";
 import ProductCard from "../components/ProductCard";
+import BottomSheet from "../components/BottomSheet";
 
 const Header = styled.header`
   width: 100%;
@@ -219,6 +220,7 @@ function SearchPage() {
               />
             ))}
           </ProductsContainer>
+          <BottomSheet url="products/search" params={{ keyword: keyword }} />
         </>
       )}
     </ScreenContainer>
