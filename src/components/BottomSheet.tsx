@@ -1,11 +1,15 @@
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState } from "react";
 import styled from "styled-components";
 
-const Wrapper = styled.div`
+const Wrapper = styled.form`
   width: 100%;
   background-color: #fff;
   border-radius: 24px 24px 0 0;
   padding: 40px 24px 32px 24px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
 
   display: flex;
   flex-direction: column;
@@ -35,49 +39,47 @@ const SortOptions = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
+  padding: 0px 4px;
 `;
 
-const SortBy = styled.button`
-  border: none;
-  background-color: inherit;
-
+const SortBy = styled.div`
   width: 100%;
-  display: flex;
-  justify-content: space-between;
 `;
 
-const OptName = styled.span`
+const StyledLabel = styled.label`
   color: #000;
   font-family: Inter;
   font-size: 16px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 22px; /* 137.5% */
   letter-spacing: -0.408px;
-`;
 
-const SelectedCircleOuter = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background-color: #ff8200;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
-const SelectedCircleInner = styled.div`
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: #fff;
+const StyledRadio = styled.input.attrs({ type: "radio" })`
+  &:checked {
+    background-color: #ff8200;
+  }
 `;
 
-const NotSelectedCircle = styled.div`
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 1px solid #a0a0a0;
+interface FAIconProps {
+  checked: boolean;
+}
+
+const FAIcon = styled(FontAwesomeIcon)<FAIconProps>`
+  width: 18px;
+  height: 18px;
+  color: ${(props) => (props.checked ? "#ff8200" : "#000")};
+
+  transition: all 0.25s ease-in-out;
 `;
 
 const ConfirmBtn = styled.button`
@@ -95,6 +97,12 @@ const ConfirmBtn = styled.button`
 `;
 
 function BottomSheet() {
+  const [value, setValue] = useState("");
+  const onClick = (e: React.MouseEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    setValue(e.currentTarget.innerText);
+  };
+
   return (
     <Wrapper>
       <Header>
@@ -102,26 +110,54 @@ function BottomSheet() {
       </Header>
       <SortOptions>
         <SortBy>
-          <OptName>인기순</OptName>
-          <NotSelectedCircle />
+          <StyledLabel htmlFor="인기순" onClick={onClick}>
+            인기순
+            <StyledRadio id="인기순" />
+            <FAIcon
+              icon={faCheck as IconProp}
+              checked={value === "인기순" ? true : false}
+            />
+          </StyledLabel>
         </SortBy>
         <SortBy>
-          <OptName>신상품순</OptName>
-          <NotSelectedCircle />
+          <StyledLabel htmlFor="신상품순" onClick={onClick}>
+            신상품순
+            <StyledRadio id="신상품순" />
+            <FAIcon
+              icon={faCheck as IconProp}
+              checked={value === "신상품순" ? true : false}
+            />
+          </StyledLabel>
         </SortBy>
         <SortBy>
-          <OptName>가격낮은순</OptName>
-          <NotSelectedCircle />
+          <StyledLabel htmlFor="가격낮은순" onClick={onClick}>
+            가격낮은순
+            <StyledRadio id="가격낮은순" />
+            <FAIcon
+              icon={faCheck as IconProp}
+              checked={value === "가격낮은순" ? true : false}
+            />
+          </StyledLabel>
         </SortBy>
         <SortBy>
-          <OptName>가격높은순</OptName>
-          <NotSelectedCircle />
+          <StyledLabel htmlFor="가격높은순" onClick={onClick}>
+            가격높은순
+            <StyledRadio id="가격높은순" />
+            <FAIcon
+              icon={faCheck as IconProp}
+              checked={value === "가격높은순" ? true : false}
+            />
+          </StyledLabel>
         </SortBy>
         <SortBy>
-          <OptName>재고적은순</OptName>
-          <SelectedCircleOuter>
-            <SelectedCircleInner></SelectedCircleInner>
-          </SelectedCircleOuter>
+          <StyledLabel htmlFor="재고적은순" onClick={onClick}>
+            재고적은순
+            <StyledRadio id="재고적은순" />
+            <FAIcon
+              icon={faCheck as IconProp}
+              checked={value === "재고적은순" ? true : false}
+            />
+          </StyledLabel>
         </SortBy>
       </SortOptions>
       <ConfirmBtn>확인</ConfirmBtn>

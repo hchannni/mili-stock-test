@@ -109,7 +109,9 @@ interface ProductCardProps {
 // <FontAwesomeIcon icon="fa-solid fa-cart-shopping" />
 // <FontAwesomeIcon icon="fa-solid fa-heart" /> // heart-filled
 // <FontAwesomeIcon icon="fa-regular fa-heart" /> // heart-outlined
+
 function ProductCardSmall({ name, price, stocks, imageUrl, onCartClick }: ProductCardProps) {
+
   return (
     <Container>
       <Image src={imageUrl} alt={name} />

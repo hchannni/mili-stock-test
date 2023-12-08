@@ -10,6 +10,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import BottomSheet from "../components/BottomSheet";
 import { useEffect, useState } from "react";
 
+
 const HookingButtons = styled.section`
   width: 100%;
   display: flex;
@@ -79,7 +80,6 @@ const SortingOption = styled.span`
 `;
 
 function LikeProductPage() {
-
   const [hearts, setHearts] = useState<any[]>([]);
 
   useEffect(() => {
@@ -138,6 +138,7 @@ function LikeProductPage() {
     }
   }
 
+
   return (
     <ScreenContainer>
       <PageHeader pageTitle="관심상품" />
@@ -171,6 +172,7 @@ function LikeProductPage() {
             onCartClick={() => handleCartClick(heart.product.productNumber)}
           />
         ))}
+
       </ProductsContainer>
       <BottomSheet />
     </ScreenContainer>
