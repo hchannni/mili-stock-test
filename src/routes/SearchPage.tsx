@@ -220,7 +220,6 @@ function SearchPage() {
               />
             ))}
           </ProductsContainer>
-          <BottomSheet url="products/search" params={{ keyword: keyword }} />
         </>
       )}
     </ScreenContainer>

@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightLeft } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import BottomSheet from "../components/BottomSheet";
+import { useState } from "react";
 
 const HookingButtons = styled.section`
   width: 100%;
@@ -78,6 +79,12 @@ const SortingOption = styled.span`
 `;
 
 function LikeProductPage() {
+  const [onSort, setOnSort] = useState(false);
+  const onSortBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setOnSort(true);
+  };
+
   return (
     <>
       <ScreenContainer>
@@ -97,7 +104,7 @@ function LikeProductPage() {
             <Toggle />
             <ToggleLabel>품절제외</ToggleLabel>
           </div>
-          <SortingButton>
+          <SortingButton onClick={onSortBtnClick}>
             <FontAwesomeIcon icon={faRightLeft as IconProp} rotation={90} />
             <SortingOption>최신순</SortingOption>
           </SortingButton>
@@ -143,7 +150,13 @@ function LikeProductPage() {
           />
         </ProductsContainer>
       </ScreenContainer>
-      <BottomSheet url={"products/heart"} />
+      {onSort && (
+        <BottomSheet
+          url={"products/heart"}
+          onSort={onSort}
+          setOnSort={setOnSort}
+        />
+      )}
     </>
   );
 }

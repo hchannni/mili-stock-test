@@ -3,15 +3,30 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
-const Container = styled.div`
+const popup = keyframes`
+  0% {opacity: 0; transform: translate(0, 0);}
+  100% {opacity: 1; transform: translate(0, -100%);}
+`;
+
+interface ContainerProps {
+  onSort: boolean;
+}
+
+const Container = styled.div<ContainerProps>`
   width: 390px;
   padding: 0 20px;
   margin: 0 auto;
   background-color: rgba(0, 0, 0, 0.5);
   height: 100vh;
   position: relative;
+
+  ${({ onSort }) =>
+    onSort &&
+    css`
+      animation: ${popup} 0.5s forwards;
+    `}
 `;
 
 const Wrapper = styled.form`
@@ -111,6 +126,8 @@ const ConfirmBtn = styled.button`
 interface BottomSheetProps {
   url: string;
   params?: any;
+  onSort: boolean;
+  setOnSort: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function BottomSheet(props: BottomSheetProps) {
@@ -133,10 +150,14 @@ function BottomSheet(props: BottomSheetProps) {
       },
     });
     console.log(response.data);
+    props.setOnSort(false);
   };
 
   return (
-    <Container>
+    <Container
+      className={props.onSort ? "clicked" : undefined}
+      onSort={props.onSort}
+    >
       <Wrapper onSubmit={onSubmit}>
         <Header>
           <Title>정렬 선택</Title>
