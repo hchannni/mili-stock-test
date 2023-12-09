@@ -151,6 +151,7 @@ interface BottomSheetProps {
   onSort: boolean;
   setOnSort: React.Dispatch<React.SetStateAction<boolean>>;
   setResults: React.Dispatch<React.SetStateAction<ProductProps[]>>;
+  setSortCriterion: React.Dispatch<React.SetStateAction<string>>;
 }
 
 function BottomSheet(props: BottomSheetProps) {
@@ -160,6 +161,7 @@ function BottomSheet(props: BottomSheetProps) {
   const onClick = (e: React.MouseEvent<HTMLLabelElement>) => {
     e.preventDefault();
     setSortValue(e.currentTarget.htmlFor);
+    props.setSortCriterion(e.currentTarget.innerText);
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -173,7 +175,7 @@ function BottomSheet(props: BottomSheetProps) {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    
+
     props.setResults(response.data.content);
     props.setOnSort(false);
   };

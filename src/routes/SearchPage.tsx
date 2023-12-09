@@ -158,6 +158,7 @@ function SearchPage() {
   const [results, setResults] = useState<ProductProps[]>([]);
   const [onSort, setOnSort] = useState(false);
   const [sortInitialized, setSortInitialized] = useState(false);
+  const [sortCriterion, setSortCriterion] = useState("인기순");
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
@@ -214,7 +215,7 @@ function SearchPage() {
               <ResultNumber>검색결과 {count}</ResultNumber>
               <SortingButton onClick={onSortBtnClick}>
                 <FontAwesomeIcon icon={faRightLeft as IconProp} rotation={90} />
-                <SortingOption>최신순</SortingOption>
+                <SortingOption>{sortCriterion}</SortingOption>
               </SortingButton>
             </Options>
             <ProductsContainer>
@@ -237,6 +238,7 @@ function SearchPage() {
           onSort={onSort}
           setOnSort={setOnSort}
           setResults={setResults}
+          setSortCriterion={setSortCriterion}
         />
       )}
     </>
