@@ -156,6 +156,8 @@ function SearchPage() {
   const [keyword, setKeyword] = useState("");
   const [count, setCount] = useState(0); // 검색결과 count
   const [results, setResults] = useState<ProductProps[]>([]);
+  const [onSort, setOnSort] = useState(false);
+  const [sortInitialized, setSortInitialized] = useState(false);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
@@ -172,57 +174,72 @@ function SearchPage() {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-
-    console.log(response.data);
     setResults(response.data.content);
     setCount(response.data.totalElements);
   };
 
+  const onSortBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setOnSort(true);
+    setSortInitialized(true);
+  };
+
   return (
-    <ScreenContainer>
-      <Header>
-        <Btn onClick={() => navigate(-1)}>
-          <FAIcon icon={faChevronLeft as IconProp} />
-        </Btn>
-        <SearchBox onSubmit={onSubmit}>
-          <SearchBar
-            value={keyword}
-            onChange={onChange}
-            placeholder="검색어를 입력해 주세요"
-          ></SearchBar>
-          <SearchBtn>
-            <SearchIcon icon={faMagnifyingGlass as IconProp} />
-          </SearchBtn>
-        </SearchBox>
-        <Btn onClick={() => navigate("/cart")}>
-          <FAIcon icon={faCartShopping as IconProp} />
-        </Btn>
-      </Header>
-      {count !== 0 && (
-        <>
-          <Notice>
-            총 <CountBold>{count}</CountBold>개 상품이 검색되었습니다.
-          </Notice>
-          <Options>
-            <ResultNumber>검색결과 {count}</ResultNumber>
-            <SortingButton>
-              <FontAwesomeIcon icon={faRightLeft as IconProp} rotation={90} />
-              <SortingOption>최신순</SortingOption>
-            </SortingButton>
-          </Options>
-          <ProductsContainer>
-            {results.map((v: ProductProps) => (
-              <ProductCard
-                name={v.productTitle}
-                price={v.productStock}
-                stocks={v.productStock}
-                imageUrl={v.productImageUrl}
-              />
-            ))}
-          </ProductsContainer>
-        </>
+    <>
+      <ScreenContainer>
+        <Header>
+          <Btn onClick={() => navigate(-1)}>
+            <FAIcon icon={faChevronLeft as IconProp} />
+          </Btn>
+          <SearchBox onSubmit={onSubmit}>
+            <SearchBar
+              value={keyword}
+              onChange={onChange}
+              placeholder="검색어를 입력해 주세요"
+            ></SearchBar>
+            <SearchBtn>
+              <SearchIcon icon={faMagnifyingGlass as IconProp} />
+            </SearchBtn>
+          </SearchBox>
+          <Btn onClick={() => navigate("/cart")}>
+            <FAIcon icon={faCartShopping as IconProp} />
+          </Btn>
+        </Header>
+        {count !== 0 && (
+          <>
+            <Notice>
+              총 <CountBold>{count}</CountBold>개 상품이 검색되었습니다.
+            </Notice>
+            <Options>
+              <ResultNumber>검색결과 {count}</ResultNumber>
+              <SortingButton onClick={onSortBtnClick}>
+                <FontAwesomeIcon icon={faRightLeft as IconProp} rotation={90} />
+                <SortingOption>최신순</SortingOption>
+              </SortingButton>
+            </Options>
+            <ProductsContainer>
+              {results.map((v: ProductProps) => (
+                <ProductCard
+                  name={v.productTitle}
+                  price={v.productStock}
+                  stocks={v.productStock}
+                  imageUrl={v.productImageUrl}
+                />
+              ))}
+            </ProductsContainer>
+          </>
+        )}
+      </ScreenContainer>
+      {sortInitialized && (
+        <BottomSheet
+          url={"products/search"}
+          params={{ keyword: keyword }}
+          onSort={onSort}
+          setOnSort={setOnSort}
+          setResults={setResults}
+        />
       )}
-    </ScreenContainer>
+    </>
   );
 }
 

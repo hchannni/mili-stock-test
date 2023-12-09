@@ -152,7 +152,7 @@ function LikeProductPage() {
       </ScreenContainer>
       {onSort && (
         <BottomSheet
-          url={"products/heart"}
+          url={"hearts/products"}
           onSort={onSort}
           setOnSort={setOnSort}
         />

@@ -10,6 +10,11 @@ const popup = keyframes`
   100% {opacity: 1; transform: translate(0, -100%);}
 `;
 
+const popdown = keyframes`
+  0% {opacity: 1; transform: translate(0, -100%);}
+  100% {opacity: 0; transform: translate(0, 0);}
+`;
+
 interface ContainerProps {
   onSort: boolean;
 }
@@ -23,10 +28,13 @@ const Container = styled.div<ContainerProps>`
   position: relative;
 
   ${({ onSort }) =>
-    onSort &&
-    css`
-      animation: ${popup} 0.5s forwards;
-    `}
+    onSort
+      ? css`
+          animation: ${popup} 0.5s forwards;
+        `
+      : css`
+          animation: ${popdown} 0.5s forwards;
+        `}
 `;
 
 const Wrapper = styled.form`
@@ -123,16 +131,32 @@ const ConfirmBtn = styled.button`
   font-weight: 600;
 `;
 
+interface ProductProps {
+  productNumber: number;
+  productTitle: string;
+  productPrice: number;
+  productStock: number;
+  productImageUrl: string;
+  category: string;
+  isDiscountedProduct: boolean;
+  isNewProduct: boolean;
+  isPopularProduct: boolean;
+  productDiscountPrice: number;
+  productTimeAdded: string;
+}
+
 interface BottomSheetProps {
   url: string;
   params?: any;
   onSort: boolean;
   setOnSort: React.Dispatch<React.SetStateAction<boolean>>;
+  setResults: React.Dispatch<React.SetStateAction<ProductProps[]>>;
 }
 
 function BottomSheet(props: BottomSheetProps) {
   const accessToken = localStorage.getItem("accessToken");
   const [sortValue, setSortValue] = useState("");
+
   const onClick = (e: React.MouseEvent<HTMLLabelElement>) => {
     e.preventDefault();
     setSortValue(e.currentTarget.htmlFor);
@@ -149,7 +173,8 @@ function BottomSheet(props: BottomSheetProps) {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log(response.data);
+    
+    props.setResults(response.data.content);
     props.setOnSort(false);
   };
 
