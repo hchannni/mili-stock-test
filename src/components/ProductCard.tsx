@@ -98,21 +98,24 @@ const CartIcon = styled(FontAwesomeIcon)`
   top: 0;
 `;
 
+
 interface ProductCardProps {
   name: string;
   price: number;
   stocks: number;
   imageUrl: string;
+  onCartClick?: () => void;
+  onHeartClick?: () => void;
 }
 
 // <FontAwesomeIcon icon="fa-solid fa-cart-shopping" />
 // <FontAwesomeIcon icon="fa-solid fa-heart" /> // heart-filled
 // <FontAwesomeIcon icon="fa-regular fa-heart" /> // heart-outlined
-function ProductCard({ name, price, stocks, imageUrl }: ProductCardProps) {
+function ProductCard({ name, price, stocks, imageUrl, onCartClick, onHeartClick }: ProductCardProps) {
   return (
     <Container>
       <Image src={imageUrl} alt={name} />
-      <HeartBtn>
+      <HeartBtn onClick={onHeartClick}>
         <HeartIcon icon={faHeart as IconProp} />
       </HeartBtn>
       <Info>
@@ -121,7 +124,7 @@ function ProductCard({ name, price, stocks, imageUrl }: ProductCardProps) {
           <Price>{`${price}원`}</Price>
           <Stocks>{`${stocks}개 남음`}</Stocks>
         </TextBox>
-        <CartBtn>
+        <CartBtn onClick={onCartClick}>
           <CartIcon icon={faCartShopping as IconProp} />
         </CartBtn>
       </Info>

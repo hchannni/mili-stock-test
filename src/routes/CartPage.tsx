@@ -140,7 +140,7 @@ function CartPage() {
 
         console.log("Parsed JSON Data:", data);
 
-        setCart((prevCart: any) => ({
+        setCart((prevCart: any) => ({ // prevCart = current state of "cart"
           ...prevCart,
           cartItems: prevCart.cartItems.map((cartItem: { product: { productNumber: any; }, quantity: number }) => {
             if (cartItem.product.productNumber === productNumber) {
@@ -216,7 +216,7 @@ function CartPage() {
           const data = await response.json();
 
           setCart((prevCart: any) => ({
-            ...prevCart,
+            ...prevCart, // Shallow copy of prevCart
             cartItems: prevCart.cartItems.map((cartItem: { product: { productNumber: any; }, heart: any }) => {
               if (cartItem.product.productNumber === productNumber) {
                 // Update the heart of the specific cart item

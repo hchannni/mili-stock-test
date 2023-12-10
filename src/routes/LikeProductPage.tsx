@@ -115,10 +115,10 @@ function LikeProductPage() {
     fetchHearts();
   }, []); // Empty dependency array to run the effect only once when the component mounts
 
-  const handleCartClick = async (productNumber: any) => {
+  const handleCartClick = async (product: any) => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/carts/productNumber/${productNumber}`, {
+      const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/carts/productNumber/${product.productNumber}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -126,8 +126,7 @@ function LikeProductPage() {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        console.log(`Cart ${data}에 추가되었습니다`);
+        alert(`${product.productTitle}이 카트에 추가됐습니다!`);
       } else {
         // Handle error response
         console.error('Error:', response.statusText);
@@ -169,7 +168,7 @@ function LikeProductPage() {
             price={heart.product.productPrice}
             stocks={heart.product.productStock}
             imageUrl={heart.product.productImageUrl}
-            onCartClick={() => handleCartClick(heart.product.productNumber)}
+            onCartClick={() => handleCartClick(heart.product)}
           />
         ))}
 
