@@ -113,7 +113,7 @@ function MainPage() {
         if (response.ok) {
           // Parse the response JSON and set it to the state
           const data = await response.json();
-          setItems(data);
+          setItems(data.content);
         } else {
           // Handle error cases
           console.error('Failed to fetch items:', response.status, response.statusText);
@@ -156,6 +156,7 @@ function MainPage() {
                 price={item.product.productPrice}
                 stocks={item.product.productStock}
                 imageUrl={item.product.productImageUrl}
+                isHeart={item.product.isHeart}
               />
             ))}
           </SectionItems>

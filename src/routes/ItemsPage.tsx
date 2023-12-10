@@ -279,6 +279,7 @@ function ItemsPage() {
             price={item.productPrice}
             stocks={item.productStock}
             imageUrl={item.productImageUrl}
+            isHeart={item.isHeart}
             onCartClick={() => handleCartClick(item)}
             onHeartClick={() => handleHeartClick(item)}
           />
