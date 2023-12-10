@@ -178,6 +178,7 @@ function SearchPage() {
     });
     setResults(response.data.content);
     setCount(response.data.totalElements);
+    setSortInitialized(false);
   };
 
   const onSortBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -216,7 +217,7 @@ function SearchPage() {
               <ResultNumber>검색결과 {count}</ResultNumber>
               <SortingButton onClick={onSortBtnClick}>
                 <FontAwesomeIcon icon={faRightLeft as IconProp} rotation={90} />
-                <SortingOption>{sortCriterion}</SortingOption>
+                <SortingOption>{sortInitialized ? sortCriterion : "인기순"}</SortingOption>
               </SortingButton>
             </Options>
             <ProductsContainer>

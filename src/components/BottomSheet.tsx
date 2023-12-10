@@ -143,6 +143,7 @@ interface ProductProps {
   isPopularProduct: boolean;
   productDiscountPrice: number;
   productTimeAdded: string;
+  isHeart: boolean;
 }
 
 interface BottomSheetProps {
