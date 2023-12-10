@@ -10,7 +10,6 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import BottomSheet from "../components/BottomSheet";
 import { useEffect, useState } from "react";
 
-
 const HookingButtons = styled.section`
   width: 100%;
   display: flex;
@@ -80,6 +79,12 @@ const SortingOption = styled.span`
 `;
 
 function LikeProductPage() {
+  const [onSort, setOnSort] = useState(false);
+  const onSortBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setOnSort(true);
+  };
+
   const [products, setProducts] = useState<any[]>([]);
 
   useEffect(() => {
@@ -174,46 +179,55 @@ function LikeProductPage() {
 
   };
 
-
   return (
-    <ScreenContainer>
-      <PageHeader pageTitle="관심상품" />
-      <HookingButtons>
-        <HookingButton desc="요즘 인기 있는" pageName="인기상품" link="/" />
-        <HookingButton desc="현명한 소비를 위한" pageName="할인상품" link="/" />
-        <HookingButton desc="혹시 이건 어때요?" pageName="신상품" link="/" />
-      </HookingButtons>
-      <ResultNumber>{`검색결과 ${35}`}</ResultNumber>
-      <Options>
-        <div style={{ display: "flex", gap: "4px" }}>
-          <Toggle />
-          <ToggleLabel>품절제외</ToggleLabel>
-        </div>
-        <SortingButton>
-          <FontAwesomeIcon icon={faRightLeft as IconProp} rotation={90} />
-          <SortingOption>최신순</SortingOption>
-        </SortingButton>
-      </Options>
-
-      <ProductsContainer>
-        {/* API로부터 데이터 받아왔을 때는 map함수를 통해 ProductCardSamll 컴포넌트를 그리면 OK */}
-        {products.map((product) => (
-          // Use the properties of the heart.product object in the ProductCardSmall component
-          <ProductCardSmall
-            key={product.productNumber}
-            name={product.productTitle}
-            price={product.productPrice}
-            stocks={product.productStock}
-            imageUrl={product.productImageUrl}
-            isHeart={true}
-            onCartClick={() => handleCartClick(product)}
-            onHeartClick={() => handleHeartDelete(product)}
+    <>
+      <ScreenContainer>
+        <PageHeader pageTitle="관심상품" />
+        <HookingButtons>
+          <HookingButton desc="요즘 인기 있는" pageName="인기상품" link="/" />
+          <HookingButton
+            desc="현명한 소비를 위한"
+            pageName="할인상품"
+            link="/"
           />
-        ))}
-
-      </ProductsContainer>
-      <BottomSheet />
-    </ScreenContainer>
+          <HookingButton desc="혹시 이건 어때요?" pageName="신상품" link="/" />
+        </HookingButtons>
+        <ResultNumber>{`검색결과 ${35}`}</ResultNumber>
+        <Options>
+          <div style={{ display: "flex", gap: "4px" }}>
+            <Toggle />
+            <ToggleLabel>품절제외</ToggleLabel>
+          </div>
+          <SortingButton onClick={onSortBtnClick}>
+            <FontAwesomeIcon icon={faRightLeft as IconProp} rotation={90} />
+            <SortingOption>최신순</SortingOption>
+          </SortingButton>
+        </Options>
+        <ProductsContainer>
+          {/* API로부터 데이터 받아왔을 때는 map함수를 통해 ProductCardSamll 컴포넌트를 그리면 OK */}
+          {products.map((product) => (
+            // Use the properties of the heart.product object in the ProductCardSmall component
+            <ProductCardSmall
+              key={product.productNumber}
+              name={product.productTitle}
+              price={product.productPrice}
+              stocks={product.productStock}
+              imageUrl={product.productImageUrl}
+              isHeart={true}
+              onCartClick={() => handleCartClick(product)}
+              onHeartClick={() => handleHeartDelete(product)}
+            />
+          ))}
+        </ProductsContainer>
+      </ScreenContainer>
+      {onSort && (
+        <BottomSheet
+          url={"hearts/products"}
+          onSort={onSort}
+          setOnSort={setOnSort}
+        />
+      )}
+    </>
   );
 }
 
