@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import URL from "../../../url";
 import "./Searchbar.scss";
 
 const Searchbar = () => {
@@ -10,39 +9,14 @@ const Searchbar = () => {
   const navigate = useNavigate();
   const { searchQuery } = useParams();
 
-  useEffect(() => {
-    fetch(`${URL}products`)
-      .then((res) => res.json())
-      .then((res) => {
-        const result = res.data_list;
-        setProducts(result);
-      });
-  }, []);
-
-  const searchItems = (e) => {
-    e.preventDefault();
-    setMatchArr([]);
-    navigate(`/search/${searchValue}`);
-  };
-
-  const checkMatch = (e) => {
-    const inputValue = e.target.value;
-    setSearchValue(inputValue);
-    setMatchArr(
-      inputValue
-        ? products.filter((product) => product.name.includes(inputValue)).slice(0, 8)
-        : []
-    );
-  };
 
   return (
-    <form className="Searchbar" onSubmit={searchItems}>
+    <form className="Searchbar">
       <div className="box">
         <div className="btn">
           
         </div>
         <input
-          onChange={checkMatch}
           value={searchValue}
           className="SearchbarInput"
           type="search"

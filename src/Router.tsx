@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import MainPage from "./routes/MainPage";
+import Main from "../src/pages/main/Main";
 import JoinPage from "./routes/joinpage/JoinPage";
 import JoinPage2 from "./routes/joinpage/JoinPage2";
 import JoinPage3 from "./routes/joinpage/JoinPage3";
@@ -19,12 +19,10 @@ import PWCheck from "./routes/mypage/PWCheck";
 import EditPersonalInfo from "./routes/mypage/EditPersonalInfo";
 import UpdateUserInfo from "./routes/mypage/UpdateUserInfo";
 import ChangePassword from "./routes/mypage/ChangePassword";
-
 import SearchPage from "./routes/SearchPage";
 import ItemsPage from "./routes/ItemsPage";
 import "./transition.css";
 import LikeProductPage from "./routes/LikeProductPage";
-
 
 function Router() {
   const location = useLocation();
@@ -33,7 +31,7 @@ function Router() {
       <CSSTransition key={location.pathname} classNames="slide" timeout={300}>
         <Routes location={location}>
           <Route path="/" element={<LogInPage />} />
-          <Route path="/main" element={<MainPage />} />
+          <Route path="/main" element={<Main />} />
           <Route path="/join/auth" element={<JoinPage />} />
           <Route path="/join/idpw" element={<JoinPage2 />} />
           <Route path="/join/detail" element={<JoinPage3 />} />

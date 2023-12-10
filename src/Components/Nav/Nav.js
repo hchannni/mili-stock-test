@@ -1,6 +1,5 @@
 import React from "react";
 import Searchbar from "./Components/Searchbar";
-import URL from "../../url";
 import "./Nav.scss";
 
 class Nav extends React.Component {
@@ -15,21 +14,6 @@ class Nav extends React.Component {
             );
         }
     }
-
-    getCartInfo = () => {
-        fetch(`${URL}cart`, {
-            method: "GET",
-            headers: {
-                Authorization: localStorage.getItem("token"),
-            },
-        })
-        .then((res) => res.json())
-        .then((res) => {
-            this.setState({
-                itemInCart: res.carts.length,
-            });
-        });
-    };
 
     render() {
         return (

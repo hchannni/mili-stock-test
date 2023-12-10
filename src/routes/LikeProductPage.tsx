@@ -80,6 +80,8 @@ const SortingOption = styled.span`
 
 function LikeProductPage() {
   const [onSort, setOnSort] = useState(false);
+  const [sortInitialized, setSortInitialized] = useState(false);
+  const [sortCriterion, setSortCriterion] = useState("인기순");
   const onSortBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setOnSort(true);
