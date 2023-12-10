@@ -80,7 +80,7 @@ const SortingOption = styled.span`
 `;
 
 function LikeProductPage() {
-  const [hearts, setHearts] = useState<any[]>([]);
+  const [products, setProducts] = useState<any[]>([]);
 
   useEffect(() => {
 
@@ -89,8 +89,8 @@ function LikeProductPage() {
       try {
         // Send a request to your backend API to get all hearts for the current user
         const token = localStorage.getItem("accessToken");
-        
-        const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/hearts`, {
+
+        const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/hearts/products`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -100,8 +100,15 @@ function LikeProductPage() {
         // Check if the request was successful (status code 200)
         if (response.ok) {
           // Parse the response JSON and set it to the state
-          const data = await response.json();
-          setHearts(data);
+          const pageData = await response.json();
+          // Ensure data is an array before setting it to state
+          const products = pageData.content;
+          if (Array.isArray(products)) {
+            setProducts(products);
+            console.log(products);
+          } else {
+            console.error('Data is not an array:', products);
+          }
         } else {
           // Handle error cases
           console.error('Failed to fetch hearts:', response.status, response.statusText);
@@ -115,10 +122,10 @@ function LikeProductPage() {
     fetchHearts();
   }, []); // Empty dependency array to run the effect only once when the component mounts
 
-  const handleCartClick = async (productNumber: any) => {
+  const handleCartClick = async (item: any) => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/carts/productNumber/${productNumber}`, {
+      const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/carts/productNumber/${item.productNumber}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -126,8 +133,7 @@ function LikeProductPage() {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        console.log(`Cart ${data}에 추가되었습니다`);
+        alert(`${item.productTitle}이 카트에 추가됐습니다!`);
       } else {
         // Handle error response
         console.error('Error:', response.statusText);
@@ -137,6 +143,36 @@ function LikeProductPage() {
       console.error('Error:', error);
     }
   }
+
+  // 하트 삭제
+  const handleHeartDelete = async (item: any) => {
+
+    try {
+      console.log("isHeart==true");
+      const token = localStorage.getItem("accessToken");
+      // 백엔드에서 하트 삭제
+      const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${item.productNumber}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        // 삭제된 하트 제외하기
+        setProducts( 
+          (prevProducts: any[]) => prevProducts.filter( (prevProduct: { productNumber: any } ) => prevProduct.productNumber !== item.productNumber )
+        );
+      } else {
+        // Handle error response
+        console.error('Error:', response.statusText);
+      }
+    } catch (error) {
+      // Handle network error
+      console.error('Error:', error);
+    }
+
+  };
 
 
   return (
@@ -161,15 +197,17 @@ function LikeProductPage() {
 
       <ProductsContainer>
         {/* API로부터 데이터 받아왔을 때는 map함수를 통해 ProductCardSamll 컴포넌트를 그리면 OK */}
-        {hearts.map((heart) => (
+        {products.map((product) => (
           // Use the properties of the heart.product object in the ProductCardSmall component
           <ProductCardSmall
-            key={heart.heartId}
-            name={heart.product.productTitle}
-            price={heart.product.productPrice}
-            stocks={heart.product.productStock}
-            imageUrl={heart.product.productImageUrl}
-            onCartClick={() => handleCartClick(heart.product.productNumber)}
+            key={product.productNumber}
+            name={product.productTitle}
+            price={product.productPrice}
+            stocks={product.productStock}
+            imageUrl={product.productImageUrl}
+            isHeart={true}
+            onCartClick={() => handleCartClick(product)}
+            onHeartClick={() => handleHeartDelete(product)}
           />
         ))}
 

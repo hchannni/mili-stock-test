@@ -2,7 +2,8 @@ import { styled } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons'; // ♡
+import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons'; // ♥︎
 
 const Container = styled.div`
   width: 112px;
@@ -103,20 +104,22 @@ interface ProductCardProps {
   price: number;
   stocks: number;
   imageUrl: string;
+  isHeart: boolean;
   onCartClick?: () => void;
+  onHeartClick?: () => void;
 }
 
 // <FontAwesomeIcon icon="fa-solid fa-cart-shopping" />
 // <FontAwesomeIcon icon="fa-solid fa-heart" /> // heart-filled
 // <FontAwesomeIcon icon="fa-regular fa-heart" /> // heart-outlined
 
-function ProductCardSmall({ name, price, stocks, imageUrl, onCartClick }: ProductCardProps) {
+function ProductCardSmall({ name, price, stocks, imageUrl, isHeart, onCartClick, onHeartClick }: ProductCardProps) {
 
   return (
     <Container>
       <Image src={imageUrl} alt={name} />
-      <HeartBtn>
-        <HeartIcon icon={faHeart as IconProp} />
+      <HeartBtn onClick={onHeartClick}>
+        <HeartIcon icon={isHeart ? solidHeart : regularHeart} />
       </HeartBtn>
       <Info>
         <TextBox>
