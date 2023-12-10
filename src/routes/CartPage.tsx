@@ -73,7 +73,7 @@ function CartPage() {
       })
         .then((response) => response.json())
         .then((data) => setCart(data))
-        .catch((error) => console.error(error));
+        .catch((error) => console.error(error));       
 
     }
     else {
@@ -140,7 +140,7 @@ function CartPage() {
 
         console.log("Parsed JSON Data:", data);
 
-        setCart((prevCart: any) => ({
+        setCart((prevCart: any) => ({ // prevCart = current state of "cart"
           ...prevCart,
           cartItems: prevCart.cartItems.map((cartItem: { product: { productNumber: any; }, quantity: number }) => {
             if (cartItem.product.productNumber === productNumber) {
@@ -199,6 +199,82 @@ function CartPage() {
       .catch((error) => console.error(error));
   };
 
+  const handleHeartClick = async (productNumber: any, heart: any) => {
+    // 하트 x -> 하트 추가
+    if (heart==null){
+      console.log("heart==null");
+      try {
+        const token = localStorage.getItem("accessToken");
+        const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${productNumber}`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+
+          setCart((prevCart: any) => ({
+            ...prevCart, // Shallow copy of prevCart
+            cartItems: prevCart.cartItems.map((cartItem: { product: { productNumber: any; }, heart: any }) => {
+              if (cartItem.product.productNumber === productNumber) {
+                // Update the heart of the specific cart item
+                return {
+                  ...cartItem,
+                  heart: data,
+                };
+              }
+              return cartItem;
+            }),
+          }));
+        } else {
+          // Handle error response
+          console.error('Error:', response.statusText);
+        }
+      } catch (error) {
+        // Handle network error
+        console.error('Error:', error);
+      }
+    }
+    // 하트 o -> 하트 해제
+    else {
+      try {
+        console.log("heart!=null");
+        const token = localStorage.getItem("accessToken");
+        const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${productNumber}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          setCart((prevCart: any) => ({
+            ...prevCart,
+            cartItems: prevCart.cartItems.map((cartItem: { product: { productNumber: any; }, heart: any }) => {
+              if (cartItem.product.productNumber === productNumber) {
+                // Update the heart of the specific cart item
+                return {
+                  ...cartItem,
+                  heart: null,
+                };
+              }
+              return cartItem;
+            }),
+          }));
+        } else {
+          // Handle error response
+          console.error('Error:', response.statusText);
+        }
+      } catch (error) {
+        // Handle network error
+        console.error('Error:', error);
+      }
+    }
+    
+  };
+
   return (
     <ScreenContainer>
       <PageHeader pageTitle="장바구니" />
@@ -213,6 +289,8 @@ function CartPage() {
           onDelete={() => handleDeleteProduct(cartItem.product.productNumber)}
           increaseCount={() => handleIncreaseCount(cartItem.product.productNumber, 1)}
           decreaseCount={() => handleDecreaseCount(cartItem.product.productNumber, 1)}
+          onHeartClick={() => handleHeartClick(cartItem.product.productNumber, cartItem.heart)}
+          liked={cartItem.heart!=null}
         />
       ))}
       <ShoppingNav>

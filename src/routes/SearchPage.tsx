@@ -148,6 +148,7 @@ interface ProductProps {
   isPopularProduct: boolean;
   productDiscountPrice: number;
   productTimeAdded: string;
+  isHeart: boolean;
 }
 
 function SearchPage() {
@@ -225,6 +226,7 @@ function SearchPage() {
                   price={v.productStock}
                   stocks={v.productStock}
                   imageUrl={v.productImageUrl}
+                  isHeart={v.isHeart}
                 />
               ))}
             </ProductsContainer>

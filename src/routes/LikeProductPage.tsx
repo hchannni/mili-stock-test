@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightLeft } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import BottomSheet from "../components/BottomSheet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const HookingButtons = styled.section`
   width: 100%;
@@ -85,6 +85,100 @@ function LikeProductPage() {
     setOnSort(true);
   };
 
+  const [products, setProducts] = useState<any[]>([]);
+
+  useEffect(() => {
+
+    // Fetch hearts from the backend when the component mounts
+    const fetchHearts = async () => { // async 왜 씀? .then.then.catch 대신 await로 코드 깔끔하게 가능
+      try {
+        // Send a request to your backend API to get all hearts for the current user
+        const token = localStorage.getItem("accessToken");
+
+        const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/hearts/products`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        // Check if the request was successful (status code 200)
+        if (response.ok) {
+          // Parse the response JSON and set it to the state
+          const pageData = await response.json();
+          // Ensure data is an array before setting it to state
+          const products = pageData.content;
+          if (Array.isArray(products)) {
+            setProducts(products);
+            console.log(products);
+          } else {
+            console.error('Data is not an array:', products);
+          }
+        } else {
+          // Handle error cases
+          console.error('Failed to fetch hearts:', response.status, response.statusText);
+        }
+      } catch (error) {
+        console.error('Error during fetch:', error);
+      }
+    };
+
+    // Call the fetchHearts function
+    fetchHearts();
+  }, []); // Empty dependency array to run the effect only once when the component mounts
+
+  const handleCartClick = async (item: any) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/carts/productNumber/${item.productNumber}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        alert(`${item.productTitle}이 카트에 추가됐습니다!`);
+      } else {
+        // Handle error response
+        console.error('Error:', response.statusText);
+      }
+    } catch (error) {
+      // Handle network error
+      console.error('Error:', error);
+    }
+  }
+
+  // 하트 삭제
+  const handleHeartDelete = async (item: any) => {
+
+    try {
+      console.log("isHeart==true");
+      const token = localStorage.getItem("accessToken");
+      // 백엔드에서 하트 삭제
+      const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${item.productNumber}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        // 삭제된 하트 제외하기
+        setProducts( 
+          (prevProducts: any[]) => prevProducts.filter( (prevProduct: { productNumber: any } ) => prevProduct.productNumber !== item.productNumber )
+        );
+      } else {
+        // Handle error response
+        console.error('Error:', response.statusText);
+      }
+    } catch (error) {
+      // Handle network error
+      console.error('Error:', error);
+    }
+
+  };
+
   return (
     <>
       <ScreenContainer>
@@ -109,45 +203,21 @@ function LikeProductPage() {
             <SortingOption>최신순</SortingOption>
           </SortingButton>
         </Options>
-
         <ProductsContainer>
           {/* API로부터 데이터 받아왔을 때는 map함수를 통해 ProductCardSamll 컴포넌트를 그리면 OK */}
-          <ProductCardSmall
-            name="아사히생맥주"
-            price={2100}
-            stocks={107}
-            imageUrl="*"
-          />
-          <ProductCardSmall
-            name="아사히생맥주"
-            price={2100}
-            stocks={107}
-            imageUrl="*"
-          />
-          <ProductCardSmall
-            name="아사히생맥주"
-            price={2100}
-            stocks={107}
-            imageUrl="*"
-          />
-          <ProductCardSmall
-            name="아사히생맥주"
-            price={2100}
-            stocks={107}
-            imageUrl="*"
-          />
-          <ProductCardSmall
-            name="아사히생맥주"
-            price={2100}
-            stocks={107}
-            imageUrl="*"
-          />
-          <ProductCardSmall
-            name="아사히생맥주"
-            price={2100}
-            stocks={107}
-            imageUrl="*"
-          />
+          {products.map((product) => (
+            // Use the properties of the heart.product object in the ProductCardSmall component
+            <ProductCardSmall
+              key={product.productNumber}
+              name={product.productTitle}
+              price={product.productPrice}
+              stocks={product.productStock}
+              imageUrl={product.productImageUrl}
+              isHeart={true}
+              onCartClick={() => handleCartClick(product)}
+              onHeartClick={() => handleHeartDelete(product)}
+            />
+          ))}
         </ProductsContainer>
       </ScreenContainer>
       {onSort && (
