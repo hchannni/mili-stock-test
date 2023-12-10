@@ -1,0 +1,50 @@
+* {
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+    AppleSDGothicNeo, "Malgun Gothic", "맑은 고딕", sans-serif;
+}
+
+body {
+// width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+.SectionPageLink {
+    color: #120de4;
+    text-align: center;
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px; /* 183.333% */
+    letter-spacing: -0.408px;
+    text-decoration-line: underline;
+}
+
+// variables
+$breakpoint-tablet: 770px;
+
+@mixin tab {
+    @media screen and (max-width: #{$breakpoint-tablet}) {
+    @content; /*mixin 내부에서 @media 쿼리가 true로 평가될 때 실행할 내용을 의미합니다. 
+    @content는 mixin이 호출될 때 미디어 쿼리 내의 모든 내용을 가져온다는 것을 나타냅니다. */
+    }
+}
+
+@mixin flexBox($justify, $align, $direction) {
+    display: flex;
+    justify-content: $justify;
+    align-items: $align;
+    flex-direction: $direction;
+}
+
+/* colors
+$alert: #ff6129;
+$point: #ff447e;
+$subtext: #9a9a9e;
+$subBlack: #1e1e1e;
+$kakaoYellow: #ffe500;
+$buttonGray: #f6f6f6;
+$footerUpperColor: #3c404b;
+$footerBottomColor: #2e2e2e;
+*/
