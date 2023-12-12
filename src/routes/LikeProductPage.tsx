@@ -78,14 +78,33 @@ const SortingOption = styled.span`
   letter-spacing: -0.408px;
 `;
 
+interface ProductProps {
+  productNumber: number;
+  productTitle: string;
+  productPrice: number;
+  productStock: number;
+  productImageUrl: string;
+  category: string;
+  isDiscountedProduct: boolean;
+  isNewProduct: boolean;
+  isPopularProduct: boolean;
+  productDiscountPrice: number;
+  productTimeAdded: string;
+  isHeart: boolean;
+}
+
 function LikeProductPage() {
+  // Sort 버튼 클릭 Logic
   const [onSort, setOnSort] = useState(false);
+  const [sortInitialized, setSortInitialized] = useState(false);
+  const [sortCriterion, setSortCriterion] = useState("인기순");
   const onSortBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setOnSort(true);
+    setSortInitialized(true);
   };
 
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<ProductProps[]>([]);
 
   useEffect(() => {
     // Fetch hearts from the backend when the component mounts
@@ -214,7 +233,9 @@ function LikeProductPage() {
           </div>
           <SortingButton onClick={onSortBtnClick}>
             <FontAwesomeIcon icon={faRightLeft as IconProp} rotation={90} />
-            <SortingOption>최신순</SortingOption>
+            <SortingOption>
+              {sortInitialized ? sortCriterion : "인기순"}
+            </SortingOption>
           </SortingButton>
         </Options>
         <ProductsContainer>
@@ -234,6 +255,15 @@ function LikeProductPage() {
           ))}
         </ProductsContainer>
       </ScreenContainer>
+      {sortInitialized && (
+        <BottomSheet
+          url={"hearts/products"}
+          onSort={onSort}
+          setOnSort={setOnSort}
+          setResults={setProducts}
+          setSortCriterion={setSortCriterion}
+        />
+      )}
     </>
   );
 }
