@@ -187,6 +187,99 @@ function SearchPage() {
     setSortInitialized(true);
   };
 
+  const handleCartClick = async (item: any) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/carts/productNumber/${item.productNumber}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        alert(`${item.productTitle}이 카트에 추가됐습니다!`);
+      } else {
+        // Handle error response
+        console.error('Error:', response.statusText);
+      }
+    } catch (error) {
+      // Handle network error
+      console.error('Error:', error);
+    }
+  }
+
+  const handleHeartClick = async (item: any) => {
+    // 하트 x -> 하트 추가
+    if (item.isHeart == false){
+      console.log("isHeart==false");
+      try {
+        const token = localStorage.getItem("accessToken");
+        // 백엔드에서 하트 생성
+        const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${item.productNumber}`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+
+          setResults((prevItems: any[]) => prevItems.map((prevItem: ProductProps ) => {
+            if (prevItem.productNumber === item.productNumber) {
+              // Update the heart of the specific cart item
+              return {
+                ...prevItem,
+                isHeart: true,
+              };
+            }
+            return prevItem;
+          }));
+        } else {
+          // Handle error response
+          console.error('Error:', response.statusText);
+        }
+      } catch (error) {
+        // Handle network error
+        console.error('Error:', error);
+      }
+    }
+    // 하트 o -> 하트 해제
+    else {
+      try {
+        console.log("isHeart==true");
+        const token = localStorage.getItem("accessToken");
+        // 백엔드에서 하트 삭제
+        const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${item.productNumber}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          setResults((prevItems: any[]) => prevItems.map((prevItem: ProductProps ) => {
+            if (prevItem.productNumber === item.productNumber) {
+              // Update the heart of the specific cart item
+              return {
+                ...prevItem, // return shallow copy
+                isHeart: false,
+              };
+            }
+            return prevItem; // map will collect all returned values -> make new array
+          }));
+        } else {
+          // Handle error response
+          console.error('Error:', response.statusText);
+        }
+      } catch (error) {
+        // Handle network error
+        console.error('Error:', error);
+      }
+    }
+    
+  };
+
   return (
     <>
       <ScreenContainer>
@@ -223,11 +316,14 @@ function SearchPage() {
             <ProductsContainer>
               {results.map((v: ProductProps) => (
                 <ProductCard
+                  key={v.productNumber}
                   name={v.productTitle}
                   price={v.productStock}
                   stocks={v.productStock}
                   imageUrl={v.productImageUrl}
                   isHeart={v.isHeart}
+                  onCartClick={() => handleCartClick(v)}
+                  onHeartClick={() => handleHeartClick(v)}
                 />
               ))}
             </ProductsContainer>
