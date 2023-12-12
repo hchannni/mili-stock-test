@@ -26,9 +26,7 @@ const ProductsContainer = styled.section`
 
 const ResultNumber = styled.span`
   display: flex;
-  width: 100%;
   justify-content: flex-start;
-  margin-top: 16px;
 
   color: #000;
   text-align: center;
@@ -41,10 +39,11 @@ const ResultNumber = styled.span`
 `;
 
 const Options = styled.div`
-  margin-top: 4px;
+  margin-top: 16px;
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const ToggleLabel = styled.span`
@@ -225,12 +224,8 @@ function LikeProductPage() {
           />
           <HookingButton desc="혹시 이건 어때요?" pageName="신상품" link="/" />
         </HookingButtons>
-        <ResultNumber>{`검색결과 ${35}`}</ResultNumber>
         <Options>
-          <div style={{ display: "flex", gap: "4px" }}>
-            <Toggle />
-            <ToggleLabel>품절제외</ToggleLabel>
-          </div>
+          <ResultNumber>{`검색결과 ${35}`}</ResultNumber>
           <SortingButton onClick={onSortBtnClick}>
             <FontAwesomeIcon icon={faRightLeft as IconProp} rotation={90} />
             <SortingOption>
