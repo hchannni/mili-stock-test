@@ -82,6 +82,7 @@ interface ProductProps {
 
 function LikeProductPage() {
   // Sort 버튼 클릭 Logic
+  const [count, setCount] = useState(0); // 관심상품 개수 Count
   const [onSort, setOnSort] = useState(false);
   const [sortInitialized, setSortInitialized] = useState(false);
   const [sortCriterion, setSortCriterion] = useState("인기순");
@@ -119,7 +120,7 @@ function LikeProductPage() {
           const products = pageData.content;
           if (Array.isArray(products)) {
             setProducts(products);
-            console.log(products);
+            setCount(pageData.totalElements);
           } else {
             console.error("Data is not an array:", products);
           }
@@ -213,7 +214,7 @@ function LikeProductPage() {
           <HookingButton desc="혹시 이건 어때요?" pageName="신상품" link="/" />
         </HookingButtons>
         <Options>
-          <ResultNumber>{`검색결과 ${35}`}</ResultNumber>
+          <ResultNumber>{`검색결과 ${count}`}</ResultNumber>
           <SortingButton onClick={onSortBtnClick}>
             <FontAwesomeIcon icon={faRightLeft as IconProp} rotation={90} />
             <SortingOption>
