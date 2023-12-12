@@ -3,7 +3,6 @@ import HookingButton from "../components/HookingButton";
 import ScreenContainer from "../components/ScreenContainer";
 import PageHeader from "../components/mypage/PageHeader";
 import ProductCardSmall from "../components/ProductCardSmall";
-import Toggle from "../components/Toggle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightLeft } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
@@ -44,17 +43,6 @@ const Options = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-
-const ToggleLabel = styled.span`
-  color: #767676;
-  text-align: center;
-  font-family: Inter;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 23px; /* 153.333% */
-  letter-spacing: -0.306px;
 `;
 
 const SortingButton = styled.button`
