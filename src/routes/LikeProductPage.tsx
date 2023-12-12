@@ -3,7 +3,6 @@ import HookingButton from "../components/HookingButton";
 import ScreenContainer from "../components/ScreenContainer";
 import PageHeader from "../components/mypage/PageHeader";
 import ProductCardSmall from "../components/ProductCardSmall";
-import Toggle from "../components/Toggle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightLeft } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
@@ -26,9 +25,7 @@ const ProductsContainer = styled.section`
 
 const ResultNumber = styled.span`
   display: flex;
-  width: 100%;
   justify-content: flex-start;
-  margin-top: 16px;
 
   color: #000;
   text-align: center;
@@ -41,21 +38,11 @@ const ResultNumber = styled.span`
 `;
 
 const Options = styled.div`
-  margin-top: 4px;
+  margin-top: 16px;
   width: 100%;
   display: flex;
   justify-content: space-between;
-`;
-
-const ToggleLabel = styled.span`
-  color: #767676;
-  text-align: center;
-  font-family: Inter;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 23px; /* 153.333% */
-  letter-spacing: -0.306px;
+  align-items: center;
 `;
 
 const SortingButton = styled.button`
@@ -78,16 +65,34 @@ const SortingOption = styled.span`
   letter-spacing: -0.408px;
 `;
 
+interface ProductProps {
+  productNumber: number;
+  productTitle: string;
+  productPrice: number;
+  productStock: number;
+  productImageUrl: string;
+  category: string;
+  isDiscountedProduct: boolean;
+  isNewProduct: boolean;
+  isPopularProduct: boolean;
+  productDiscountPrice: number;
+  productTimeAdded: string;
+  isHeart: boolean;
+}
+
 function LikeProductPage() {
+  // Sort 버튼 클릭 Logic
+  const [count, setCount] = useState(0); // 관심상품 개수 Count
   const [onSort, setOnSort] = useState(false);
   const [sortInitialized, setSortInitialized] = useState(false);
   const [sortCriterion, setSortCriterion] = useState("인기순");
   const onSortBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setOnSort(true);
+    setSortInitialized(true);
   };
 
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<ProductProps[]>([]);
 
   useEffect(() => {
     // Fetch hearts from the backend when the component mounts
@@ -115,7 +120,7 @@ function LikeProductPage() {
           const products = pageData.content;
           if (Array.isArray(products)) {
             setProducts(products);
-            console.log(products);
+            setCount(pageData.totalElements);
           } else {
             console.error("Data is not an array:", products);
           }
@@ -208,15 +213,13 @@ function LikeProductPage() {
           />
           <HookingButton desc="혹시 이건 어때요?" pageName="신상품" link="/" />
         </HookingButtons>
-        <ResultNumber>{`검색결과 ${35}`}</ResultNumber>
         <Options>
-          <div style={{ display: "flex", gap: "4px" }}>
-            <Toggle />
-            <ToggleLabel>품절제외</ToggleLabel>
-          </div>
+          <ResultNumber>{`검색결과 ${count}`}</ResultNumber>
           <SortingButton onClick={onSortBtnClick}>
             <FontAwesomeIcon icon={faRightLeft as IconProp} rotation={90} />
-            <SortingOption>최신순</SortingOption>
+            <SortingOption>
+              {sortInitialized ? sortCriterion : "인기순"}
+            </SortingOption>
           </SortingButton>
         </Options>
         <ProductsContainer>
@@ -236,6 +239,15 @@ function LikeProductPage() {
           ))}
         </ProductsContainer>
       </ScreenContainer>
+      {sortInitialized && (
+        <BottomSheet
+          url={"hearts/products"}
+          onSort={onSort}
+          setOnSort={setOnSort}
+          setResults={setProducts}
+          setSortCriterion={setSortCriterion}
+        />
+      )}
     </>
   );
 }
