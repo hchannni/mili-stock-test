@@ -1,0 +1,15 @@
+@import "../../../Styles/common.scss";
+
+.Hotitem {
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 50px;
+  padding-bottom: 35px;
+
+  .HotCardList {
+    display: grid;
+    max-width: 390px;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: start;
+  }
+}

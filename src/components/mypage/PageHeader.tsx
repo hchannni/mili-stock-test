@@ -63,10 +63,10 @@ function PageHeader(props: PageHeaderProps) {
         <PageTitle>{props.pageTitle}</PageTitle>
       </Title>
       <Icons>
-        <Btn onClick={() => navigate(-1)}>
+        <Btn onClick={() => navigate("/search")}>
           <FAIcon icon={faMagnifyingGlass as IconProp} />
         </Btn>
-        <Btn onClick={() => navigate(-1)}>
+        <Btn onClick={() => navigate("/cart")}>
           <FAIcon icon={faCartShopping as IconProp} />
         </Btn>
       </Icons>

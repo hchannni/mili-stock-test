@@ -1,0 +1,80 @@
+@import "../../Styles/common.scss";
+
+
+.Main {
+    width: 390px;
+    height: 844px;
+    margin: 0 auto;
+    background: var(--Main, #FF8200);
+
+    main {
+        /* padding-top: 126px; */
+        max-width: 390px;
+        border-radius: 75px 75px 0px 0px;
+        padding: 0 20px;
+
+        background-color: #ffffff;
+        height: 1000vh;
+        padding-top: 12px;
+
+        .CategoryTab {
+            width: 100%;
+            height: 88px;
+            display: flex;
+            transition: height 0.3s ease;
+
+            // showMoreExpanded가 true일 때 높이를 176px로 변경
+            &.expanded {
+                height: 176px;
+              }
+        }
+
+
+        .SectionHeader {
+            @include flexBox(space-between, flex-start, row);
+            width: 100%;
+            padding: 12px;
+
+            &.SectionTitle {
+                color: #000;
+                text-align: center;
+                font-family: Inter;
+                font-size: 24px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 22px; /* 91.667% */
+                letter-spacing: -0.408px;
+            }
+
+            &.SectionPageLink {
+                color: #120de4;
+                text-align: center;
+                font-family: Inter;
+                font-size: 12px;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 22px; /* 183.333% */
+                letter-spacing: -0.408px;
+                text-decoration-line: underline;
+            }
+        } 
+
+        .HotItem {
+            display: grid;
+            grid-template-columns: repeat(2, 160px);
+            gap: 16px 24px;
+        }   
+
+        .NewItem {
+            
+        }   
+
+        .SaleItem {
+            display: flex;
+            flex-direction: column; /* 세로 정렬을 위해 컨테이너의 방향을 column으로 설정 */
+            align-items: center; /* 세로 정렬 */
+            justify-content: center; /* 수직 방향 가운데 정렬 */
+            height: 100vh;
+        }  
+    }
+}
