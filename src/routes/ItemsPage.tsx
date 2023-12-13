@@ -82,21 +82,6 @@ const SortingOption = styled.span`
   letter-spacing: -0.408px;
 `;
 
-interface ProductProps {
-  productNumber: number;
-  productTitle: string;
-  productPrice: number;
-  productStock: number;
-  productImageUrl: string;
-  category: string;
-  isDiscountedProduct: boolean;
-  isNewProduct: boolean;
-  isPopularProduct: boolean;
-  productDiscountPrice: number;
-  productTimeAdded: string;
-  isHeart: boolean;
-}
-
 function ItemsPage() {
   const [category, setCategory] = useState("전체");
   const [count, setCount] = useState(0); // 검색결과 count
@@ -132,7 +117,7 @@ function ItemsPage() {
           const items = pageData.content;
           if (Array.isArray(items)) {
             setItems(items);
-            console.log(items);
+            setCount(pageData.totalElements);
           } else {
             console.error("Data is not an array:", items);
           }
@@ -311,7 +296,7 @@ function ItemsPage() {
           </Category>
         </Categories>
         <Options>
-          <ResultNumber>검색결과 {35}</ResultNumber>
+          <ResultNumber>검색결과 {count}</ResultNumber>
           <SortingButton onClick={onSortBtnClick}>
             <FontAwesomeIcon icon={faRightLeft as IconProp} rotation={90} />
             <SortingOption>
