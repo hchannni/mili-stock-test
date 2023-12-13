@@ -1,6 +1,6 @@
 // 11.27 TODO: Make product be deleted when cnt=0 (ask chatgpt)
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import ScreenContainer from "../components/ScreenContainer";
 import PageHeader from "../components/mypage/PageHeader";
@@ -68,15 +68,13 @@ function CartPage() {
     if (token) {
       fetch(`${process.env.REACT_APP_DONG10_BASEURL}/carts`, {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       })
         .then((response) => response.json())
         .then((data) => setCart(data))
-        .catch((error) => console.error(error));       
-
-    }
-    else {
+        .catch((error) => console.error(error));
+    } else {
       console.error("Token is null. Please log in to access the cart.");
     }
   }, []);
@@ -94,9 +92,6 @@ function CartPage() {
       }
       setTotalPrice(totalPrice);
       setTotalCount(totalCount);
-
-      console.log(cart);
-
     }
   }, [cart]);
 
@@ -107,18 +102,24 @@ function CartPage() {
   const handleDeleteProduct = (productNumber: any) => {
     const token = localStorage.getItem("accessToken");
 
-    fetch(`${process.env.REACT_APP_DONG10_BASEURL}/carts/productNumber/${productNumber}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    })
+    fetch(
+      `${process.env.REACT_APP_DONG10_BASEURL}/carts/productNumber/${productNumber}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         setTimeout(() => {
           setCart((prevCart: any) => ({
             ...prevCart,
-            cartItems: prevCart.cartItems.filter((cartItem: { product: { productNumber: any } }) => cartItem.product.productNumber !== productNumber), // filter: 삭제된 productNumber를 제외한 상품들만 새 배열에
+            cartItems: prevCart.cartItems.filter(
+              (cartItem: { product: { productNumber: any } }) =>
+                cartItem.product.productNumber !== productNumber
+            ), // filter: 삭제된 productNumber를 제외한 상품들만 새 배열에
           }));
         }, 100);
         console.log(`Product ${productNumber} deleted. Response:`, data);
@@ -129,67 +130,87 @@ function CartPage() {
   const handleIncreaseCount = (productNumber: any, quantityAdded: number) => {
     const token = localStorage.getItem("accessToken");
 
-    fetch(`${process.env.REACT_APP_DONG10_BASEURL}/carts/increaseCount/productNumber/${productNumber}/by/${quantityAdded}`, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    })
+    fetch(
+      `${process.env.REACT_APP_DONG10_BASEURL}/carts/increaseCount/productNumber/${productNumber}/by/${quantityAdded}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
-
         console.log("Parsed JSON Data:", data);
 
-        setCart((prevCart: any) => ({ // prevCart = current state of "cart"
+        setCart((prevCart: any) => ({
+          // prevCart = current state of "cart"
           ...prevCart,
-          cartItems: prevCart.cartItems.map((cartItem: { product: { productNumber: any; }, quantity: number }) => {
-            if (cartItem.product.productNumber === productNumber) {
-              // Update the quantity of the specific cart item
-              return {
-                ...cartItem,
-                quantity: data,
-              };
+          cartItems: prevCart.cartItems.map(
+            (cartItem: {
+              product: { productNumber: any };
+              quantity: number;
+            }) => {
+              if (cartItem.product.productNumber === productNumber) {
+                // Update the quantity of the specific cart item
+                return {
+                  ...cartItem,
+                  quantity: data,
+                };
+              }
+              return cartItem;
             }
-            return cartItem;
-          }),
+          ),
         }));
       })
       .catch((error) => console.error(error));
   };
 
-  const handleDecreaseCount = (productNumber: any, quantitySubtracted: number) => {
+  const handleDecreaseCount = (
+    productNumber: any,
+    quantitySubtracted: number
+  ) => {
     const token = localStorage.getItem("accessToken");
 
-    fetch(`${process.env.REACT_APP_DONG10_BASEURL}/carts/decreaseCount/productNumber/${productNumber}/by/${quantitySubtracted}`, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    })
+    fetch(
+      `${process.env.REACT_APP_DONG10_BASEURL}/carts/decreaseCount/productNumber/${productNumber}/by/${quantitySubtracted}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
-
         console.log("Parsed JSON Data:", data);
 
         setCart((prevCart: any) => {
-          const updatedCartItems = prevCart.cartItems.map((cartItem: { product: { productNumber: any; }, quantity: number }) => {
-            if (cartItem.product.productNumber === productNumber) {
-              // Update the quantity of the specific cart item
-              return {
-                ...cartItem,
-                quantity: data,
-              };
+          const updatedCartItems = prevCart.cartItems.map(
+            (cartItem: {
+              product: { productNumber: any };
+              quantity: number;
+            }) => {
+              if (cartItem.product.productNumber === productNumber) {
+                // Update the quantity of the specific cart item
+                return {
+                  ...cartItem,
+                  quantity: data,
+                };
+              }
+              return cartItem;
             }
-            return cartItem;
-          });
-  
+          );
+
           // Check if the new quantity is less than or equal to 0
-          const updatedCartItem = updatedCartItems.find((cartItem: any) => cartItem.product.productNumber === productNumber);
+          const updatedCartItem = updatedCartItems.find(
+            (cartItem: any) => cartItem.product.productNumber === productNumber
+          );
           if (updatedCartItem && updatedCartItem.quantity <= 0) {
             // If the quantity is less than or equal to 0, call handleDeleteProduct
             handleDeleteProduct(productNumber);
           }
-  
+
           return {
             ...prevCart,
             cartItems: updatedCartItems,
@@ -201,40 +222,45 @@ function CartPage() {
 
   const handleHeartClick = async (productNumber: any, heart: any) => {
     // 하트 x -> 하트 추가
-    if (heart==null){
+    if (heart == null) {
       console.log("heart==null");
       try {
         const token = localStorage.getItem("accessToken");
-        const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${productNumber}`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${productNumber}`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (response.ok) {
           const data = await response.json();
 
           setCart((prevCart: any) => ({
             ...prevCart, // Shallow copy of prevCart
-            cartItems: prevCart.cartItems.map((cartItem: { product: { productNumber: any; }, heart: any }) => {
-              if (cartItem.product.productNumber === productNumber) {
-                // Update the heart of the specific cart item
-                return {
-                  ...cartItem,
-                  heart: data,
-                };
+            cartItems: prevCart.cartItems.map(
+              (cartItem: { product: { productNumber: any }; heart: any }) => {
+                if (cartItem.product.productNumber === productNumber) {
+                  // Update the heart of the specific cart item
+                  return {
+                    ...cartItem,
+                    heart: data,
+                  };
+                }
+                return cartItem;
               }
-              return cartItem;
-            }),
+            ),
           }));
         } else {
           // Handle error response
-          console.error('Error:', response.statusText);
+          console.error("Error:", response.statusText);
         }
       } catch (error) {
         // Handle network error
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     }
     // 하트 o -> 하트 해제
@@ -242,57 +268,68 @@ function CartPage() {
       try {
         console.log("heart!=null");
         const token = localStorage.getItem("accessToken");
-        const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${productNumber}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${productNumber}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (response.ok) {
           setCart((prevCart: any) => ({
             ...prevCart,
-            cartItems: prevCart.cartItems.map((cartItem: { product: { productNumber: any; }, heart: any }) => {
-              if (cartItem.product.productNumber === productNumber) {
-                // Update the heart of the specific cart item
-                return {
-                  ...cartItem,
-                  heart: null,
-                };
+            cartItems: prevCart.cartItems.map(
+              (cartItem: { product: { productNumber: any }; heart: any }) => {
+                if (cartItem.product.productNumber === productNumber) {
+                  // Update the heart of the specific cart item
+                  return {
+                    ...cartItem,
+                    heart: null,
+                  };
+                }
+                return cartItem;
               }
-              return cartItem;
-            }),
+            ),
           }));
         } else {
           // Handle error response
-          console.error('Error:', response.statusText);
+          console.error("Error:", response.statusText);
         }
       } catch (error) {
         // Handle network error
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     }
-    
   };
 
   return (
     <ScreenContainer>
       <PageHeader pageTitle="장바구니" />
-      {cart.cartItems.map((cartItem: any) => (
-        <CartProduct
-          key={cartItem.product.productNumber}
-          name={cartItem.product.productTitle}
-          price={cartItem.product.productPrice}
-          stocks={cartItem.product.productStock}
-          count={cartItem.quantity}
-          imageUrl={cartItem.product.productImageUrl}
-          onDelete={() => handleDeleteProduct(cartItem.product.productNumber)}
-          increaseCount={() => handleIncreaseCount(cartItem.product.productNumber, 1)}
-          decreaseCount={() => handleDecreaseCount(cartItem.product.productNumber, 1)}
-          onHeartClick={() => handleHeartClick(cartItem.product.productNumber, cartItem.heart)}
-          liked={cartItem.heart!=null}
-        />
-      ))}
+      {cart &&
+        cart.cartItems.map((cartItem: any) => (
+          <CartProduct
+            key={cartItem.product.productNumber}
+            name={cartItem.product.productTitle}
+            price={cartItem.product.productPrice}
+            stocks={cartItem.product.productStock}
+            count={cartItem.quantity}
+            imageUrl={cartItem.product.productImageUrl}
+            onDelete={() => handleDeleteProduct(cartItem.product.productNumber)}
+            increaseCount={() =>
+              handleIncreaseCount(cartItem.product.productNumber, 1)
+            }
+            decreaseCount={() =>
+              handleDecreaseCount(cartItem.product.productNumber, 1)
+            }
+            onHeartClick={() =>
+              handleHeartClick(cartItem.product.productNumber, cartItem.heart)
+            }
+            liked={cartItem.heart != null}
+          />
+        ))}
       <ShoppingNav>
         <TotalInfo>
           <TotalCount>{`총 ${totalCount}개`}</TotalCount>
