@@ -6,6 +6,7 @@ import HotCard from "./Hotitem/HotCard";
 import Newitem from "./Newitem/Newitem";
 import Saleitem from "./Saleitem/Saleitem";
 import CategorySection from "../Category/Category";
+import HomeTab from "../HomeTab/HomeTab";
 
 export default class Main extends React.Component {
   constructor(props) {
@@ -24,46 +25,51 @@ export default class Main extends React.Component {
   render() {
     return (
       <>
-        <Nav />
-        <div className={`Main ${this.state.showMoreExpanded ? "expanded" : ""}`}>
-          <main>
-            <CategorySection showMoreExpanded={this.state.showMoreExpanded} />
+        <div className = "ScreenContainer">
+          <Nav />
+          <div className={`Main ${this.state.showMoreExpanded ? "expanded" : ""}`}>
+            <main>
+              <CategorySection showMoreExpanded={this.state.showMoreExpanded} />
 
-            <div className="SectionHeader">
-              <a className="SectionTitle">인기상품</a>
-              <a href="/hotitems" className="SectionPageLink">
-                전체보기
-              </a>
-            </div>
-            <div className="HotItem">
-              <HotCard />
-              <HotCard />
-              <HotCard />
-              <HotCard />
-            </div>
-            <div className="SectionHeader">
-              <a className="SectionTitle">신상품</a>
-              <a href="/newitems" className="SectionPageLink">
-                전체보기
-              </a>
-            </div>
-            <div className="NewItem">
-              <Newitem />
-            </div>
-            <div className="SectionHeader" style={{ marginTop: "40px" }}>
-              <a className="SectionTitle">할인상품</a>
-              <a href="/saleitems" className="SectionPageLink">
-                전체보기
-              </a>
-            </div>
-            <div className="SalseItem">
-              <Saleitem />
-              <Saleitem />
-              <Saleitem />
-              <Saleitem />
-            </div>
-          </main>
+              <div className="SectionHeader">
+                <a className="SectionTitle">인기상품</a>
+                <a href="/allitems/hotitems" className="SectionPageLink">
+                  전체보기
+                </a>
+              </div>
+              <div className="HotItem">
+                <HotCard />
+                <HotCard />
+                <HotCard />
+                <HotCard />
+              </div>
+              <div className="SectionHeader">
+                <a className="SectionTitle">신상품</a>
+                <a href="/allitems/newitems" className="SectionPageLink">
+                  전체보기
+                </a>
+              </div>
+              <div className="NewItem">
+                <Newitem />
+              </div>
+              <div className="SectionHeader" style={{ marginTop: "40px" }}>
+                <a className="SectionTitle">할인상품</a>
+                <a href="/allitems/saleitems" className="SectionPageLink">
+                  전체보기
+                </a>
+              </div>
+              <div className="SalseItem">
+                <Saleitem />
+                <Saleitem />
+                <Saleitem />
+                <Saleitem />
+              </div>
+            </main>
+          </div>
         </div>
+          <div className="BottomMenu">
+            <HomeTab />
+          </div>
       </>
     );
   }

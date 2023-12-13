@@ -7,6 +7,7 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
 const Container = styled.div`
   width: 100%;
+  padding: 8px 0;
 `;
 
 const ProductHeader = styled.div`
@@ -34,7 +35,6 @@ const ProductCard = styled.div`
   gap: 16px;
 
   width: 100%;
-  padding: 8px;
   position: relative;
 `;
 
