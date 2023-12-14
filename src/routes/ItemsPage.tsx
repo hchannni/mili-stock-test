@@ -7,6 +7,7 @@ import { faRightLeft } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { useEffect, useState } from "react";
 import BottomSheet from "../components/BottomSheet";
+import { Link, useParams } from "react-router-dom";
 
 const ProductsContainer = styled.div`
   margin-top: 8px;
@@ -29,12 +30,12 @@ interface CategoryProps {
   selected: boolean;
 }
 
-const Category = styled.button<CategoryProps>`
+const Category = styled(Link)<CategoryProps>`
   border: none;
   background-color: inherit;
   white-space: nowrap;
   font-size: 18px;
-  padding: 4px 12px;
+  padding: 6px 12px;
   border-radius: 16px;
   background: ${(props) =>
     props.selected ? "#ff8200" : "rgba(160, 160, 160, 0.1)"};
@@ -83,12 +84,14 @@ const SortingOption = styled.span`
 `;
 
 function ItemsPage() {
-  const [category, setCategory] = useState("전체");
   const [count, setCount] = useState(0); // 검색결과 count
   const [onSort, setOnSort] = useState(false);
   const [sortInitialized, setSortInitialized] = useState(false);
   const [sortCriterion, setSortCriterion] = useState("인기순");
   const [items, setItems] = useState<any[]>([]); // 배열이라서 any[], default값 = []
+
+  const { category } = useParams();
+  const [urlName, setUrlName] = useState("");
 
   // Fetch products from the backend when the component mounts
   useEffect(() => {
@@ -99,8 +102,18 @@ function ItemsPage() {
         // Send a request to your backend API to get all hearts for the current user
         const token = localStorage.getItem("accessToken");
 
+        if (category === "hotitems") {
+          setUrlName("popularProduct");
+        } else if (category === "newitems") {
+          setUrlName("newProduct");
+        } else if (category === "discountitems") {
+          setUrlName("discountProduct");
+        } else if (category === "all") {
+          setUrlName("search?size=6&page=0&sortBy=popular");
+        }
+
         const response = await fetch(
-          `${process.env.REACT_APP_DONG10_BASEURL}/products/search?size=6&page=0&sortBy=stockLowToHigh`,
+          `${process.env.REACT_APP_DONG10_BASEURL}/products/${urlName}`,
           {
             method: "GET",
             headers: {
@@ -136,16 +149,7 @@ function ItemsPage() {
 
     // Call the fetchHearts function
     fetchItems();
-  }, []);
-
-  const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-
-    // TypeScript에서 추천해주는 바에 따르면, event.target에는 함수 3개밖에 없다...
-    // 왜 event.currentTarget을 써야 하는지는 잘 모르겠다 ...
-    // re-rendering 실수에 유의해서, useState()를 까먹지 않고 잘 써서 연동 성공!
-    setCategory(event.currentTarget.name);
-  };
+  }, [category, urlName]);
 
   const handleCartClick = async (item: any) => {
     try {
@@ -267,30 +271,30 @@ function ItemsPage() {
         <PageHeader pageTitle="전체상품" />
         <Categories>
           <Category
-            name="전체"
-            selected={category === "전체" ? true : false}
-            onClick={onClick}
+            to={"/allitems/all"}
+            id="전체"
+            selected={category === "all" ? true : false}
           >
             전체
           </Category>
           <Category
-            name="인기상품"
-            selected={category === "인기상품" ? true : false}
-            onClick={onClick}
+            to={"/allitems/hotitems"}
+            id="인기상품"
+            selected={category === "hotitems" ? true : false}
           >
             인기상품🔥
           </Category>
           <Category
-            name="신상품"
-            selected={category === "신상품" ? true : false}
-            onClick={onClick}
+            to={"/allitems/newitems"}
+            id="신상품"
+            selected={category === "newitems" ? true : false}
           >
             신상품🌟
           </Category>
           <Category
-            name="할인상품"
-            selected={category === "할인상품" ? true : false}
-            onClick={onClick}
+            to={"/allitems/discountitems"}
+            id="할인상품"
+            selected={category === "discountitems" ? true : false}
           >
             할인상품⏰
           </Category>
@@ -322,7 +326,7 @@ function ItemsPage() {
       </ScreenContainer>
       {sortInitialized && (
         <BottomSheet
-          url={"products/search"}
+          url={`products/${urlName}`}
           onSort={onSort}
           setOnSort={setOnSort}
           setResults={setItems}
