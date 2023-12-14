@@ -1,4 +1,12 @@
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHouse, faHeart, faUser, faBars } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import Main from "../../pages/main/Main";
+import MyPageMain from "../../routes/mypage/MyPageMain";
+import ItemsPage from "../../routes/ItemsPage";
+import LikeProductPage from "../../routes/LikeProductPage";
+
 
 const Container = styled.div`
     display: flex;
@@ -13,7 +21,13 @@ const Container = styled.div`
     backdrop-filter: blur(10px);
 `
 
-const Icon = styled.div`
+const Icon = styled.button`
+    border: none;    
+    background-color: inherit;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 28px;
     height: 28px;
     flex-shrink: 0;
@@ -58,25 +72,41 @@ function HomeTab() {
     <Container>
       <Tabs>
         <Info>
-            <Icon />
+            <Icon>
+                <Link to="/main">
+                    <FontAwesomeIcon icon={faHouse} />
+                </Link>
+            </Icon>
             <TextBox>
                 <Title>Home</Title>
             </TextBox>
         </Info>
         <Info>
-            <Icon />
+            <Icon>
+                <Link to="/likeproduct">
+                    <FontAwesomeIcon icon={faHeart} />
+                </Link>
+            </Icon>
             <TextBox>
                 <Title>Like</Title>
             </TextBox>
         </Info>
         <Info>
-            <Icon />
+            <Icon>
+                <Link to="/mypage/main">
+                    <FontAwesomeIcon icon={faUser} />
+                </Link>
+            </Icon>
             <TextBox>
                 <Title>My</Title>
             </TextBox>
         </Info>
         <Info>
-            <Icon />
+            <Icon>
+                <Link to="/allitems">
+                    <FontAwesomeIcon icon={faBars} />
+                </Link>
+            </Icon>
             <TextBox>
                 <Title>All</Title>
             </TextBox>
