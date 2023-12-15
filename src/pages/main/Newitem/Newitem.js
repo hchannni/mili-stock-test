@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { styled } from "styled-components";
 import Slider from "react-slick";
 import HotCard from "../Hotitem/HotCard";
-
+import ProductCard from "../../../components/ProductCard";
 
 const StyledSlide = styled(Slider)`
   margin-bottom: -40px;
@@ -53,15 +53,14 @@ const StyledSlide = styled(Slider)`
   }
 `;
 
-function Carousel() {
+
+function Carousel({newProducts}) {
   const slickRef = useRef(null);
 
   useEffect(() => {
-
     const Track = slickRef.current.innerSlider.list; // innerSlider를 통해 slick의 내부 요소에 접근
-    Track.style.transform = 'translate3d(-20px, 0px, 0px)';
+    Track.style.transform = "translate3d(-20px, 0px, 0px)";
   }, [slickRef]);
-
 
   const settings = {
     dots: true,
@@ -75,15 +74,24 @@ function Carousel() {
     centerMode: true,
     variableWidth: true,
     initialSlide: 1,
-  }
+  };
 
   return (
     <div>
       <StyledSlide ref={slickRef} {...settings}>
-        <HotCard />
-        <HotCard />
-        <HotCard />
-        <HotCard />
+        {newProducts.map((item) => (
+          // Use the properties of the heart.product object in the ProductCardSmall component
+          <ProductCard
+            key={item.productNumber}
+            name={item.productTitle}
+            price={item.productPrice}
+            stocks={item.productStock}
+            imageUrl={item.productImageUrl}
+            isHeart={item.isHeart}
+            onCartClick={() => this.handleCartClick(item)}
+            onHeartClick={() => this.handleHeartClick(item)}
+          />
+        ))}
       </StyledSlide>
     </div>
   );

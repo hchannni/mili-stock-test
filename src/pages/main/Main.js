@@ -9,13 +9,13 @@ import CategorySection from "../Category/Category";
 import ProductCard from "../../components/ProductCard";
 
 export default class Main extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
       showMoreExpanded: false,
-      items: [],
-      count: 0,
+      newProducts: [],
+      discountProducts: [],
+      popularProducts: [],
     };
   }
 
@@ -35,7 +35,7 @@ export default class Main extends React.Component {
       const token = localStorage.getItem("accessToken");
 
       const response = await fetch(
-        `${process.env.REACT_APP_DONG10_BASEURL}/products/search?size=6&page=0&sortBy=stockLowToHigh`,
+        `${process.env.REACT_APP_DONG10_BASEURL}/products/mainPage`,
         {
           method: "GET",
           headers: {
@@ -46,15 +46,20 @@ export default class Main extends React.Component {
 
       if (response.ok) {
         const pageData = await response.json();
-        const items = pageData.content;
-        console.log(items)
-        if (Array.isArray(items)) {
+        const { newProducts, discountProducts, popularProducts } = pageData;
+
+        if (
+          Array.isArray(newProducts) &&
+          Array.isArray(discountProducts) &&
+          Array.isArray(popularProducts)
+        ) {
           this.setState({
-            items: items,
-            count: pageData.totalElements,
+            newProducts,
+            discountProducts,
+            popularProducts,
           });
         } else {
-          console.error("Data is not an array:", items);
+          console.error("Data is not in the expected format:", pageData);
         }
       } else {
         console.error(
@@ -154,13 +159,14 @@ export default class Main extends React.Component {
   };
 
   render() {
-
-    const { items } = this.state;
+    const { newProducts, discountProducts, popularProducts } = this.state;
 
     return (
       <>
         <Nav />
-        <div className={`Main ${this.state.showMoreExpanded ? "expanded" : ""}`}>
+        <div
+          className={`Main ${this.state.showMoreExpanded ? "expanded" : ""}`}
+        >
           <main>
             <CategorySection showMoreExpanded={this.state.showMoreExpanded} />
 
@@ -171,7 +177,7 @@ export default class Main extends React.Component {
               </a>
             </div>
             <div className="HotItem">
-              {items.map((item) => (
+              {popularProducts.map((item) => (
                 // Use the properties of the heart.product object in the ProductCardSmall component
                 <ProductCard
                   key={item.productNumber}
@@ -192,7 +198,7 @@ export default class Main extends React.Component {
               </a>
             </div>
             <div className="NewItem">
-              <Newitem />
+              <Newitem newProducts={newProducts} />
             </div>
             <div className="SectionHeader" style={{ marginTop: "40px" }}>
               <a className="SectionTitle">할인상품</a>
@@ -200,7 +206,7 @@ export default class Main extends React.Component {
                 전체보기
               </a>
             </div>
-            <div className="SalseItem">
+            <div className="SalesItem">
               <Saleitem />
               <Saleitem />
               <Saleitem />
