@@ -74,10 +74,10 @@ const CategorySection = () => {
   `;
 
   const categories: { id: number; title: string; path: string }[] = [
-    { id: 1, title: '전체', path: 'allitems' },
+    { id: 1, title: '전체', path: 'allitems/all' },
     { id: 2, title: '신상', path: 'allitems/newitems' },
     { id: 3, title: '인기', path: 'allitems/hotitems' },
-    { id: 4, title: '할인', path: 'allitems/saleitems' },
+    { id: 4, title: '할인', path: 'allitems/discountitems' },
     { id: 5, title: '식품류', path: 'allitems/food' },
     { id: 6, title: '주류', path: 'allitems/beverage' },
     { id: 7, title: '유제품', path: 'allitems/dairy' },
