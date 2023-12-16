@@ -99,63 +99,59 @@ export default class Main extends React.Component {
     }
   };
 
-  handleHeartClick = async (item) => {
-    if (item.isHeart === false) {
-      console.log("isHeart==false");
-      try {
-        const token = localStorage.getItem("accessToken");
-        const response = await fetch(
-          `${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${item.productNumber}`,
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+  handleHeartClick = async (item, productType) => {
+    const { newProducts, discountProducts, popularProducts } = this.state;
 
-        if (response.ok) {
-          this.setState((prevState) => ({
-            items: prevState.items.map((prevItem) =>
-              prevItem.productNumber === item.productNumber
-                ? { ...prevItem, isHeart: true }
-                : prevItem
-            ),
-          }));
-        } else {
-          console.error("Error:", response.statusText);
+    try {
+      const token = localStorage.getItem("accessToken");
+      const response = await fetch(
+        `${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${item.productNumber}`,
+        {
+          method: item.isHeart ? "DELETE" : "POST", // Use DELETE for unliking
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    } else {
-      try {
-        console.log("isHeart==true");
-        const token = localStorage.getItem("accessToken");
-        const response = await fetch(
-          `${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${item.productNumber}`,
-          {
-            method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+      );
 
-        if (response.ok) {
-          this.setState((prevState) => ({
-            items: prevState.items.map((prevItem) =>
-              prevItem.productNumber === item.productNumber
-                ? { ...prevItem, isHeart: false }
-                : prevItem
-            ),
-          }));
-        } else {
-          console.error("Error:", response.statusText);
+      if (response.ok) {
+        // Update the state based on the product type
+        switch (productType) {
+          case 'new':
+            this.setState({
+              newProducts: newProducts.map((prevItem) =>
+                prevItem.productNumber === item.productNumber
+                  ? { ...prevItem, isHeart: !item.isHeart }
+                  : prevItem
+              ),
+            });
+            break;
+          case 'discount':
+            this.setState({
+              discountProducts: discountProducts.map((prevItem) =>
+                prevItem.productNumber === item.productNumber
+                  ? { ...prevItem, isHeart: !item.isHeart }
+                  : prevItem
+              ),
+            });
+            break;
+          case 'popular':
+            this.setState({
+              popularProducts: popularProducts.map((prevItem) =>
+                prevItem.productNumber === item.productNumber
+                  ? { ...prevItem, isHeart: !item.isHeart }
+                  : prevItem
+              ),
+            });
+            break;
+          default:
+            break;
         }
-      } catch (error) {
-        console.error("Error:", error);
+      } else {
+        console.error("Error:", response.statusText);
       }
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
@@ -183,12 +179,12 @@ export default class Main extends React.Component {
                 <ProductCard
                   key={item.productNumber}
                   name={item.productTitle}
-                  price={item.productPrice}
+                  price={item.productPrice - item.productDiscountPrice}
                   stocks={item.productStock}
                   imageUrl={item.productImageUrl}
                   isHeart={item.isHeart}
                   onCartClick={() => this.handleCartClick(item)}
-                  onHeartClick={() => this.handleHeartClick(item)}
+                  onHeartClick={() => this.handleHeartClick(item, 'popular')}
                 />
               ))}
             </div>
@@ -199,7 +195,7 @@ export default class Main extends React.Component {
               </a>
             </div>
             <div className="NewItem">
-              <Newitem newProducts={newProducts} />
+              <Newitem newProducts={newProducts} handleHeartClick={this.handleHeartClick} />
             </div>
             <div className="SectionHeader" style={{ marginTop: "40px" }}>
               <a className="SectionTitle">할인상품</a>
@@ -219,7 +215,7 @@ export default class Main extends React.Component {
                   imageUrl={item.productImageUrl}
                   isHeart={item.isHeart}
                   onCartClick={() => this.handleCartClick(item)}
-                  onHeartClick={() => this.handleHeartClick(item)}
+                  onHeartClick={() => this.handleHeartClick(item, 'discount')}
                 />
               ))}
             </div>

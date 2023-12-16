@@ -310,7 +310,7 @@ function ItemsPage() {
             <ProductCard
               key={item.productNumber}
               name={item.productTitle}
-              price={item.productPrice}
+              price={item.productPrice - item.productDiscountPrice}
               stocks={item.productStock}
               imageUrl={item.productImageUrl}
               isHeart={item.isHeart}
