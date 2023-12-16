@@ -1,0 +1,25 @@
+@import "../../../Styles/common.scss";
+
+.Allitem {
+    width: 1080px;
+    margin: 0 autp;
+    padding-top: 28px;
+    padding-bottom: 35px;
+
+    .topIndo {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        margin-bottom: 35px;
+
+        .totalNum {
+            color: black;
+
+            .pointSpan {
+                color: black;
+                font-weight: 700;
+            }
+        }
+    }
+}
