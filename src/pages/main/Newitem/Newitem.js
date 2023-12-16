@@ -54,7 +54,7 @@ const StyledSlide = styled(Slider)`
 `;
 
 
-function Carousel({newProducts, handleHeartClick}) {
+function Carousel({newProducts, handleHeartClick, handleCartClick}) {
   const slickRef = useRef(null);
 
   useEffect(() => {
@@ -88,7 +88,7 @@ function Carousel({newProducts, handleHeartClick}) {
             stocks={item.productStock}
             imageUrl={item.productImageUrl}
             isHeart={item.isHeart}
-            onCartClick={() => this.handleCartClick(item, "new")}
+            onCartClick={() => handleCartClick(item, "new")}
             onHeartClick={() => handleHeartClick(item, "new")}
           />
         ))}

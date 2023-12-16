@@ -74,7 +74,7 @@ export default class Main extends React.Component {
     }
   }
 
-  handleCartClick = async (item) => {
+  handleCartClick = async (item, productType) => {
     try {
       const token = localStorage.getItem("accessToken");
       const response = await fetch(
@@ -88,6 +88,39 @@ export default class Main extends React.Component {
       );
 
       if (response.ok) {
+        // Update the state based on the product type
+        switch (productType) {
+          case 'new':
+            this.setState({
+              newProducts: this.state.newProducts.map((prevItem) =>
+                prevItem.productNumber === item.productNumber
+                  ? { ...prevItem, /* Update other properties as needed */ }
+                  : prevItem
+              ),
+            });
+            break;
+          case 'discount':
+            this.setState({
+              discountProducts: this.state.discountProducts.map((prevItem) =>
+                prevItem.productNumber === item.productNumber
+                  ? { ...prevItem, /* Update other properties as needed */ }
+                  : prevItem
+              ),
+            });
+            break;
+          case 'popular':
+            this.setState({
+              popularProducts: this.state.popularProducts.map((prevItem) =>
+                prevItem.productNumber === item.productNumber
+                  ? { ...prevItem, /* Update other properties as needed */ }
+                  : prevItem
+              ),
+            });
+            break;
+          default:
+            break;
+        }
+
         alert(`${item.productTitle}이 카트에 추가됐습니다!`);
       } else {
         // Handle error response
@@ -98,6 +131,7 @@ export default class Main extends React.Component {
       console.error("Error:", error);
     }
   };
+
 
   handleHeartClick = async (item, productType) => {
     const { newProducts, discountProducts, popularProducts } = this.state;
@@ -183,7 +217,7 @@ export default class Main extends React.Component {
                   stocks={item.productStock}
                   imageUrl={item.productImageUrl}
                   isHeart={item.isHeart}
-                  onCartClick={() => this.handleCartClick(item)}
+                  onCartClick={() => this.handleCartClick(item, 'popular')}
                   onHeartClick={() => this.handleHeartClick(item, 'popular')}
                 />
               ))}
@@ -195,7 +229,7 @@ export default class Main extends React.Component {
               </a>
             </div>
             <div className="NewItem">
-              <Newitem newProducts={newProducts} handleHeartClick={this.handleHeartClick} />
+              <Newitem newProducts={newProducts} handleCartClick={this.handleCartClick} handleHeartClick={this.handleHeartClick} />
             </div>
             <div className="SectionHeader" style={{ marginTop: "40px" }}>
               <a className="SectionTitle">할인상품</a>
@@ -214,7 +248,7 @@ export default class Main extends React.Component {
                   stocks={item.productStock}
                   imageUrl={item.productImageUrl}
                   isHeart={item.isHeart}
-                  onCartClick={() => this.handleCartClick(item)}
+                  onCartClick={() => this.handleCartClick(item, 'discount')}
                   onHeartClick={() => this.handleHeartClick(item, 'discount')}
                 />
               ))}
