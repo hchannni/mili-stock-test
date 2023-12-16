@@ -23,15 +23,20 @@ const Btn = styled.button<BtnProps>`
   font-style: normal;
   line-height: normal;
 
-  transition: color 0.5s ease-in-out;
+  transition: all 0.2s ease;
 `;
 
 interface PageButtonProps {
   isCurrent: boolean;
   pageNum: number;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-function PageButton({ isCurrent, pageNum }: PageButtonProps) {
-  return <Btn isCurrent={isCurrent}>{pageNum}</Btn>;
+function PageButton({ isCurrent, pageNum, onClick }: PageButtonProps) {
+  return (
+    <Btn isCurrent={isCurrent} onClick={onClick}>
+      {pageNum}
+    </Btn>
+  );
 }
 export default PageButton;

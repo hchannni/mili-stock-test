@@ -29,11 +29,10 @@ interface PageBtnListProps {
 function PageBtnList({ pageLength }: PageBtnListProps) {
   const arr = Array.from({ length: pageLength }, (v, i) => i + 1);
   const [currentPage, setCurrentPage] = useState(1);
-  console.log(arr);
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log(e);
+    setCurrentPage(Number(e.currentTarget.innerText));
   };
 
   return (
@@ -44,6 +43,7 @@ function PageBtnList({ pageLength }: PageBtnListProps) {
           key={v}
           pageNum={v}
           isCurrent={v === currentPage ? true : false}
+          onClick={onClick}
         />
       ))}
       <FAIcon icon={faChevronRight as IconProp} />

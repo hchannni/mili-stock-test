@@ -5,16 +5,9 @@ import HotCard from "../Hotitem/HotCard";
 
 const Container = styled.div`
   height: 216px;
-  padding: 8px 0px 8px 20px;
-  overflow: hidden;
-  `
-
-
-const Container = styled.div`
-  height: 216px;
   padding: 8px 0px 8px 20px; /* 상 우 하 좌 */
   overflow: hidden;
-`
+`;
 
 const StyledSlide = styled(Slider)`
   margin-bottom: -40px;
@@ -68,11 +61,9 @@ function Carousel() {
   const slickRef = useRef(null);
 
   useEffect(() => {
-
     const Track = slickRef.current.innerSlider.list; // innerSlider를 통해 slick의 내부 요소에 접근
-    Track.style.transform = 'translate3d(-20px, 0px, 0px)';
+    Track.style.transform = "translate3d(-20px, 0px, 0px)";
   }, [slickRef]);
-
 
   const settings = {
     dots: true,
@@ -86,7 +77,7 @@ function Carousel() {
     centerMode: false,
     variableWidth: true,
     initialSlide: 0,
-  }
+  };
 
   return (
     <Container>

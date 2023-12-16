@@ -8,6 +8,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { useEffect, useState } from "react";
 import BottomSheet from "../components/BottomSheet";
 import { Link, useParams } from "react-router-dom";
+import PageBtnList from "../components/PageBtnList";
 
 const ProductsContainer = styled.div`
   margin-top: 8px;
@@ -323,6 +324,7 @@ function ItemsPage() {
             />
           ))}
         </ProductsContainer>
+        <PageBtnList pageLength={10} />
       </ScreenContainer>
       {sortInitialized && (
         <BottomSheet
