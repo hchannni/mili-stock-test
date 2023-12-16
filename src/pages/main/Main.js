@@ -52,7 +52,7 @@ export default class Main extends React.Component {
               <div className="NewItem">
                 <Newitem />
               </div>
-              <div className="SectionHeader" style={{ marginTop: "40px" }}>
+              <div className="SectionHeader">
                 <a className="SectionTitle">할인상품</a>
                 <a href="/allitems/saleitems" className="SectionPageLink">
                   전체보기

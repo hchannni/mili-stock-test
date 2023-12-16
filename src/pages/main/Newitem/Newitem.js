@@ -3,6 +3,12 @@ import { styled } from "styled-components";
 import Slider from "react-slick";
 import HotCard from "../Hotitem/HotCard";
 
+const Container = styled.div`
+  height: 216px;
+  padding: 8px 0px 8px 20px;
+  overflow: hidden;
+  `
+
 
 const StyledSlide = styled(Slider)`
   margin-bottom: -40px;
@@ -11,7 +17,6 @@ const StyledSlide = styled(Slider)`
   .slick-list {
     width: 520px;
     height: 100%;
-    overflow: hidden;
     top: -30px;
   }
 
@@ -70,22 +75,22 @@ function Carousel() {
     arrows: false,
     autoplay: false,
     autoplaySpeed: 2000,
-    slidesToShow: 3,
+    slidesToShow: 2,
     slidesToScroll: 1,
-    centerMode: true,
+    centerMode: false,
     variableWidth: true,
-    initialSlide: 1,
+    initialSlide: 0,
   }
 
   return (
-    <div>
+    <Container>
       <StyledSlide ref={slickRef} {...settings}>
         <HotCard />
         <HotCard />
         <HotCard />
         <HotCard />
       </StyledSlide>
-    </div>
+    </Container>
   );
 }
 
