@@ -7,6 +7,7 @@ import Newitem from "./Newitem/Newitem";
 import Saleitem from "./Saleitem/Saleitem";
 import CategorySection from "../Category/Category";
 import ProductCard from "../../components/ProductCard";
+import ProductCardLong from "./Saleitem/Saleitem";
 
 export default class Main extends React.Component {
   constructor(props) {
@@ -207,10 +208,20 @@ export default class Main extends React.Component {
               </a>
             </div>
             <div className="SalesItem">
-              <Saleitem />
-              <Saleitem />
-              <Saleitem />
-              <Saleitem />
+              {discountProducts.map((item) => (
+                // Use the properties of the heart.product object in the ProductCardSmall component
+                <ProductCardLong
+                  key={item.productNumber}
+                  name={item.productTitle}
+                  saledPrice={item.productPrice - item.productDiscountPrice}
+                  price={item.productPrice}
+                  stocks={item.productStock}
+                  imageUrl={item.productImageUrl}
+                  isHeart={item.isHeart}
+                  onCartClick={() => this.handleCartClick(item)}
+                  onHeartClick={() => this.handleHeartClick(item)}
+                />
+              ))}
             </div>
           </main>
         </div>
