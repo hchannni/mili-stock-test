@@ -211,7 +211,7 @@ function SearchPage() {
 
   const handleHeartClick = async (item: any) => {
     // 하트 x -> 하트 추가
-    if (item.isHeart == false){
+    if (item.isHeart === false){
       console.log("isHeart==false");
       try {
         const token = localStorage.getItem("accessToken");

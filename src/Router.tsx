@@ -52,7 +52,7 @@ function Router() {
           <Route path="/search" element={<SearchPage />} />
           <Route path="/allitems" element={<ItemsPage />} />
           <Route path="/product/create" element={<ProductForm />} />
-          <Route path="/cartPage" element={<CartPage />} />
+          
         </Routes>
       </CSSTransition>
     </TransitionGroup>

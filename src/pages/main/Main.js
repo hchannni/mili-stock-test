@@ -1,10 +1,7 @@
 import React from "react";
 import Nav from "../../Components/Nav/Nav";
 import "./Main.scss";
-import Hotitem from "./Hotitem/Hotitem";
-import HotCard from "./Hotitem/HotCard";
 import Newitem from "./Newitem/Newitem";
-import Saleitem from "./Saleitem/Saleitem";
 import CategorySection from "../Category/Category";
 import ProductCard from "../../components/ProductCard";
 import ProductCardLong from "./Saleitem/Saleitem";
@@ -211,7 +208,7 @@ export default class Main extends React.Component {
               {popularProducts.map((item) => (
                 // Use the properties of the heart.product object in the ProductCardSmall component
                 <ProductCard
-                  key={item.productNumber}
+                  key={`${item.productNumber}-${item.isHeart}`} // Ensure a unique key when isHeart changes
                   name={item.productTitle}
                   price={item.productPrice - item.productDiscountPrice}
                   stocks={item.productStock}

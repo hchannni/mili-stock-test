@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { styled } from "styled-components";
 import Slider from "react-slick";
-import HotCard from "../Hotitem/HotCard";
 import ProductCard from "../../../components/ProductCard";
 
 const StyledSlide = styled(Slider)`
