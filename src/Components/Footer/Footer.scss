@@ -1,0 +1,73 @@
+@import "../../Styles/common.scss";
+
+.Footer {
+  padding-bottom: 50px;
+  background-color: $footerBottomColor;
+
+  .footerHeader {
+    width: 100%;
+    background-color: $footerUpperColor;
+    @include flexBox(center, center, row);
+
+    &Inner {
+      height: 55px;
+      width: 1080px;
+      margin: 0 auto;
+      background: url("/Images/footer-characters.png") no-repeat;
+      background-size: auto 55px;
+      @include flexBox(flex-start, center, row);
+
+      .footerHeaderTextWrap {
+        padding-left: 70px;
+        padding-right: 26px;
+        color: #ffffff;
+        font-size: 14px;
+
+        &:first-child {
+          margin-left: 0px;
+        }
+
+        span,
+        a {
+          margin: 0 20px;
+        }
+      }
+    }
+  }
+
+  .footerBody {
+    width: 100%;
+    margin: 0 auto;
+    background-color: $footerBottomColor;
+    @include flexBox(center, center, column);
+
+    .sitemap {
+      width: 1080px;
+      margin: 0 auto;
+      padding-top: 50px;
+      padding-bottom: 34px;
+      @include flexBox(flex-start, center, row);
+
+      .sitemapText {
+        padding-right: 20px;
+        font-size: 16px;
+        color: #ffffff;
+        opacity: 0.7;
+      }
+    }
+    .companyInfo {
+      width: 1080px;
+      margin: 0 auto;
+
+      .infoText {
+        font-size: 12px;
+        color: #ffffff;
+        opacity: 70%;
+      }
+
+      .copyright {
+        margin-top: 49px;
+      }
+    }
+  }
+}

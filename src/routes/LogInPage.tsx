@@ -128,7 +128,7 @@ function LogInPage() {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
       // navigate("/main");
-      navigate("/mypage/main", { state: { ...response.data } });
+      navigate("/main", { state: { ...response.data } });
     }
   };
 

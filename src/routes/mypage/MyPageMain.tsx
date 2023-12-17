@@ -45,13 +45,13 @@ function MyPageMain() {
         <Link to={`/mypage/editpinfo/pwcheck`}>
           <Menu title="개인정보 수정" />
         </Link>
-        <Link to={`/`}>
+        <Link to={`/likeproduct`}>
           <Menu title="관심상품" />
         </Link>
         <Link to={`/`}>
           <Menu title="고객센터" />
         </Link>
-        <Link to={`/`}>
+        <Link to={`/cartpage`}>
           <Menu title="장바구니" />
         </Link>
         <Link to={`/`}>
