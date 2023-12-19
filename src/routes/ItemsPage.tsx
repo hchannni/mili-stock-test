@@ -324,7 +324,7 @@ function ItemsPage() {
             />
           ))}
         </ProductsContainer>
-        <PageBtnList pageLength={10} />
+        <PageBtnList pageLength={13} />
       </ScreenContainer>
       {sortInitialized && (
         <BottomSheet
