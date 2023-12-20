@@ -3,12 +3,6 @@ import { styled } from "styled-components";
 import Slider from "react-slick";
 import HotCard from "../Hotitem/HotCard";
 
-const Container = styled.div`
-  height: 216px;
-  padding: 8px 0px 8px 20px;
-  overflow: hidden;
-  `
-
 
 const Container = styled.div`
   height: 216px;
