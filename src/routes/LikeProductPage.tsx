@@ -237,7 +237,7 @@ function LikeProductPage() {
             <ProductCardSmall
               key={product.productNumber}
               name={product.productTitle}
-              price={product.productPrice}
+              price={product.productPrice - product.productDiscountPrice}
               stocks={product.productStock}
               imageUrl={product.productImageUrl}
               isHeart={true}

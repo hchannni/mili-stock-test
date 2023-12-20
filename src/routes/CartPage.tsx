@@ -87,7 +87,7 @@ function CartPage() {
       let totalCount = 0;
 
       for (const cartItem of cart.cartItems) {
-        totalPrice += cartItem.product.productPrice;
+        totalPrice += (cartItem.product.productPrice - cartItem.product.productDiscountPrice) * cartItem.quantity;
         totalCount += cartItem.quantity;
       }
       setTotalPrice(totalPrice);
@@ -313,7 +313,7 @@ function CartPage() {
           <CartProduct
             key={cartItem.product.productNumber}
             name={cartItem.product.productTitle}
-            price={cartItem.product.productPrice}
+            price={cartItem.product.productPrice - cartItem.product.productDiscountPrice}
             stocks={cartItem.product.productStock}
             count={cartItem.quantity}
             imageUrl={cartItem.product.productImageUrl}
