@@ -205,13 +205,21 @@ function LikeProductPage() {
       <ScreenContainer>
         <PageHeader pageTitle="관심상품" />
         <HookingButtons>
-          <HookingButton desc="요즘 인기 있는" pageName="인기상품" link="/" />
+          <HookingButton
+            desc="요즘 인기 있는"
+            pageName="인기상품"
+            link="/allitems/hotitems"
+          />
           <HookingButton
             desc="현명한 소비를 위한"
             pageName="할인상품"
-            link="/"
+            link="/allitems/discountitems"
           />
-          <HookingButton desc="혹시 이건 어때요?" pageName="신상품" link="/" />
+          <HookingButton
+            desc="혹시 이건 어때요?"
+            pageName="신상품"
+            link="/allitems/newitems"
+          />
         </HookingButtons>
         <Options>
           <ResultNumber>{`검색결과 ${count}`}</ResultNumber>

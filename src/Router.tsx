@@ -50,7 +50,7 @@ function Router() {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/likeproduct" element={<LikeProductPage />} />
           <Route path="/search" element={<SearchPage />} />
-          <Route path="/allitems" element={<ItemsPage />} />
+          <Route path="/allitems/:category" element={<ItemsPage />} />
           <Route path="/product/create" element={<ProductForm />} />
           
         </Routes>

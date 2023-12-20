@@ -55,7 +55,7 @@ const SearchBtn = styled.button`
   background-color: inherit;
 
   position: absolute;
-  top: 5px;
+  top: 8px;
   right: 16px;
 `;
 

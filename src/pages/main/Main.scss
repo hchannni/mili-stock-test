@@ -1,11 +1,19 @@
 @import "../../Styles/common.scss";
 
-
 .Main {
+
     width: 390px;
-    height: 844px;
+    height: 860px;
     margin: 0 auto;
     background: var(--Main, #FF8200);
+
+    .ScreenContainer {
+        max-width: 390px;
+        margin: 0 auto;
+
+        background-color: #ffffff;
+        height: 100vh;
+    }
 
     main {
         /* padding-top: 126px; */
@@ -14,7 +22,7 @@
         padding: 0 20px;
 
         background-color: #ffffff;
-        height: 1000vh;
+        height: 168vh;
         padding-top: 12px;
 
         .CategoryTab {
@@ -33,7 +41,8 @@
         .SectionHeader {
             @include flexBox(space-between, flex-start, row);
             width: 100%;
-            padding: 12px;
+            padding-top: 24px;
+            padding-bottom: 12px;
 
             &.SectionTitle {
                 color: #000;
@@ -47,7 +56,7 @@
             }
 
             &.SectionPageLink {
-                color: #120de4;
+                color: #FF8200;
                 text-align: center;
                 font-family: Inter;
                 font-size: 12px;
@@ -62,7 +71,7 @@
         .HotItem {
             display: grid;
             grid-template-columns: repeat(2, 160px);
-            gap: 16px 24px;
+            gap: 24px 30px;
         }   
 
         .NewItem {
@@ -77,4 +86,13 @@
             height: 100vh;
         }  
     }
+}
+
+.BottomMenu {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
 }
