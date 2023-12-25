@@ -29,9 +29,10 @@ const FAIcon = styled(FontAwesomeIcon)`
 
 interface PageBtnListProps {
   pageLength: number;
+  passPageNum: React.Dispatch<React.SetStateAction<number>>; // PageBtnList를 render하는 페이지로 현제 페이지 number를 전달
 }
 
-function PageBtnList({ pageLength }: PageBtnListProps) {
+function PageBtnList({ pageLength, passPageNum }: PageBtnListProps) {
   const arr = Array.from({ length: 5 }, (_, i) => i + 1); // 초기 Pagination (1~5page)
   const [pageArr, setPageArr] = useState<number[]>(arr);
   const [currentPage, setCurrentPage] = useState(1);
@@ -64,6 +65,12 @@ function PageBtnList({ pageLength }: PageBtnListProps) {
     if (pageLength < end) setEnd(pageLength);
     setPageArr(Array.from({ length: end - start + 1 }, (_, i) => start + i));
   }, [start, end, pageLength]);
+
+  useEffect(() => {
+    // currentPage가 바뀌면, passPageNum을 통해 페이지 숫자'만' 부모 페이지로 넘긴다.
+    // 부모 페이지에서 useEffect를 활용해 페이지가 변경된 것을 추적하고 그에 따른 product를 새로 rendering한다.
+    passPageNum(currentPage);
+  }, [currentPage, passPageNum]);
 
   return (
     <List>
