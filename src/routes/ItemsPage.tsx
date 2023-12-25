@@ -8,6 +8,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { useEffect, useState } from "react";
 import BottomSheet from "../components/BottomSheet";
 import { Link, useParams } from "react-router-dom";
+import PageBtnList from "../components/PageBtnList";
 
 const ProductsContainer = styled.div`
   margin-top: 8px;
@@ -92,6 +93,15 @@ function ItemsPage() {
 
   const { category } = useParams();
   const [urlName, setUrlName] = useState("");
+  const [totalPages, setTotalPages] = useState(0);
+  const [keyValue, setKeyValue] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  useEffect(() => {
+    // totalPages가 업데이트될 때마다 PageBtnList의 key 값을 바꿔 준다.
+    // key 값을 변경하여 리렌더링을 유도합니다.
+    setKeyValue((prev) => prev + 1);
+  }, [totalPages]);
 
   // Fetch products from the backend when the component mounts
   useEffect(() => {
@@ -109,11 +119,11 @@ function ItemsPage() {
         } else if (category === "discountitems") {
           setUrlName("discountProduct");
         } else if (category === "all") {
-          setUrlName("search?size=6&page=0&sortBy=popular");
+          setUrlName("search");
         }
 
         const response = await fetch(
-          `${process.env.REACT_APP_DONG10_BASEURL}/products/${urlName}`,
+          `${process.env.REACT_APP_DONG10_BASEURL}/products/${urlName}?size=10&page=${currentPage}&sortBy=popular`,
           {
             method: "GET",
             headers: {
@@ -126,11 +136,13 @@ function ItemsPage() {
         if (response.ok) {
           // Parse the response JSON and set it to the state
           const pageData = await response.json();
+          console.log(pageData);
           // Ensure data is an array before setting it to state
           const items = pageData.content;
           if (Array.isArray(items)) {
             setItems(items);
             setCount(pageData.totalElements);
+            setTotalPages(pageData.totalPages);
           } else {
             console.error("Data is not an array:", items);
           }
@@ -149,7 +161,7 @@ function ItemsPage() {
 
     // Call the fetchHearts function
     fetchItems();
-  }, [category, urlName]);
+  }, [category, urlName, currentPage]);
 
   const handleCartClick = async (item: any) => {
     try {
@@ -309,20 +321,26 @@ function ItemsPage() {
           </SortingButton>
         </Options>
         <ProductsContainer>
-          {items.map((item) => (
-            // Use the properties of the heart.product object in the ProductCardSmall component
-            <ProductCard
-              key={item.productNumber}
-              name={item.productTitle}
-              price={item.productPrice}
-              stocks={item.productStock}
-              imageUrl={item.productImageUrl}
-              isHeart={item.isHeart}
-              onCartClick={() => handleCartClick(item)}
-              onHeartClick={() => handleHeartClick(item)}
-            />
-          ))}
+          {items &&
+            items.map((item) => (
+              // Use the properties of the heart.product object in the ProductCardSmall component
+              <ProductCard
+                key={item.productNumber}
+                name={item.productTitle}
+                price={item.productPrice}
+                stocks={item.productStock}
+                imageUrl={item.productImageUrl}
+                isHeart={item.isHeart}
+                onCartClick={() => handleCartClick(item)}
+                onHeartClick={() => handleHeartClick(item)}
+              />
+            ))}
         </ProductsContainer>
+        <PageBtnList
+          key={keyValue} // key 값을 변경하여 리렌더링될 수 있도록 하는 장치
+          pageLength={totalPages}
+          passPageNum={setCurrentPage}
+        />
       </ScreenContainer>
       {sortInitialized && (
         <BottomSheet
