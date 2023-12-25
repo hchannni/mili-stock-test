@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import ScreenContainer from "../components/ScreenContainer";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCartShopping,
@@ -168,6 +168,42 @@ function SearchPage() {
   const [totalPages, setTotalPages] = useState(0);
   const [keyValue, setKeyValue] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
+
+  // main 페이지에서의 검색으로 넘어오는 경우
+  const location = useLocation();
+  const fetchItemsFromMain = async (keyword: string) => {
+    try {
+      const response = await axios({
+        method: "get",
+        url: `${process.env.REACT_APP_DONG10_BASEURL}/products/search`,
+        params: {
+          keyword: keyword,
+          size: 6,
+          page: 0,
+          sortBy: "popular",
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      setResults(response.data.content);
+      setCount(response.data.totalElements);
+      setTotalPages(response.data.totalPages);
+      setSortInitialized(false);
+    } catch (error) {
+      console.error("메인에서 상품을 가져오는 중 오류 발생:", error);
+      // 필요 시 오류 처리를 수행합니다
+    }
+  };
+  useEffect(() => {
+    // location이 필요한 상태 데이터를 가지고 있는지 확인합니다
+    if (location.state && location.state.keyword) {
+      const state = location.state;
+      setKeyword(state.keyword);
+      fetchItemsFromMain(state.keyword);
+    }
+  }, [location]);
 
   useEffect(() => {
     // totalPages가 업데이트될 때마다 PageBtnList의 key 값을 바꿔 준다.
