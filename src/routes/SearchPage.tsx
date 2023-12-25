@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import ScreenContainer from "../components/ScreenContainer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,6 +13,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import axios from "axios";
 import ProductCard from "../components/ProductCard";
 import BottomSheet from "../components/BottomSheet";
+import PageBtnList from "../components/PageBtnList";
 
 const Header = styled.header`
   width: 100%;
@@ -154,12 +155,48 @@ interface ProductProps {
 function SearchPage() {
   const accessToken = localStorage.getItem("accessToken");
   const navigate = useNavigate();
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState(""); // 검색창 keyword
   const [count, setCount] = useState(0); // 검색결과 count
-  const [results, setResults] = useState<ProductProps[]>([]);
+  const [results, setResults] = useState<ProductProps[]>([]); // 검색결과 상품 리스트
+
+  // Sort 버튼 클릭 관련 state
   const [onSort, setOnSort] = useState(false);
   const [sortInitialized, setSortInitialized] = useState(false);
   const [sortCriterion, setSortCriterion] = useState("인기순");
+
+  // pagination 관련 state
+  const [totalPages, setTotalPages] = useState(0);
+  const [keyValue, setKeyValue] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  useEffect(() => {
+    // totalPages가 업데이트될 때마다 PageBtnList의 key 값을 바꿔 준다.
+    // key 값을 변경하여 리렌더링을 유도합니다.
+    setKeyValue((prev) => prev + 1);
+  }, [totalPages]);
+
+  // 검색결과 상품 List에서 Page가 바뀔 때 results state를 바꿔 줘야 함.
+  useEffect(() => {
+    async function fetchItemsByPage() {
+      const response = await axios({
+        method: "get",
+        url: `${process.env.REACT_APP_DONG10_BASEURL}/products/search`,
+        params: {
+          keyword: keyword,
+          size: 6,
+          page: currentPage - 1,
+          sortBy: "popular",
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      setResults(response.data.content);
+    }
+
+    fetchItemsByPage();
+  }, [currentPage]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
@@ -171,13 +208,19 @@ function SearchPage() {
     const response = await axios({
       method: "get",
       url: `${process.env.REACT_APP_DONG10_BASEURL}/products/search`,
-      params: { keyword: keyword, sortBy: "newer" },
+      params: {
+        keyword: keyword,
+        size: 6,
+        page: currentPage - 1,
+        sortBy: "popular",
+      },
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
     setResults(response.data.content);
     setCount(response.data.totalElements);
+    setTotalPages(response.data.totalPages);
     setSortInitialized(false);
   };
 
@@ -190,58 +233,65 @@ function SearchPage() {
   const handleCartClick = async (item: any) => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/carts/productNumber/${item.productNumber}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_DONG10_BASEURL}/carts/productNumber/${item.productNumber}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response.ok) {
         alert(`${item.productTitle}이 카트에 추가됐습니다!`);
       } else {
         // Handle error response
-        console.error('Error:', response.statusText);
+        console.error("Error:", response.statusText);
       }
     } catch (error) {
       // Handle network error
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
-  }
+  };
 
   const handleHeartClick = async (item: any) => {
     // 하트 x -> 하트 추가
-    if (item.isHeart == false){
+    if (item.isHeart === false) {
       console.log("isHeart==false");
       try {
         const token = localStorage.getItem("accessToken");
         // 백엔드에서 하트 생성
-        const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${item.productNumber}`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${item.productNumber}`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (response.ok) {
-
-          setResults((prevItems: any[]) => prevItems.map((prevItem: ProductProps ) => {
-            if (prevItem.productNumber === item.productNumber) {
-              // Update the heart of the specific cart item
-              return {
-                ...prevItem,
-                isHeart: true,
-              };
-            }
-            return prevItem;
-          }));
+          setResults((prevItems: any[]) =>
+            prevItems.map((prevItem: ProductProps) => {
+              if (prevItem.productNumber === item.productNumber) {
+                // Update the heart of the specific cart item
+                return {
+                  ...prevItem,
+                  isHeart: true,
+                };
+              }
+              return prevItem;
+            })
+          );
         } else {
           // Handle error response
-          console.error('Error:', response.statusText);
+          console.error("Error:", response.statusText);
         }
       } catch (error) {
         // Handle network error
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     }
     // 하트 o -> 하트 해제
@@ -250,34 +300,38 @@ function SearchPage() {
         console.log("isHeart==true");
         const token = localStorage.getItem("accessToken");
         // 백엔드에서 하트 삭제
-        const response = await fetch(`${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${item.productNumber}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_DONG10_BASEURL}/hearts/product/${item.productNumber}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (response.ok) {
-          setResults((prevItems: any[]) => prevItems.map((prevItem: ProductProps ) => {
-            if (prevItem.productNumber === item.productNumber) {
-              // Update the heart of the specific cart item
-              return {
-                ...prevItem, // return shallow copy
-                isHeart: false,
-              };
-            }
-            return prevItem; // map will collect all returned values -> make new array
-          }));
+          setResults((prevItems: any[]) =>
+            prevItems.map((prevItem: ProductProps) => {
+              if (prevItem.productNumber === item.productNumber) {
+                // Update the heart of the specific cart item
+                return {
+                  ...prevItem, // return shallow copy
+                  isHeart: false,
+                };
+              }
+              return prevItem; // map will collect all returned values -> make new array
+            })
+          );
         } else {
           // Handle error response
-          console.error('Error:', response.statusText);
+          console.error("Error:", response.statusText);
         }
       } catch (error) {
         // Handle network error
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     }
-    
   };
 
   return (
@@ -310,7 +364,9 @@ function SearchPage() {
               <ResultNumber>검색결과 {count}</ResultNumber>
               <SortingButton onClick={onSortBtnClick}>
                 <FontAwesomeIcon icon={faRightLeft as IconProp} rotation={90} />
-                <SortingOption>{sortInitialized ? sortCriterion : "인기순"}</SortingOption>
+                <SortingOption>
+                  {sortInitialized ? sortCriterion : "인기순"}
+                </SortingOption>
               </SortingButton>
             </Options>
             <ProductsContainer>
@@ -327,6 +383,11 @@ function SearchPage() {
                 />
               ))}
             </ProductsContainer>
+            <PageBtnList
+              key={keyValue} // key 값을 변경하여 리렌더링될 수 있도록 하는 장치
+              pageLength={totalPages}
+              passPageNum={setCurrentPage}
+            />
           </>
         )}
       </ScreenContainer>
