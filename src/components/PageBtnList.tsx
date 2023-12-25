@@ -81,7 +81,7 @@ function PageBtnList({ pageLength, passPageNum }: PageBtnListProps) {
         <PageButton
           key={v}
           pageNum={v}
-          isCurrent={v === currentPage ? true : false}
+          iscurrent={v === currentPage ? true : false}
           onClick={onPageBtnClick}
         />
       ))}

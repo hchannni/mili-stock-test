@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 interface BtnProps {
-  isCurrent: boolean;
+  iscurrent: boolean;
 }
 
 const Btn = styled.button<BtnProps>`
@@ -15,9 +15,9 @@ const Btn = styled.button<BtnProps>`
   justify-content: center;
   align-items: center;
 
-  color: ${(props) => (props.isCurrent ? "#fff" : "#000")};
-  font-weight: ${(props) => (props.isCurrent ? 600 : 400)};
-  background-color: ${(props) => (props.isCurrent ? "#ff8200" : "#EDEDED")};
+  color: ${(props) => (props.iscurrent ? "#fff" : "#000")};
+  font-weight: ${(props) => (props.iscurrent ? 600 : 400)};
+  background-color: ${(props) => (props.iscurrent ? "#ff8200" : "#EDEDED")};
   font-family: Inter;
   font-size: 12px;
   font-style: normal;
@@ -27,14 +27,14 @@ const Btn = styled.button<BtnProps>`
 `;
 
 interface PageButtonProps {
-  isCurrent: boolean;
+  iscurrent: boolean;
   pageNum: number;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-function PageButton({ isCurrent, pageNum, onClick }: PageButtonProps) {
+function PageButton({ iscurrent, pageNum, onClick }: PageButtonProps) {
   return (
-    <Btn isCurrent={isCurrent} onClick={onClick}>
+    <Btn iscurrent={iscurrent} onClick={onClick}>
       {pageNum}
     </Btn>
   );
