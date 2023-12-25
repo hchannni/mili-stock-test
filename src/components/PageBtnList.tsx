@@ -74,20 +74,24 @@ function PageBtnList({ pageLength, passPageNum }: PageBtnListProps) {
 
   return (
     <List>
-      <ChevBtn onClick={onChevronLeftClick}>
-        <FAIcon icon={faChevronLeft as IconProp} />
-      </ChevBtn>
+      {currentPage !== 1 && (
+        <ChevBtn onClick={onChevronLeftClick}>
+          <FAIcon icon={faChevronLeft as IconProp} />
+        </ChevBtn>
+      )}
       {pageArr.map((v) => (
         <PageButton
           key={v}
           pageNum={v}
-          isCurrent={v === currentPage ? true : false}
+          iscurrent={v === currentPage ? true : false}
           onClick={onPageBtnClick}
         />
       ))}
-      <ChevBtn onClick={onChevronRightClick}>
-        <FAIcon icon={faChevronRight as IconProp} />
-      </ChevBtn>
+      {currentPage !== end && (
+        <ChevBtn onClick={onChevronRightClick}>
+          <FAIcon icon={faChevronRight as IconProp} />
+        </ChevBtn>
+      )}
     </List>
   );
 }
