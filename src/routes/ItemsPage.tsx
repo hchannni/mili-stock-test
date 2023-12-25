@@ -347,6 +347,7 @@ function ItemsPage() {
       {sortInitialized && (
         <BottomSheet
           url={`products/${urlName}`}
+          params={{ size: 6, page: currentPage - 1 }}
           onSort={onSort}
           setOnSort={setOnSort}
           setResults={setItems}

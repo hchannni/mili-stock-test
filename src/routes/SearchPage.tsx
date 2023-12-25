@@ -394,7 +394,7 @@ function SearchPage() {
       {sortInitialized && (
         <BottomSheet
           url={"products/search"}
-          params={{ keyword: keyword }}
+          params={{ keyword: keyword, size: 6, page: currentPage - 1 }}
           onSort={onSort}
           setOnSort={setOnSort}
           setResults={setResults}
