@@ -123,7 +123,9 @@ function ItemsPage() {
         }
 
         const response = await fetch(
-          `${process.env.REACT_APP_DONG10_BASEURL}/products/${urlName}?size=10&page=${currentPage}&sortBy=popular`,
+          `${
+            process.env.REACT_APP_DONG10_BASEURL
+          }/products/${urlName}?size=6&page=${currentPage - 1}&sortBy=popular`,
           {
             method: "GET",
             headers: {
@@ -136,7 +138,7 @@ function ItemsPage() {
         if (response.ok) {
           // Parse the response JSON and set it to the state
           const pageData = await response.json();
-          console.log(pageData);
+
           // Ensure data is an array before setting it to state
           const items = pageData.content;
           if (Array.isArray(items)) {
