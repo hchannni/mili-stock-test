@@ -48,7 +48,7 @@ function MyPageMain() {
         <Link to={`/likeproduct`}>
           <Menu title="관심상품" />
         </Link>
-        <Link to={`/`}>
+        <Link to={`/mypage/cs`}>
           <Menu title="고객센터" />
         </Link>
         <Link to={`/cartpage`}>
