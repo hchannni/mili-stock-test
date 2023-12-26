@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons'; // ♡
+import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons'; // ♥︎
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-
 
 const Container = styled.div`
   width: 100%;
@@ -18,17 +18,17 @@ const ProductHeader = styled.div`
 `;
 
 const ProductBottom = styled.div`
-display: flex;
-justify-content: space-between;
-align-items: baseline;
-align-self: stretch;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  align-self: stretch;
 `;
 
 const ProductMid = styled.div`
-display: flex;
-align-items: baseline;
-gap: 8px;
-`
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+`;
 
 const ProductCard = styled.div`
   display: flex;
@@ -76,7 +76,7 @@ const SaledPrice = styled.span`
 `;
 
 const OgPrice = styled.span`
-  color: #A0A0A0;
+  color: #a0a0a0;
 
   text-align: center;
   font-family: Inter;
@@ -140,37 +140,49 @@ const DeleteBtn = styled.button`
 `;
 */
 
-interface CartProductProps {
+interface ProductCardLongProps {
   name: string;
+  saledPrice: number;
   price: number;
   stocks: number;
   imageUrl: string;
-  }
+  isHeart: boolean;
+  onCartClick?: () => void;
+  onHeartClick?: () => void;
+}
 
 /*{name}*/
 
-function CartProduct({ name, price, stocks, imageUrl, }: CartProductProps) {
-
-  console.log('Received imageUrl:', imageUrl);
+function ProductCardLong({
+  name,
+  saledPrice,
+  price,
+  stocks,
+  imageUrl,
+  isHeart,
+  onCartClick,
+  onHeartClick,
+}: ProductCardLongProps) {
+  console.log("Received imageUrl:", imageUrl);
 
   return (
     <Container>
       <ProductCard>
-      <Img src={imageUrl} alt={name} />
+        <Img src={imageUrl} alt={name} />
         <ProductInfo>
           <ProductHeader>
-            <ProductName>아사히생맥주</ProductName>
-            <HeartBtn>
-              <HeartIcon icon={faHeart as IconProp}></HeartIcon>
+            <ProductName>{name}</ProductName>
+            <HeartBtn onClick={onHeartClick}>
+              <HeartIcon icon={isHeart ? solidHeart : regularHeart} />
             </HeartBtn>
           </ProductHeader>
           <ProductMid>
-            <SaledPrice>2,100원</SaledPrice>
-            <OgPrice>3,600원</OgPrice>
+            <SaledPrice>{`${saledPrice}원`}</SaledPrice>
+            <OgPrice>{`${price}원`}</OgPrice>
           </ProductMid>
           <ProductBottom>
             <Stocks>{`${stocks}개 남음`}</Stocks>
-            <CartBtn>
+            <CartBtn onClick={onCartClick}>
               <CartIcon icon={faCartShopping as IconProp}></CartIcon>
             </CartBtn>
           </ProductBottom>
@@ -180,4 +192,4 @@ function CartProduct({ name, price, stocks, imageUrl, }: CartProductProps) {
   );
 }
 
-export default CartProduct;
+export default ProductCardLong;

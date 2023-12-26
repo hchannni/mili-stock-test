@@ -410,7 +410,7 @@ function SearchPage() {
                 <ProductCard
                   key={v.productNumber}
                   name={v.productTitle}
-                  price={v.productStock}
+                  price={v.productPrice - v.productDiscountPrice}
                   stocks={v.productStock}
                   imageUrl={v.productImageUrl}
                   isHeart={v.isHeart}
