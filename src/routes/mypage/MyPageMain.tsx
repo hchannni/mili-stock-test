@@ -4,6 +4,8 @@ import PageHeader from "../../components/mypage/PageHeader";
 import { Link, useLocation } from "react-router-dom";
 import Menus from "../../components/mypage/Menus";
 import Menu from "../../components/mypage/Menu";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const Profile = styled.div`
   display: flex;
@@ -31,15 +33,49 @@ const Username = styled.h2`
   letter-spacing: -0.408px;
 `;
 
+interface IUserInfo {
+  status: number;
+  memberId: number;
+  serviceNumber: string;
+  name: string;
+  userId: string;
+  job: string;
+  affiliation: string;
+  militaryRank: string;
+  birth: string;
+  phoneNumber: string;
+  email: string;
+  gender: string;
+  appointment: string;
+  discharge: string;
+}
+
 function MyPageMain() {
   const { state } = useLocation();
+  const accessToken = localStorage.getItem("accessToken");
+  const [userInfo, setUserInfo] = useState<IUserInfo>();
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const response = await axios({
+        method: "get",
+        url: `${process.env.REACT_APP_DONG10_BASEURL}/members/edit/getInfo`,
+        data: null,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      setUserInfo(response.data);
+    };
+
+    getUserInfo();
+  }, [accessToken]);
 
   return (
     <ScreenContainer>
       <PageHeader pageTitle="My 페이지" />
       <Profile>
         <ProfileImg />
-        <Username>{`${state.name} 님`}</Username>
+        <Username>{`${state ? state.name : userInfo?.name} 님`}</Username>
       </Profile>
       <Menus>
         <Link to={`/mypage/editpinfo/pwcheck`}>
