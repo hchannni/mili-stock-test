@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { useState } from "react";
+import QuestionForm from "./QuestionForm";
 
 const BtnBox = styled.div`
   width: 100%;
@@ -119,53 +121,65 @@ const ResponseTime = styled.p`
 `;
 
 function QnABoard() {
+  const [onClicked, setOnClicked] = useState(false);
+
+  const onAddQuestionBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setOnClicked(true);
+  };
+
   return (
-    <ScreenContainer>
-      <PageHeader pageTitle="고객센터" />
-      <BtnBox>
-        <AddQuestionBtn>
-          질문 남기기
-          <FontAwesomeIcon icon={faPenToSquare as IconProp} />
-        </AddQuestionBtn>
-      </BtnBox>
-      <QuestionList>
-        <Question>
-          <QuestionInfo>
-            <QuestionText>질문1로 뭘 넣어야 할지 모르겠어요.</QuestionText>
-            <QuestionState isAnswered={true}>답변완료</QuestionState>
-          </QuestionInfo>
-          <FontAwesomeIcon icon={faChevronDown as IconProp} />
-        </Question>
-        <AnswerSheet>
-          <AnswerText>답 변</AnswerText>
-          <ResponseInfo>
-            <Respondent>답변자: 허찬</Respondent>
-            <ResponseTime>2023년 12월 28일 20:22</ResponseTime>
-          </ResponseInfo>
-        </AnswerSheet>
-        <Question>
-          <QuestionInfo>
-            <QuestionText>질문1로 뭘 넣어야 할지 모르겠어요.</QuestionText>
-            <QuestionState isAnswered={false}>답변예정</QuestionState>
-          </QuestionInfo>
-          <FontAwesomeIcon icon={faChevronDown as IconProp} />
-        </Question>
-        <Question>
-          <QuestionInfo>
-            <QuestionText>질문1로 뭘 넣어야 할지 모르겠어요.</QuestionText>
-            <QuestionState isAnswered={false}>답변예정</QuestionState>
-          </QuestionInfo>
-          <FontAwesomeIcon icon={faChevronDown as IconProp} />
-        </Question>
-        <Question>
-          <QuestionInfo>
-            <QuestionText>질문1로 뭘 넣어야 할지 모르겠어요.</QuestionText>
-            <QuestionState isAnswered={false}>답변예정</QuestionState>
-          </QuestionInfo>
-          <FontAwesomeIcon icon={faChevronDown as IconProp} />
-        </Question>
-      </QuestionList>
-    </ScreenContainer>
+    <>
+      <ScreenContainer>
+        <PageHeader pageTitle="고객센터" />
+        <BtnBox>
+          <AddQuestionBtn onClick={onAddQuestionBtnClick}>
+            질문 남기기
+            <FontAwesomeIcon icon={faPenToSquare as IconProp} />
+          </AddQuestionBtn>
+        </BtnBox>
+        <QuestionList>
+          <Question>
+            <QuestionInfo>
+              <QuestionText>질문1로 뭘 넣어야 할지 모르겠어요.</QuestionText>
+              <QuestionState isAnswered={true}>답변완료</QuestionState>
+            </QuestionInfo>
+            <FontAwesomeIcon icon={faChevronDown as IconProp} />
+          </Question>
+          <AnswerSheet>
+            <AnswerText>답 변</AnswerText>
+            <ResponseInfo>
+              <Respondent>답변자: 허찬</Respondent>
+              <ResponseTime>2023년 12월 28일 20:22</ResponseTime>
+            </ResponseInfo>
+          </AnswerSheet>
+          <Question>
+            <QuestionInfo>
+              <QuestionText>질문1로 뭘 넣어야 할지 모르겠어요.</QuestionText>
+              <QuestionState isAnswered={false}>답변예정</QuestionState>
+            </QuestionInfo>
+            <FontAwesomeIcon icon={faChevronDown as IconProp} />
+          </Question>
+          <Question>
+            <QuestionInfo>
+              <QuestionText>질문1로 뭘 넣어야 할지 모르겠어요.</QuestionText>
+              <QuestionState isAnswered={false}>답변예정</QuestionState>
+            </QuestionInfo>
+            <FontAwesomeIcon icon={faChevronDown as IconProp} />
+          </Question>
+          <Question>
+            <QuestionInfo>
+              <QuestionText>질문1로 뭘 넣어야 할지 모르겠어요.</QuestionText>
+              <QuestionState isAnswered={false}>답변예정</QuestionState>
+            </QuestionInfo>
+            <FontAwesomeIcon icon={faChevronDown as IconProp} />
+          </Question>
+        </QuestionList>
+      </ScreenContainer>
+      {onClicked && (
+        <QuestionForm onClicked={onClicked} setOnClicked={setOnClicked} />
+      )}
+    </>
   );
 }
 
