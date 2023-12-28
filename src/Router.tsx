@@ -24,6 +24,7 @@ import ItemsPage from "./routes/ItemsPage";
 import "./transition.css";
 import LikeProductPage from "./routes/LikeProductPage";
 import CustomerService from "./routes/mypage/CustomerService";
+import QnABoard from "./routes/mypage/QnABoard";
 
 function Router() {
   const location = useLocation();
@@ -49,6 +50,7 @@ function Router() {
           <Route path="/mypage/editpinfo/user" element={<UpdateUserInfo />} />
           <Route path="/mypage/editpinfo/pw" element={<ChangePassword />} />
           <Route path="/mypage/cs" element={<CustomerService />} />
+          <Route path="/mypage/cs/qnaboard" element={<QnABoard />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/likeproduct" element={<LikeProductPage />} />
           <Route path="/search" element={<SearchPage />} />
