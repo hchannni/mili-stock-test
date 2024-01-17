@@ -2,11 +2,11 @@ import styled from "styled-components";
 import ScreenContainer from "../../components/ScreenContainer";
 import PageHeader from "../../components/mypage/PageHeader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { useState } from "react";
 import QuestionForm from "./QuestionForm";
+import Question from "../../components/mypage/Question";
 
 const BtnBox = styled.div`
   width: 100%;
@@ -37,89 +37,6 @@ const QuestionList = styled.div`
   width: 100%;
 `;
 
-const Question = styled.div`
-  display: flex;
-  width: 100%;
-  margin-top: 8px;
-  padding: 10px 4px;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid rgba(160, 160, 160, 0.25);
-`;
-
-const QuestionInfo = styled.div`
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
-`;
-
-const QuestionText = styled.span`
-  color: #000;
-  text-align: center;
-  font-family: Inter;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 22px; /* 137.5% */
-  letter-spacing: -0.408px;
-`;
-
-interface QuestionStateProps {
-  isAnswered: boolean;
-}
-
-const QuestionState = styled.span<QuestionStateProps>`
-  /* 답변 달렸는지 여부 표시 */
-  /* 답변완료 시 초록색으로 표시, 답변예정은 회색 */
-  font-size: 12px;
-  font-weight: 400;
-  color: ${(props) => (props.isAnswered ? "#008000" : "#a0a0a0")};
-`;
-
-const AnswerSheet = styled.div`
-  width: 100%;
-  padding: 16px 12px;
-  background: rgba(160, 160, 160, 0.1);
-
-  display: flex;
-  gap: 8px;
-  flex-direction: column;
-`;
-
-const AnswerText = styled.p``;
-
-const ResponseInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
-
-const Respondent = styled.p`
-  align-self: stretch;
-
-  color: #000;
-  text-align: right;
-  font-family: Inter;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 16px; /* 160% */
-  letter-spacing: -0.408px;
-`;
-
-const ResponseTime = styled.p`
-  align-self: stretch;
-
-  color: #000;
-  text-align: right;
-  font-family: Inter;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 16px; /* 160% */
-  letter-spacing: -0.408px;
-`;
-
 function QnABoard() {
   const [onClicked, setOnClicked] = useState(false);
 
@@ -139,41 +56,34 @@ function QnABoard() {
           </AddQuestionBtn>
         </BtnBox>
         <QuestionList>
-          <Question>
-            <QuestionInfo>
-              <QuestionText>질문1로 뭘 넣어야 할지 모르겠어요.</QuestionText>
-              <QuestionState isAnswered={true}>답변완료</QuestionState>
-            </QuestionInfo>
-            <FontAwesomeIcon icon={faChevronDown as IconProp} />
-          </Question>
-          <AnswerSheet>
-            <AnswerText>답 변</AnswerText>
-            <ResponseInfo>
-              <Respondent>답변자: 허찬</Respondent>
-              <ResponseTime>2023년 12월 28일 20:22</ResponseTime>
-            </ResponseInfo>
-          </AnswerSheet>
-          <Question>
-            <QuestionInfo>
-              <QuestionText>질문1로 뭘 넣어야 할지 모르겠어요.</QuestionText>
-              <QuestionState isAnswered={false}>답변예정</QuestionState>
-            </QuestionInfo>
-            <FontAwesomeIcon icon={faChevronDown as IconProp} />
-          </Question>
-          <Question>
-            <QuestionInfo>
-              <QuestionText>질문1로 뭘 넣어야 할지 모르겠어요.</QuestionText>
-              <QuestionState isAnswered={false}>답변예정</QuestionState>
-            </QuestionInfo>
-            <FontAwesomeIcon icon={faChevronDown as IconProp} />
-          </Question>
-          <Question>
-            <QuestionInfo>
-              <QuestionText>질문1로 뭘 넣어야 할지 모르겠어요.</QuestionText>
-              <QuestionState isAnswered={false}>답변예정</QuestionState>
-            </QuestionInfo>
-            <FontAwesomeIcon icon={faChevronDown as IconProp} />
-          </Question>
+          <Question
+            questionText="질문1로 뭘 넣어야 할지 모르겠어요."
+            isAnswered={true}
+            answerText="답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 "
+            respondent="허찬"
+            responseTime="2024년 01월 17일 15:01"
+          />
+          <Question
+            questionText="질문1로 뭘 넣어야 할지 모르겠어요."
+            isAnswered={false}
+            answerText="빠른 시일 내에 답변 드리겠습니다."
+            respondent="미리스톡 운영진"
+            responseTime="-"
+          />
+          <Question
+            questionText="질문1로 뭘 넣어야 할지 모르겠어요."
+            isAnswered={false}
+            answerText="빠른 시일 내에 답변 드리겠습니다."
+            respondent="미리스톡 운영진"
+            responseTime="-"
+          />
+          <Question
+            questionText="질문1로 뭘 넣어야 할지 모르겠어요."
+            isAnswered={true}
+            answerText="답 변"
+            respondent="허찬"
+            responseTime="2024년 01월 17일 15:01"
+          />
         </QuestionList>
       </ScreenContainer>
       {onClicked && (
