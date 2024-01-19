@@ -1,6 +1,9 @@
 import styled, { css, keyframes } from "styled-components";
 import BtnList from "../../components/BtnList";
 import Button from "../../components/Button";
+import { useForm } from "react-hook-form";
+import React from "react";
+import axios from "axios";
 
 const popup = keyframes`
   0% {opacity: 0; transform: translate(0, 0);}
@@ -44,7 +47,7 @@ const Form = styled.form`
   border-radius: 16px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 `;
 
 const Msg = styled.h1`
@@ -58,9 +61,40 @@ const Msg = styled.h1`
   letter-spacing: -0.24px;
 `;
 
-const TitleInput = styled.input``;
+const TitleInput = styled.input`
+  border: 1px solid #ff8200;
+  border-radius: 8px;
+  padding: 4px 8px;
+  width: 100%;
 
-const ContentInput = styled.input``;
+  &:focus {
+    outline: none;
+
+    &::placeholder {
+      color: transparent;
+    }
+  }
+`;
+
+const ContentInput = styled.input`
+  border: 1px solid #ff8200;
+  border-radius: 8px;
+  padding: 4px 8px;
+  width: 100%;
+  height: 120px;
+
+  &:focus {
+    outline: none;
+
+    &::placeholder {
+      color: transparent;
+    }
+  }
+
+  &::placeholder {
+    transform: translateY(-40px);
+  }
+`;
 
 interface QuestionFormProps {
   onClicked: boolean;
@@ -68,12 +102,29 @@ interface QuestionFormProps {
 }
 
 function QuestionForm(props: QuestionFormProps) {
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = async (data: any) => {
+    console.log(data);
+
+    const response = await axios({
+      method: "post",
+      // url: `${process.env.REACT_APP_DONG10_BASEURL}/{API Call url 물어보고 수정}`,
+      data: data,
+    });
+    console.log(response);
+  };
+
   return (
     <Container onClicked={props.onClicked}>
-      <Form>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <Msg>무엇이 궁금하신가요?</Msg>
-        <TitleInput placeholder="제목을 입력해 주세요" />
-        <ContentInput placeholder="내용을 입력해 주세요" />
+        <TitleInput {...register("title")} placeholder="제목을 입력해 주세요" />
+        <ContentInput
+          {...register("content")}
+          type="textarea"
+          placeholder="내용을 입력해 주세요"
+        />
         <BtnList>
           <Button opacity={false} text="질문하기" />
         </BtnList>
