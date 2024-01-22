@@ -1,13 +1,14 @@
 import React, { useRef, useEffect } from "react";
 import { styled } from "styled-components";
 import Slider from "react-slick";
+import HotCard from "../Hotitem/HotCard";
 import ProductCard from "../../../components/ProductCard";
 
 const Container = styled.div`
   height: 216px;
   padding: 8px 0px 8px 20px; /* 상 우 하 좌 */
   overflow: hidden;
-`
+`;
 
 const StyledSlide = styled(Slider)`
   margin-bottom: -40px;
@@ -79,7 +80,6 @@ function Carousel({newProducts, handleHeartClick, handleCartClick}) {
     variableWidth: true,
     initialSlide: 0,
   };
-
 
   return (
     <Container>

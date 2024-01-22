@@ -158,11 +158,21 @@ interface BottomSheetProps {
 function BottomSheet(props: BottomSheetProps) {
   const accessToken = localStorage.getItem("accessToken");
   const [sortValue, setSortValue] = useState("");
+  const [sortLabel, setSortLabel] = useState("인기순");
 
-  const onClick = (e: React.MouseEvent<HTMLLabelElement>) => {
+  const onContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    props.setOnSort(false);
+  };
+
+  const onWrapperClick = (e: React.MouseEvent<HTMLFormElement>) => {
+    e.stopPropagation(); // 클릭 이벤트가 Container로 전파되지 않도록 차단
+  };
+
+  const onSortClick = (e: React.MouseEvent<HTMLLabelElement>) => {
     e.preventDefault();
     setSortValue(e.currentTarget.htmlFor);
-    props.setSortCriterion(e.currentTarget.innerText);
+    setSortLabel(e.currentTarget.innerText);
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -179,20 +189,22 @@ function BottomSheet(props: BottomSheetProps) {
 
     props.setResults(response.data.content);
     props.setOnSort(false);
+    props.setSortCriterion(sortLabel);
   };
 
   return (
     <Container
       className={props.onSort ? "clicked" : undefined}
       onSort={props.onSort}
+      onClick={onContainerClick}
     >
-      <Wrapper onSubmit={onSubmit}>
+      <Wrapper onSubmit={onSubmit} onClick={onWrapperClick}>
         <Header>
           <Title>정렬 선택</Title>
         </Header>
         <SortOptions>
           <SortBy>
-            <StyledLabel htmlFor="popular" onClick={onClick}>
+            <StyledLabel htmlFor="popular" onClick={onSortClick}>
               인기순
               <StyledRadio id="popular" />
               <FAIcon
@@ -202,7 +214,7 @@ function BottomSheet(props: BottomSheetProps) {
             </StyledLabel>
           </SortBy>
           <SortBy>
-            <StyledLabel htmlFor="newer" onClick={onClick}>
+            <StyledLabel htmlFor="newer" onClick={onSortClick}>
               신상품순
               <StyledRadio id="newer" />
               <FAIcon
@@ -212,7 +224,7 @@ function BottomSheet(props: BottomSheetProps) {
             </StyledLabel>
           </SortBy>
           <SortBy>
-            <StyledLabel htmlFor="priceLowToHigh" onClick={onClick}>
+            <StyledLabel htmlFor="priceLowToHigh" onClick={onSortClick}>
               가격낮은순
               <StyledRadio id="priceLowToHigh" />
               <FAIcon
@@ -222,7 +234,7 @@ function BottomSheet(props: BottomSheetProps) {
             </StyledLabel>
           </SortBy>
           <SortBy>
-            <StyledLabel htmlFor="priceHighToLow" onClick={onClick}>
+            <StyledLabel htmlFor="priceHighToLow" onClick={onSortClick}>
               가격높은순
               <StyledRadio id="priceHighToLow" />
               <FAIcon
@@ -232,7 +244,7 @@ function BottomSheet(props: BottomSheetProps) {
             </StyledLabel>
           </SortBy>
           <SortBy>
-            <StyledLabel htmlFor="stockLowToHigh" onClick={onClick}>
+            <StyledLabel htmlFor="stockLowToHigh" onClick={onSortClick}>
               재고적은순
               <StyledRadio id="stockLowToHigh" />
               <FAIcon
@@ -242,7 +254,7 @@ function BottomSheet(props: BottomSheetProps) {
             </StyledLabel>
           </SortBy>
           <SortBy>
-            <StyledLabel htmlFor="stockHighToLow" onClick={onClick}>
+            <StyledLabel htmlFor="stockHighToLow" onClick={onSortClick}>
               재고많은순
               <StyledRadio id="stockHighToLow" />
               <FAIcon

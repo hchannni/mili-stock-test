@@ -50,75 +50,6 @@ const SearchIcon = styled(FontAwesomeIcon)`
   height: 20px;
 `;
 
-const Notice = styled.p`
-  color: #000;
-  text-align: center;
-  font-family: Inter;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 22px;
-  letter-spacing: -0.408px;
-  margin: 16px 0;
-`;
-
-const CountBold = styled.span`
-  color: #ff8200;
-  text-align: center;
-  font-family: Inter;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 22px;
-  letter-spacing: -0.408px;
-`;
-
-const Options = styled.div`
-  margin-top: 4px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const ResultNumber = styled.span`
-  display: flex;
-  color: #000;
-  text-align: center;
-  font-family: Inter;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 22px;
-  letter-spacing: -0.408px;
-`;
-
-const SortingButton = styled.button`
-  border: none;
-  background-color: inherit;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-`;
-
-const SortingOption = styled.span`
-  color: #000;
-  text-align: center;
-  font-family: Inter;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 22px;
-  letter-spacing: -0.408px;
-`;
-
-const ProductsContainer = styled.div`
-  margin-top: 8px;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px;
-`;
-
 function SearchPage() {
   const accessToken = localStorage.getItem("accessToken");
   const [keyword, setKeyword] = useState("");
@@ -299,8 +230,11 @@ function SearchPage() {
           setResults={setResults}
           setSortCriterion={setSortCriterion}
         />
-      )}
-    </>
+        <SearchBtn>
+          <SearchIcon icon={faMagnifyingGlass} />
+        </SearchBtn>
+      </SearchBox>
+    </Header>
   );
 }
 

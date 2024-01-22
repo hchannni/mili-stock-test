@@ -8,6 +8,7 @@ import { faRightLeft } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import BottomSheet from "../components/BottomSheet";
 import { useEffect, useState } from "react";
+import PageBtnList from "../components/PageBtnList";
 
 const HookingButtons = styled.section`
   width: 100%;
@@ -92,7 +93,19 @@ function LikeProductPage() {
     setSortInitialized(true);
   };
 
+  // 개인 heart상품 리스트 state
   const [products, setProducts] = useState<ProductProps[]>([]);
+
+  // pagination 관련 state
+  const [totalPages, setTotalPages] = useState(0);
+  const [keyValue, setKeyValue] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  useEffect(() => {
+    // totalPages가 업데이트될 때마다 PageBtnList의 key 값을 바꿔 준다.
+    // key 값을 변경하여 리렌더링을 유도합니다.
+    setKeyValue((prev) => prev + 1);
+  }, [totalPages]);
 
   useEffect(() => {
     // Fetch hearts from the backend when the component mounts
@@ -103,7 +116,9 @@ function LikeProductPage() {
         const token = localStorage.getItem("accessToken");
 
         const response = await fetch(
-          `${process.env.REACT_APP_DONG10_BASEURL}/hearts/products`,
+          `${
+            process.env.REACT_APP_DONG10_BASEURL
+          }/hearts/products?size=15&page=${currentPage - 1}&sortBy=popular`,
           {
             method: "GET",
             headers: {
@@ -121,6 +136,7 @@ function LikeProductPage() {
           if (Array.isArray(products)) {
             setProducts(products);
             setCount(pageData.totalElements);
+            setTotalPages(pageData.totalPages);
           } else {
             console.error("Data is not an array:", products);
           }
@@ -139,7 +155,7 @@ function LikeProductPage() {
 
     // Call the fetchHearts function
     fetchHearts();
-  }, []); // Empty dependency array to run the effect only once when the component mounts
+  }, [currentPage]); // Empty dependency array to run the effect only once when the component mounts
 
   const handleCartClick = async (item: any) => {
     try {
@@ -246,10 +262,16 @@ function LikeProductPage() {
             />
           ))}
         </ProductsContainer>
+        <PageBtnList
+          key={keyValue} // key 값을 변경하여 리렌더링될 수 있도록 하는 장치
+          pageLength={totalPages}
+          passPageNum={setCurrentPage}
+        />
       </ScreenContainer>
       {sortInitialized && (
         <BottomSheet
           url={"hearts/products"}
+          params={{ size: 15, page: currentPage - 1 }}
           onSort={onSort}
           setOnSort={setOnSort}
           setResults={setProducts}

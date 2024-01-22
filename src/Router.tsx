@@ -52,7 +52,6 @@ function Router() {
           <Route path="/search" element={<SearchPage />} />
           <Route path="/allitems/:category" element={<ItemsPage />} />
           <Route path="/product/create" element={<ProductForm />} />
-          
         </Routes>
       </CSSTransition>
     </TransitionGroup>
