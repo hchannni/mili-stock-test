@@ -1,5 +1,5 @@
 import React from "react";
-import Nav from "../../Components/Nav/Nav";
+import Nav from "../../components/Nav/Nav";
 import "./Main.scss";
 import Newitem from "./Newitem/Newitem";
 import CategorySection from "../Category/Category";
@@ -87,29 +87,29 @@ export default class Main extends React.Component {
       if (response.ok) {
         // Update the state based on the product type
         switch (productType) {
-          case 'new':
+          case "new":
             this.setState({
               newProducts: this.state.newProducts.map((prevItem) =>
                 prevItem.productNumber === item.productNumber
-                  ? { ...prevItem, /* Update other properties as needed */ }
+                  ? { ...prevItem /* Update other properties as needed */ }
                   : prevItem
               ),
             });
             break;
-          case 'discount':
+          case "discount":
             this.setState({
               discountProducts: this.state.discountProducts.map((prevItem) =>
                 prevItem.productNumber === item.productNumber
-                  ? { ...prevItem, /* Update other properties as needed */ }
+                  ? { ...prevItem /* Update other properties as needed */ }
                   : prevItem
               ),
             });
             break;
-          case 'popular':
+          case "popular":
             this.setState({
               popularProducts: this.state.popularProducts.map((prevItem) =>
                 prevItem.productNumber === item.productNumber
-                  ? { ...prevItem, /* Update other properties as needed */ }
+                  ? { ...prevItem /* Update other properties as needed */ }
                   : prevItem
               ),
             });
@@ -129,7 +129,6 @@ export default class Main extends React.Component {
     }
   };
 
-
   handleHeartClick = async (item, productType) => {
     const { newProducts, discountProducts, popularProducts } = this.state;
 
@@ -148,7 +147,7 @@ export default class Main extends React.Component {
       if (response.ok) {
         // Update the state based on the product type
         switch (productType) {
-          case 'new':
+          case "new":
             this.setState({
               newProducts: newProducts.map((prevItem) =>
                 prevItem.productNumber === item.productNumber
@@ -157,7 +156,7 @@ export default class Main extends React.Component {
               ),
             });
             break;
-          case 'discount':
+          case "discount":
             this.setState({
               discountProducts: discountProducts.map((prevItem) =>
                 prevItem.productNumber === item.productNumber
@@ -166,7 +165,7 @@ export default class Main extends React.Component {
               ),
             });
             break;
-          case 'popular':
+          case "popular":
             this.setState({
               popularProducts: popularProducts.map((prevItem) =>
                 prevItem.productNumber === item.productNumber
@@ -214,8 +213,8 @@ export default class Main extends React.Component {
                   stocks={item.productStock}
                   imageUrl={item.productImageUrl}
                   isHeart={item.isHeart}
-                  onCartClick={() => this.handleCartClick(item, 'popular')}
-                  onHeartClick={() => this.handleHeartClick(item, 'popular')}
+                  onCartClick={() => this.handleCartClick(item, "popular")}
+                  onHeartClick={() => this.handleHeartClick(item, "popular")}
                 />
               ))}
             </div>
@@ -226,7 +225,11 @@ export default class Main extends React.Component {
               </a>
             </div>
             <div className="NewItem">
-              <Newitem newProducts={newProducts} handleCartClick={this.handleCartClick} handleHeartClick={this.handleHeartClick} />
+              <Newitem
+                newProducts={newProducts}
+                handleCartClick={this.handleCartClick}
+                handleHeartClick={this.handleHeartClick}
+              />
             </div>
             <div className="SectionHeader" style={{ marginTop: "40px" }}>
               <a className="SectionTitle">할인상품</a>
@@ -245,8 +248,8 @@ export default class Main extends React.Component {
                   stocks={item.productStock}
                   imageUrl={item.productImageUrl}
                   isHeart={item.isHeart}
-                  onCartClick={() => this.handleCartClick(item, 'discount')}
-                  onHeartClick={() => this.handleHeartClick(item, 'discount')}
+                  onCartClick={() => this.handleCartClick(item, "discount")}
+                  onHeartClick={() => this.handleHeartClick(item, "discount")}
                 />
               ))}
             </div>
