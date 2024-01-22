@@ -104,6 +104,16 @@ interface QuestionFormProps {
 function QuestionForm(props: QuestionFormProps) {
   const { register, handleSubmit } = useForm();
 
+  const onContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Container의 바깥 배경 부분(회색 부분)을 누르면, onClicked를 false로 만들면서, 질문 form이 밑으로 내려가도록 구현한다.
+    e.preventDefault();
+    props.setOnClicked(false);
+  };
+
+  const onFormClick = (e: React.MouseEvent<HTMLFormElement>) => {
+    e.stopPropagation(); // 클릭 이벤트가 Container로 전파되지 않도록 차단
+  };
+
   const onSubmit = async (data: any) => {
     console.log(data);
 
@@ -113,11 +123,12 @@ function QuestionForm(props: QuestionFormProps) {
       data: data,
     });
     console.log(response);
+    props.setOnClicked(false);
   };
 
   return (
-    <Container onClicked={props.onClicked}>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+    <Container onClicked={props.onClicked} onClick={onContainerClick}>
+      <Form onSubmit={handleSubmit(onSubmit)} onClick={onFormClick}>
         <Msg>무엇이 궁금하신가요?</Msg>
         <TitleInput {...register("title")} placeholder="제목을 입력해 주세요" />
         <ContentInput
