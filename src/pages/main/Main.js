@@ -1,5 +1,5 @@
 import React from "react";
-import Nav from "../../Components/Nav/Nav";
+import Nav from "../../components/Nav/Nav";
 import "./Main.scss";
 import Newitem from "./Newitem/Newitem";
 import CategorySection from "../Category/Category";

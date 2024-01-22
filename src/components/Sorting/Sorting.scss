@@ -1,0 +1,71 @@
+@import "../../Styles/common.scss";
+
+.Sorting {
+    width: 376px;
+
+    .sortItems {
+        @include flexBox(default, default, row);
+
+        li {
+            position: relative;
+            width: 188px;
+
+            .sorBtn {
+                display: inline-block;
+                position: relative;
+                width: 188px;
+                height: 35px;
+                padding: 7px 21px 6px 17px;
+                background-color: white;
+                background-position: right 13px center;
+                background-size: 12px;
+                background-repeat: no-repeat;
+                border: 1px solid rgb(227, 229, 232);
+                font-size: 15px;
+                text-align: left;
+
+                &:focus {
+                    outline: none;
+                }
+                
+                &.sortingType {
+                    border-radius: 4px 0 0 4px;
+                }
+
+                &.listTyle .electModalWrap {
+                    position: absolute;
+                    left: 0px;
+                    top: 34px;
+                    width: 188px;
+                    height: 142px;
+                    background: white;
+                    border: 1px solid rgb(227, 229, 232);
+                    border-radius: 4px;
+                    z-index: 2;
+                
+                    &.hidden {
+                        display: none;
+                    }
+
+                    .selectModalItem {
+                        width: 100%;
+                        height: 35px;
+                        padding: 7px 17px;
+                        box-sizing: border-box;
+                        color : rgb(154, 154, 158);
+                        cursor: pointer;
+
+                        &:hover {
+                            background-color: #f7f7f7;
+                            color: black;
+                        }
+
+                        .selectModalOption {
+                            font-size: 15px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

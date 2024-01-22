@@ -1,0 +1,75 @@
+@import "../../Styles/common.scss";
+
+.Card {
+    display: list-item;
+    position: relative;
+    width: 255px;
+    height: 383px;
+    margin-right: 20px;
+    cursor: pointer;
+
+    .thumnailWrap{
+        position: absolute;
+        width: 100%;
+        padding-top: 100%;
+        background: rgba(0, 0, 0, 0.02);
+    }
+
+    img{
+        width: 100%;
+        height: auto;
+    }
+
+    p{
+        font-size: 16px;
+
+        &.productName{
+            margin-top: 10px;
+            margin-bottom: 5px;
+            padding-right: 32px;
+            color: #777777;
+            font-weight: 400;
+        }
+
+        &.productDiscountPrice{
+            color: black; 
+        }
+
+        &.bold{
+            font-weight: 700;
+        }
+
+        &.original{
+            position: absolute;
+            top: 261px;
+            left: 226px;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            z-index: 100;
+
+            button{
+                width: 100%;
+                height: 100%;
+                border: none;
+                border-radius: 3px;
+                background-color: white;
+                background-image: url("");
+                background-size: 100%;
+                background-repeat: no-repeat;
+                background-position: center center;
+                color: transparent;
+                font-size: 1px;
+                cursor: pointer;
+                outline: none;
+
+                &.addCart{
+                    background: url("");
+                    background-size: 100%;
+                    background-repeat: no-repeat;
+                    background-position: center center;
+                }
+            }
+        }
+    }
+}
