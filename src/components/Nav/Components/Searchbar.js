@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMagnifyingGlass,
@@ -122,7 +121,6 @@ const ProductsContainer = styled.div`
 
 function SearchPage() {
   const accessToken = localStorage.getItem("accessToken");
-  const navigate = useNavigate();
   const [keyword, setKeyword] = useState("");
   const [count, setCount] = useState(0);
   const [results, setResults] = useState([]);
@@ -180,7 +178,7 @@ function SearchPage() {
   };
 
   const handleHeartClick = async (item) => {
-    if (item.isHeart == false) {
+    if (item.isHeart === false) {
       console.log("isHeart==false");
       try {
         const token = localStorage.getItem("accessToken");
