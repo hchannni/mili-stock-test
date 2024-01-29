@@ -38,9 +38,20 @@ const QuestionList = styled.div`
   width: 100%;
 `;
 
+interface QuestionsProps {
+  answer: string;
+  answered: boolean;
+  boardId: number;
+  content: string;
+  date: string;
+  memberId: number;
+  name: string;
+  title: string;
+}
+
 function QnABoard() {
   const [onClicked, setOnClicked] = useState(false);
-  const [questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState<QuestionsProps[]>();
   const token = localStorage.getItem("accessToken");
 
   useEffect(() => {
@@ -60,7 +71,7 @@ function QnABoard() {
     }
 
     getQuestions();
-  }, [token]);
+  }, [onClicked, token]);
 
   const onAddQuestionBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -78,13 +89,18 @@ function QnABoard() {
           </AddQuestionBtn>
         </BtnBox>
         <QuestionList>
-          <Question
-            questionText="질문1로 뭘 넣어야 할지 모르겠어요."
-            isAnswered={true}
-            answerText="답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 답변길이테스트 "
-            respondent="허찬"
-            responseTime="2024년 01월 17일 15:01"
-          />
+          {questions &&
+            questions.map((v) => (
+              <Question
+                questionText={v.title}
+                isAnswered={v.answered}
+                answerText={
+                  v.answered ? v.answer : "빠른 시일 내에 답변 드리겠습니다."
+                }
+                respondent={v.answered ? v.name : "미리스톡 운영진"}
+                responseTime={v.answered ? v.date : "-"}
+              />
+            ))}
           <Question
             questionText="질문1로 뭘 넣어야 할지 모르겠어요."
             isAnswered={false}
