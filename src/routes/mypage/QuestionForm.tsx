@@ -103,6 +103,7 @@ interface QuestionFormProps {
 
 function QuestionForm(props: QuestionFormProps) {
   const { register, handleSubmit } = useForm();
+  const token = localStorage.getItem("accessToken");
 
   const onContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // Container의 바깥 배경 부분(회색 부분)을 누르면, onClicked를 false로 만들면서, 질문 form이 밑으로 내려가도록 구현한다.
@@ -111,7 +112,7 @@ function QuestionForm(props: QuestionFormProps) {
   };
 
   const onFormClick = (e: React.MouseEvent<HTMLFormElement>) => {
-    e.stopPropagation(); // 클릭 이벤트가 Container로 전파되지 않도록 차단
+    e.stopPropagation(); // Form을 클릭하는 이벤트가 Container로 전파되지 않도록 차단
   };
 
   const onSubmit = async (data: any) => {
@@ -119,9 +120,14 @@ function QuestionForm(props: QuestionFormProps) {
 
     const response = await axios({
       method: "post",
-      // url: `${process.env.REACT_APP_DONG10_BASEURL}/{API Call url 물어보고 수정}`,
+      url: `${process.env.REACT_APP_DONG10_BASEURL}/boards/post`,
       data: data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
+
+    // status 201 나오면서 성공!
     console.log(response);
     props.setOnClicked(false);
   };

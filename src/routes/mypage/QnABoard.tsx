@@ -4,9 +4,10 @@ import PageHeader from "../../components/mypage/PageHeader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import QuestionForm from "./QuestionForm";
 import Question from "../../components/mypage/Question";
+import axios from "axios";
 
 const BtnBox = styled.div`
   width: 100%;
@@ -39,6 +40,27 @@ const QuestionList = styled.div`
 
 function QnABoard() {
   const [onClicked, setOnClicked] = useState(false);
+  const [questions, setQuestions] = useState([]);
+  const token = localStorage.getItem("accessToken");
+
+  useEffect(() => {
+    async function getQuestions() {
+      const response = await axios({
+        method: "get",
+        url: `${process.env.REACT_APP_DONG10_BASEURL}/boards`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log(response);
+      if (response.status === 200) {
+        setQuestions(response.data.content);
+      }
+    }
+
+    getQuestions();
+  }, [token]);
 
   const onAddQuestionBtnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
